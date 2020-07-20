@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/databaseHelper.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,12 +31,27 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<String> _todoItems = [];
 
+  final dbHelper = DatabaseHelper.instance;
+
   void _addToList(String task) {
     if (task.length > 0) {
       setState(() {
-        _todoItems.add(task);
+        _insertTask(task);
+//        _todoItems.add(task);
       });
     }
+  }
+
+  void _insertTask(String task) async {
+    Map<String, dynamic> row = {DatabaseHelper.columnTask: task};
+    final id = await dbHelper.insert(row);
+    print('row id = $id');
+  }
+
+  void _query() async {
+    final allRows = await dbHelper.queryAllRows();
+    print('query all rows:');
+    allRows.forEach((row) => print(row));
   }
 
   void _removeFromList(int index) {
@@ -68,15 +84,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildTodoList() {
-    return ListView.builder(itemBuilder: (context, index) {
-      if (index < _todoItems.length) {
-        return ListTile(
-          title: Text(_todoItems[index]),
-          onTap: () => _promptRemoveDialog(index),
-        );
-      }
-      return null;
-    });
+    return FutureBuilder<List<Map<String, dynamic>>>(
+        future: dbHelper.queryAllRows(),
+        initialData: List(),
+        builder: (context, snapshot) {
+          return snapshot.hasData
+              ? ListView(
+                  children: snapshot.data
+                      .map((e) => ListTile(
+                            title: Text(e['task']),
+//                    onTap: () => _promptRemoveDialog(index),
+                          ))
+                      .toList(),
+                )
+              : null;
+        });
   }
 
   @override
@@ -87,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: _buildTodoList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: _goToAddTaskPage,
+        onPressed: () => _goToAddTaskPage(),
         tooltip: "Add Task",
         child: Icon(Icons.add),
       ),
