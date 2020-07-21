@@ -29,7 +29,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> _todoItems = [];
 
   final dbHelper = DatabaseHelper.instance;
 
@@ -44,43 +43,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _insertTask(String task) async {
     Map<String, dynamic> row = {DatabaseHelper.columnTask: task};
-    final id = await dbHelper.insert(row);
-    print('row id = $id');
+    await dbHelper.insert(row);
   }
 
-  void _query() async {
-    final allRows = await dbHelper.queryAllRows();
-    print('query all rows:');
-    allRows.forEach((row) => print(row));
-  }
-
-  void _removeFromList(int index) {
-    setState(() {
-      _todoItems.removeAt(index);
+  void _removeFromList(int id) {
+    setState(()  {
+      _deleteRow(id);
     });
   }
 
-  void _promptRemoveDialog(int index) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('mark "${_todoItems[index]}" as done?'),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Cancel'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              FlatButton(
-                child: Text('Mark as read'),
-                onPressed: () {
-                  _removeFromList(index);
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
+  void _deleteRow(int id) async{
+    await dbHelper.deleteData(id);
   }
 
   Widget _buildTodoList() {
@@ -90,16 +63,43 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context, snapshot) {
           return snapshot.hasData
               ? ListView(
-                  children: snapshot.data
-                      .map((e) => ListTile(
-                            title: Text(e['task']),
-//                    onTap: () => _promptRemoveDialog(index),
-                          ))
-                      .toList(),
-                )
+            children: snapshot.data
+                .map((e) => ListTile(
+              title: Text(e[DatabaseHelper.columnTask]),
+              onTap: () => _promptRemoveDialog(e[DatabaseHelper.columnId]),
+            ))
+                .toList(),
+          )
               : null;
         });
   }
+
+  void _promptRemoveDialog(int id) async {
+    List<Map<String, dynamic>> text = await dbHelper.queryOneRow(id);
+//    print(text);
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('remove "${text[0][DatabaseHelper.columnTask]}"?'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Cancel'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              FlatButton(
+                child: Text('Remove'),
+                onPressed: () {
+                  _removeFromList(text[0][DatabaseHelper.columnId]);
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
