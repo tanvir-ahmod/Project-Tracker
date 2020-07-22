@@ -167,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: IconButton(
                                 icon: Icon(
                                   Icons.save,
-                                  size: 30,
+                                  size: 22,
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
