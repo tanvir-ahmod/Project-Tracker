@@ -36,23 +36,10 @@ class DatabaseHelper {
         'CREATE TABLE $table ($columnId INTEGER PRIMARY KEY,$columnTask TEXT NOT NULL)');
   }
 
-  Future<int> insert(Map<String, dynamic> row) async {
-    Database db = await instance.database;
-    return await db.insert(table, row);
-  }
-
-  Future<List<Map<String, dynamic>>> queryAllRows() async {
-    Database db = await instance.database;
-    return await db.query(table);
-  }
-
-  Future<List<Map<String, dynamic>>> queryOneRow(int id) async {
+  /*Future<List<Map<String, dynamic>>> queryOneRow(int id) async {
     Database db = await instance.database;
     return await db.query(table, where: '$columnId = ?', whereArgs: [id]);
-  }
+  }*/
 
-  Future<int> deleteData(int id) async{
-    Database db = await instance.database;
-    return await db.delete(table, where: '$columnId = ?', whereArgs: [id]);
-  }
+
 }
