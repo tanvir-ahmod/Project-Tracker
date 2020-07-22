@@ -1,6 +1,6 @@
 # TO DO list
 
-A simple flutter app using BLoC architecture pattern to save, view and remove TO DO list 
+A simple flutter app using **BLoC** architecture pattern to save, view and remove TO DO list 
 
 ## Features
 
@@ -11,6 +11,7 @@ A simple flutter app using BLoC architecture pattern to save, view and remove TO
 ## Technology Used
 - Dart (Primary Language)
 - Architecture Pattern : **BLoC**
+- Database : [**Sqflite**](https://github.com/tekartik/sqflite "Flutter Database")
 
 ## License
 
