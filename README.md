@@ -1,16 +1,17 @@
-# flutterapp
+# TO DO list
 
-A new Flutter application.
+A simple flutter app using BLoC architecture pattern to save, view and remove TO DO list 
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+* Add a TO DO item
+* View all TO DO items
+* Remove an item by tapping remove button 
 
-A few resources to get you started if this is your first Flutter project:
+## Technology Used
+- Dart (Primary Language)
+- Architecture Pattern : **BLoC**
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## License
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The code base is [GNU GENERAL PUBLIC LICENSE v3.0](https://github.com/tanvir-ahmod/ToDoList/LICENSE)
