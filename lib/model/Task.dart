@@ -1,4 +1,4 @@
-import 'file:///D:/Projects/Personal/ToDoApp/flutter_app/lib/database/databaseHelper.dart';
+import 'package:flutterapp/database/databaseHelper.dart';
 
 class Task {
   int id;

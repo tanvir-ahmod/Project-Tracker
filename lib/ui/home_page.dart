@@ -58,8 +58,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   trailing: IconButton(
-                    icon: Icon(Icons.delete,
-                    size: 40,),
+                    icon: Icon(
+                      Icons.delete,
+                      size: 40,
+                    ),
                     onPressed: () => _promptRemoveDialog(task),
                   ),
                 ));

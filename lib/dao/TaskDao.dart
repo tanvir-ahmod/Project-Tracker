@@ -1,4 +1,3 @@
-
 import 'package:flutterapp/database/databaseHelper.dart';
 import 'package:flutterapp/model/Task.dart';
 import 'package:sqflite/sqflite.dart';
@@ -20,9 +19,9 @@ class TaskDao {
     return tasks;
   }
 
-  Future<int> deleteRowByID(int id) async{
+  Future<int> deleteRowByID(int id) async {
     Database db = await _dbHelper.database;
-    return await db.delete(DatabaseHelper.table, where: '${DatabaseHelper.columnId} = ?', whereArgs: [id]);
+    return await db.delete(DatabaseHelper.table,
+        where: '${DatabaseHelper.columnId} = ?', whereArgs: [id]);
   }
-
 }

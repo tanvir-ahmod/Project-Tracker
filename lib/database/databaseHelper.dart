@@ -36,10 +36,9 @@ class DatabaseHelper {
         'CREATE TABLE $table ($columnId INTEGER PRIMARY KEY,$columnTask TEXT NOT NULL)');
   }
 
-  /*Future<List<Map<String, dynamic>>> queryOneRow(int id) async {
+/*Future<List<Map<String, dynamic>>> queryOneRow(int id) async {
     Database db = await instance.database;
     return await db.query(table, where: '$columnId = ?', whereArgs: [id]);
   }*/
-
 
 }
