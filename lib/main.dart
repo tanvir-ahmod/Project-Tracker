@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/ui/home_page.dart';
+import 'package:flutterapp/ui/LoginScreen.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'To Do'),
-    );
-  }
+  runApp(GetMaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: LoginScreen(),
+  ));
 }
