@@ -8,5 +8,5 @@ class TaskRepository {
 
   Future fetchAllTasks() => _taskDao.fetchAllTasks();
 
-  Future deleteRowByID(int id) => _taskDao.deleteRowByID(id);
+  Future deleteRowByID(int? id) => _taskDao.deleteRowByID(id);
 }

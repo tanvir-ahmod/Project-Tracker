@@ -10,7 +10,7 @@ class TasksBlock {
   Stream<List<Task>> get tasks => _tasksController.stream;
 
   fetchAllTasks() async {
-    _tasksController.sink.add(await _taskRepository.fetchAllTasks());
+    _tasksController.sink.add(await (_taskRepository.fetchAllTasks() as FutureOr<List<Task>>));
   }
 
   insertTask(Task task) async {
@@ -18,7 +18,7 @@ class TasksBlock {
     fetchAllTasks();
   }
 
-  deleteRowByID(int id) async {
+  deleteRowByID(int? id) async {
     await _taskRepository.deleteRowByID(id);
     fetchAllTasks();
   }

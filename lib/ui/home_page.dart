@@ -4,8 +4,8 @@ import 'package:flutterapp/bloc/task_bloc.dart';
 import 'package:flutterapp/model/Task.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
+  MyHomePage({Key? key, this.title}) : super(key: key);
+  final String? title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -18,7 +18,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title!),
       ),
       body: _buildTaskList(),
       floatingActionButton: FloatingActionButton(
@@ -40,18 +40,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _taskWidget(AsyncSnapshot<List<Task>> snapshot) {
     if (snapshot.hasData) {
       return ListView.builder(
-          itemCount: snapshot.data.length,
+          itemCount: snapshot.data!.length,
           itemBuilder: (context, position) {
-            Task task = snapshot.data[position];
+            Task task = snapshot.data![position];
             return Card(
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.grey[200], width: 0.5),
+                  side: BorderSide(color: Colors.grey[200]!, width: 0.5),
                   borderRadius: BorderRadius.circular(5),
                 ),
                 color: Colors.white,
                 child: ListTile(
                   title: Text(
-                    task.taskName,
+                    task.taskName!,
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.w500,
@@ -95,11 +95,11 @@ class _MyHomePageState extends State<MyHomePage> {
           return AlertDialog(
             title: Text('remove ${task.taskName}?'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Cancel'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              FlatButton(
+              TextButton(
                 child: Text('Remove'),
                 onPressed: () {
                   _tasksBlock.deleteRowByID(task.id);
@@ -151,8 +151,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   labelStyle: TextStyle(
                                       color: Colors.indigoAccent,
                                       fontWeight: FontWeight.w500)),
-                              validator: (String value) {
-                                if (value.isEmpty) {
+                              validator: (String? value) {
+                                if (value!.isEmpty) {
                                   return 'Empty description!';
                                 }
                                 return value.contains('')
@@ -176,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   final task = Task(
                                       taskName: _todoDescriptionFormController
                                           .value.text);
-                                  if (task.taskName.isNotEmpty) {
+                                  if (task.taskName!.isNotEmpty) {
                                     _tasksBlock.insertTask(task);
 
                                     Navigator.pop(context);

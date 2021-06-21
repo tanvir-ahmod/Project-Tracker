@@ -1,8 +1,8 @@
 import 'package:flutterapp/database/databaseHelper.dart';
 
 class Task {
-  int id;
-  String taskName;
+  int? id;
+  String? taskName;
 
   Task({this.id, this.taskName});
 
