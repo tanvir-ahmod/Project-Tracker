@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/bloc/task_bloc.dart';
-import 'package:flutterapp/model/Task.dart';
+import 'package:flutterapp/data/model/Task.dart';
 
 class MyHomePage extends StatefulWidget {
 

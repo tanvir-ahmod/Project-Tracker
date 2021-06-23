@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutterapp/ui/home_page.dart';
+import 'package:flutterapp/controller/auth_controller.dart';
+import 'package:flutterapp/ui/sign_up_ui.dart';
 import 'package:get/get.dart';
 
+import 'home_page.dart';
+
 class LoginScreen extends StatelessWidget {
+  final AuthController authController = Get.put(AuthController());
+  final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _pass = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,34 +34,52 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: TextField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Email',
-                      hintText: 'Enter valid email id as abc@gmail.com'),
+              Form(
+                key: _form,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  children: [
+                    Padding(
+                      //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: TextFormField(
+                        controller: _name,
+                        textInputAction: TextInputAction.next,
+                        validator: (val) {
+                          if (val != null && val.isEmpty)
+                            return 'Field can not be empty';
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Username',
+                            hintText: 'Enter username'),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15.0, right: 15.0, top: 15, bottom: 0),
+                      //padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: TextFormField(
+                        controller: _pass,
+                        obscureText: true,
+                        textInputAction: TextInputAction.send,
+                        validator: (val) {
+                          if (val != null && val.isEmpty)
+                            return 'Field can not be empty';
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Password',
+                            hintText: 'Enter password'),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15.0, right: 15.0, top: 15, bottom: 0),
-                //padding: EdgeInsets.symmetric(horizontal: 15),
-                child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                      hintText: 'Enter secure password'),
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Forgot Password',
-                  style: TextStyle(color: Colors.blue, fontSize: 15),
-                ),
+              SizedBox(
+                height: 20,
               ),
               Container(
                 height: 50,
@@ -62,8 +88,14 @@ class LoginScreen extends StatelessWidget {
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(20)),
                 child: TextButton(
-                  onPressed: () {
-                    Get.offAll(MyHomePage());
+                  onPressed: () async {
+                    if (_form.currentState!.validate()) {
+                      var isAuthenticated =
+                          await authController.login(_name.text, _pass.text);
+                      if (isAuthenticated) {
+                        Get.offAll(() => MyHomePage());
+                      }
+                    }
                   },
                   child: Text(
                     'Login',
@@ -74,7 +106,11 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: 130,
               ),
-              Text('New User? Create Account')
+              InkWell(
+                  onTap: () {
+                    Get.offAll(SignUpUI());
+                  },
+                  child: Text('New User? Create Account'))
             ],
           ),
         ));

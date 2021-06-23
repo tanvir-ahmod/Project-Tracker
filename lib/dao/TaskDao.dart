@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:flutterapp/data/model/Task.dart';
 import 'package:flutterapp/database/databaseHelper.dart';
-import 'package:flutterapp/model/Task.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TaskDao {
@@ -13,7 +13,7 @@ class TaskDao {
   }
 
   Future<List<Task>> fetchAllTasks() async {
-    Database? db = await _dbHelper.database ;
+    Database? db = await _dbHelper.database;
     List<Map<String, Object?>>? result = await db?.query(DatabaseHelper.table);
     List<Task> tasks = result!.isNotEmpty
         ? result.map((item) => Task.fromDatabaseToJson(item)).toList()

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutterapp/model/Task.dart';
-import 'package:flutterapp/repository/taskRepository.dart';
+import 'package:flutterapp/data/model/Task.dart';
+import 'package:flutterapp/data/repositories/taskRepository.dart';
 
 class TasksBlock {
   final TaskRepository _taskRepository = TaskRepository();

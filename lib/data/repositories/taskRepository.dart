@@ -1,5 +1,5 @@
 import 'package:flutterapp/dao/TaskDao.dart';
-import 'package:flutterapp/model/Task.dart';
+import 'package:flutterapp/data/model/Task.dart';
 
 class TaskRepository {
   TaskDao _taskDao = TaskDao();
