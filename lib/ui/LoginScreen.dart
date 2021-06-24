@@ -37,11 +37,9 @@ class LoginScreen extends StatelessWidget {
                 ),
                 Form(
                   key: _form,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     children: [
                       Padding(
-                        //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: TextFormField(
                           controller: _email,
@@ -64,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                         child: TextFormField(
                           controller: _pass,
                           obscureText: true,
-                          textInputAction: TextInputAction.send,
+                          textInputAction: TextInputAction.done,
                           validator: (val) {
                             if (val != null && val.isEmpty)
                               return 'Field can not be empty';
