@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutterapp/data/model/request/login_request.dart';
+import 'package:flutterapp/data/model/request/registration_request.dart';
 import 'package:flutterapp/data/model/response/login_response.dart';
+import 'package:flutterapp/data/model/response/registration_response.dart';
+import 'package:flutterapp/helpers/Constants.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -14,10 +17,25 @@ class ApiService {
 
     final response = await http.post(url, headers: headers, body: json);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == Constants.RESPONSE_OK) {
       return loginResponseFromJson(response.body);
     } else {
       return loginResponseFromJson("");
+    }
+  }
+
+  static Future<RegistrationResponse> register(
+      RegistrationRequest registrationRequest) async {
+    final url = Uri.parse(BASE_URL + "register");
+    final headers = {"Content-type": "application/json"};
+    final json = registrationRequest.toRawJson();
+
+    final response = await http.post(url, headers: headers, body: json);
+
+    if (response.statusCode == Constants.RESPONSE_OK) {
+      return registrationResponseFromJson(response.body);
+    } else {
+      return registrationResponseFromJson("");
     }
   }
 }

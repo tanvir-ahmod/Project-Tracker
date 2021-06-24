@@ -1,6 +1,8 @@
 import 'package:flutterapp/data/model/request/login_request.dart';
+import 'package:flutterapp/data/model/request/registration_request.dart';
 import 'package:flutterapp/data/repositories/auth/auth_repository.dart';
 import 'package:flutterapp/data/repositories/auth/auth_repository_impl.dart';
+import 'package:flutterapp/helpers/Constants.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
@@ -16,5 +18,16 @@ class AuthController extends GetxController {
         snackPosition: SnackPosition.BOTTOM);
 
     return loginResponse.token.isNotEmpty;
+  }
+
+  Future<bool> register(String email, String password, String confirmPassword) async {
+    isLoading.value = true;
+    var loginResponse = await authRepository
+        .register(RegistrationRequest(email: email, password: password, confirmPassword: confirmPassword));
+    isLoading.value = false;
+    Get.snackbar("Authentication", loginResponse.responseMessage,
+        snackPosition: SnackPosition.BOTTOM);
+
+    return loginResponse.responseCode == Constants.RESPONSE_OK;
   }
 }
