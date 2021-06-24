@@ -68,7 +68,7 @@ class SignUpUI extends StatelessWidget {
                   FormVerticalSpace(),
                   LabelButton(
                     labelText: 'Already have account? Sign IN',
-                    onPressed: () => Get.to(LoginScreen()),
+                    onPressed: () => Get.offAll(() => LoginScreen()),
                   ),
                 ],
               ),

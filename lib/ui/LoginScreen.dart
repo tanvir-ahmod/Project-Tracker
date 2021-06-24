@@ -9,7 +9,7 @@ import 'home_page.dart';
 class LoginScreen extends StatelessWidget {
   final AuthController authController = Get.put(AuthController());
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
-  final TextEditingController _name = TextEditingController();
+  final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
 
   @override
@@ -44,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                         //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: TextFormField(
-                          controller: _name,
+                          controller: _email,
                           textInputAction: TextInputAction.next,
                           validator: (val) {
                             if (val != null && val.isEmpty)
@@ -53,8 +53,8 @@ class LoginScreen extends StatelessWidget {
                           },
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: 'Username',
-                              hintText: 'Enter username'),
+                              labelText: 'Email address',
+                              hintText: 'Enter email address'),
                         ),
                       ),
                       Padding(
@@ -92,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () async {
                       if (_form.currentState!.validate()) {
                         var isAuthenticated =
-                            await authController.login(_name.text, _pass.text);
+                            await authController.login(_email.text, _pass.text);
                         if (isAuthenticated) {
                           Get.offAll(() => MyHomePage());
                         }
