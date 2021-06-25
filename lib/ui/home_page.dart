@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/bloc/task_bloc.dart';
+import 'package:flutterapp/controller/todo_controller.dart';
 import 'package:flutterapp/data/model/Task.dart';
+import 'package:get/get.dart';
 
-class MyHomePage extends StatefulWidget {
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePage extends StatelessWidget {
   final TasksBlock _tasksBlock = TasksBlock();
+  final TodoController _todoController = Get.put(TodoController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,85 +25,46 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildTaskList() {
-    return StreamBuilder(
-        stream: _tasksBlock.tasks,
-        builder: (BuildContext context, AsyncSnapshot<List<Task>> snapshot) {
-          return _taskWidget(snapshot);
-        });
-  }
-
-  Widget _taskWidget(AsyncSnapshot<List<Task>> snapshot) {
-    if (snapshot.hasData) {
-      return ListView.builder(
-          itemCount: snapshot.data!.length,
-          itemBuilder: (context, position) {
-            Task task = snapshot.data![position];
-            return Card(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.grey[200]!, width: 0.5),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                color: Colors.white,
-                child: ListTile(
-                  title: Text(
-                    task.taskName!,
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(
-                      Icons.delete,
-                      size: 40,
-                    ),
-                    onPressed: () => _promptRemoveDialog(task),
-                  ),
-                ));
-          });
-    } else
-      return Center(
-        child: _loadingData(),
-      );
-  }
-
-  Widget _loadingData() {
-    _tasksBlock.fetchAllTasks();
-    return Container(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CircularProgressIndicator(),
-            Text("Loading...",
-                style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500))
-          ],
-        ),
+    return SafeArea(
+      child: Column(
+        children: [
+          Expanded(
+            flex: 8,
+            child: GetBuilder<TodoController>(
+              builder: (_dx) => ListView.builder(
+                  itemCount: _dx.totoItems.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                        shape: RoundedRectangleBorder(
+                          side:
+                              BorderSide(color: Colors.grey[200]!, width: 0.5),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        color: Colors.white,
+                        child: ListTile(
+                          title: Text(
+                            _dx.totoItems[index].message,
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          trailing: IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              size: 40,
+                            ),
+                            onPressed: () => {
+                              // _promptRemoveDialog(task)
+                            },
+                          ),
+                        ));
+                  }),
+            ),
+          ),
+        ],
       ),
     );
-  }
-
-  void _promptRemoveDialog(Task task) async {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('remove ${task.taskName}?'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Cancel'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              TextButton(
-                child: Text('Remove'),
-                onPressed: () {
-                  _tasksBlock.deleteRowByID(task.id);
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
   }
 
   void _showAddTodoSheet(BuildContext context) {

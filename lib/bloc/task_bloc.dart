@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutterapp/data/model/Task.dart';
-import 'package:flutterapp/data/repositories/taskRepository.dart';
+import 'package:flutterapp/data/repositories/todo/task_repository_impl.dart';
+import 'package:flutterapp/data/repositories/todo/todo_repository.dart';
 
 class TasksBlock {
-  final TaskRepository _taskRepository = TaskRepository();
+  final TodoRepository _taskRepository = TaskRepositoryImpl();
   final _tasksController = StreamController<List<Task>>();
 
   Stream<List<Task>> get tasks => _tasksController.stream;
@@ -18,7 +19,7 @@ class TasksBlock {
     fetchAllTasks();
   }
 
-  deleteRowByID(int? id) async {
+  deleteRowByID(int id) async {
     await _taskRepository.deleteRowByID(id);
     fetchAllTasks();
   }
