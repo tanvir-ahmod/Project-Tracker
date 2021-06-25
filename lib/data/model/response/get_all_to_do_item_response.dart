@@ -4,7 +4,9 @@
 
 import 'dart:convert';
 
-List<GetToDoItemResponse> getToDoItemResponseFromJson(String str) => List<GetToDoItemResponse>.from(json.decode(str).map((x) => GetToDoItemResponse.fromJson(x)));
+import '../Task.dart';
+
+List<Task> getToDoItemResponseFromJson(String str) => List<Task>.from(json.decode(str).map((x) => GetToDoItemResponse.fromJson(x)));
 
 String getToDoItemResponseToJson(List<GetToDoItemResponse> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 

@@ -43,7 +43,7 @@ class MyHomePage extends StatelessWidget {
                         color: Colors.white,
                         child: ListTile(
                           title: Text(
-                            _dx.totoItems[index].message,
+                            _dx.totoItems[index].taskName,
                             style: TextStyle(
                               fontSize: 24.0,
                               fontWeight: FontWeight.w500,
@@ -132,7 +132,7 @@ class MyHomePage extends StatelessWidget {
                                   final task = Task(
                                       taskName: _todoDescriptionFormController
                                           .value.text);
-                                  if (task.taskName!.isNotEmpty) {
+                                  if (task.taskName.isNotEmpty) {
                                     _tasksBlock.insertTask(task);
 
                                     Navigator.pop(context);

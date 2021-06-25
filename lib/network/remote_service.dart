@@ -1,18 +1,21 @@
 import 'dart:convert';
 
+import 'package:flutterapp/data/model/Task.dart';
 import 'package:flutterapp/data/model/request/login_request.dart';
 import 'package:flutterapp/data/model/request/registration_request.dart';
-import 'package:flutterapp/data/model/response/get_all_to_do_item_response.dart';
 import 'package:flutterapp/data/model/response/login_response.dart';
 import 'package:flutterapp/data/model/response/registration_response.dart';
 import 'package:flutterapp/helpers/Constants.dart';
+import 'package:flutterapp/network/api_service.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
-class ApiService {
-  static const BASE_URL = "http://192.168.0.100:8080/";
+import 'auth_service.dart';
 
-  static Future<LoginResponse> login(LoginRequest loginRequest) async {
+class RemoteService implements ApiService, AuthService {
+  final BASE_URL = "http://192.168.0.100:8080/";
+
+  Future<LoginResponse> login(LoginRequest loginRequest) async {
     final url = Uri.parse(BASE_URL + "login");
     final headers = {"Content-type": "application/json"};
     final json = jsonEncode(loginRequest.toJson());
@@ -26,7 +29,7 @@ class ApiService {
     }
   }
 
-  static Future<RegistrationResponse> register(
+  Future<RegistrationResponse> register(
       RegistrationRequest registrationRequest) async {
     final url = Uri.parse(BASE_URL + "register");
     final headers = {"Content-type": "application/json"};
@@ -41,7 +44,8 @@ class ApiService {
     }
   }
 
-  static Future<List<GetToDoItemResponse>> getAllToDoItems() async {
+  @override
+  Future<List<Task>> fetchAllTasks() async {
     final url = Uri.parse(BASE_URL + "getAllTodoItems");
 
     final token = GetStorage().read(Constants.TOKEN);
@@ -57,5 +61,18 @@ class ApiService {
     }
 
     return getToDoItemResponseFromJson(response.body);
+  }
+
+  @override
+  Future<int> deleteRowByID(int id) {
+    // TODO: implement deleteRowByID
+    throw UnimplementedError();
+  }
+
+
+  @override
+  Future<int> insert(Task task) {
+    // TODO: implement insert
+    throw UnimplementedError();
   }
 }
