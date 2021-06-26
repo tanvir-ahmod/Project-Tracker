@@ -6,6 +6,6 @@ abstract class TodoRepository {
 
   Future<List<Task>> fetchAllTasks();
 
-  Future deleteRowByID(int id);
+  Future<BaseResponse> deleteRowByID(int id);
 
 }

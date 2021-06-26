@@ -17,6 +17,6 @@ class TaskRepositoryImpl extends TodoRepository {
   Future<List<Task>> fetchAllTasks() => _service.fetchAllTasks();
 
   @override
-  Future deleteRowByID(int id) => _service.deleteRowByID(id);
+  Future<BaseResponse> deleteRowByID(int id) => _service.deleteRowByID(id);
 
 }

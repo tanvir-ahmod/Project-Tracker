@@ -16,6 +16,7 @@ class RemoteService implements ApiService, AuthService {
   final _apiClient = ApiClient().getApiClient();
 
   Future<LoginResponse> login(LoginRequest loginRequest) async {
+    _apiClient.interceptors.clear();
     final data = jsonEncode(loginRequest.toJson());
     final response = await _apiClient.post('login', data: data);
     if (response.statusCode == Constants.RESPONSE_OK) {
@@ -47,9 +48,13 @@ class RemoteService implements ApiService, AuthService {
   }
 
   @override
-  Future<int> deleteRowByID(int id) {
-    // TODO: implement deleteRowByID
-    throw UnimplementedError();
+  Future<BaseResponse> deleteRowByID(int id) async {
+    final response = await _apiClient.delete("deleteTodoById/$id");
+    if (response.statusCode == Constants.RESPONSE_OK) {
+      return BaseResponse.fromJson(response.data);
+    } else {
+      return baseResponseFromJson("");
+    }
   }
 
   @override

@@ -6,6 +6,6 @@ abstract class ApiService {
 
   Future<List<Task>> fetchAllTasks();
 
-  Future<int> deleteRowByID(int id);
+  Future<BaseResponse> deleteRowByID(int id);
 
 }

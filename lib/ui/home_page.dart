@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutterapp/bloc/task_bloc.dart';
 import 'package:flutterapp/controller/todo_controller.dart';
-import 'package:flutterapp/data/model/Task.dart';
 import 'package:get/get.dart';
 
 class MyHomePage extends StatelessWidget {
-  final TasksBlock _tasksBlock = TasksBlock();
   final TodoController _todoController = Get.put(TodoController());
 
   @override
@@ -54,9 +51,8 @@ class MyHomePage extends StatelessWidget {
                               Icons.delete,
                               size: 40,
                             ),
-                            onPressed: () => {
-                              // _promptRemoveDialog(task)
-                            },
+                            onPressed: () =>
+                                {_promptRemoveDialog(_dx.totoItems[index].id!)},
                           ),
                         ));
                   }),
@@ -148,6 +144,20 @@ class MyHomePage extends StatelessWidget {
               ),
             ),
           );
+        });
+  }
+
+  void _promptRemoveDialog(int id) async {
+    Get.defaultDialog(
+        title: "Remove",
+        middleText: "Do you want to remove this task?",
+        textConfirm: "Confirm",
+        textCancel: "Cancel",
+        barrierDismissible: false,
+        radius: 50,
+        onConfirm: () {
+          _todoController.deleteTodoById(id);
+          Get.back();
         });
   }
 }

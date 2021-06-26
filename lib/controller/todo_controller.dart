@@ -29,4 +29,12 @@ class TodoController extends GetxController {
     getAllToDoItems();
     update();
   }
+
+  void deleteTodoById(int id) async {
+    final response = await _todoRepository.deleteRowByID(id);
+    Get.snackbar("Todo", response.responseMessage,
+        snackPosition: SnackPosition.BOTTOM);
+    getAllToDoItems();
+    update();
+  }
 }

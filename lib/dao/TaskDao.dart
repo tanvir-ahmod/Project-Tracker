@@ -34,9 +34,16 @@ class TaskDao extends ApiService {
   }
 
   @override
-  Future<int> deleteRowByID(int? id) async {
+  Future<BaseResponse> deleteRowByID(int? id) async {
     Database? db = await _dbHelper.database;
-    return await db!.delete(DatabaseHelper.table,
+    var baseResponse = BaseResponse(responseCode: 0, responseMessage: "");
+    final status = await db!.delete(DatabaseHelper.table,
         where: '${DatabaseHelper.columnId} = ?', whereArgs: [id]);
+    if (status == 1) {
+      baseResponse = BaseResponse(
+          responseCode: Constants.RESPONSE_OK,
+          responseMessage: "Inserted Successfully");
+    }
+    return baseResponse;
   }
 }
