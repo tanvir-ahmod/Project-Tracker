@@ -6,11 +6,12 @@ import 'package:flutterapp/data/repositories/auth/auth_repository.dart';
 import 'package:flutterapp/helpers/Constants.dart';
 import 'package:flutterapp/services/api_service.dart';
 import 'package:flutterapp/services/auth_service.dart';
-import 'package:flutterapp/services/remote_service.dart';
+import 'package:flutterapp/services/remote_service_impl.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
-  AuthService service = RemoteService();
+  AuthService service = Get.find();
   @override
   Future<LoginResponse> login(LoginRequest loginRequest) async {
     final response = await service.login(loginRequest);

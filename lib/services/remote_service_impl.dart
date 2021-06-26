@@ -12,7 +12,7 @@ import 'package:flutterapp/services/api_service.dart';
 import '../network/api_client.dart';
 import 'auth_service.dart';
 
-class RemoteService implements ApiService, AuthService {
+class RemoteServiceImpl implements ApiService, AuthService {
   final _apiClient = ApiClient().getApiClient();
 
   Future<LoginResponse> login(LoginRequest loginRequest) async {

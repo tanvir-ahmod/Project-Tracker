@@ -1,11 +1,10 @@
 import 'package:flutterapp/data/model/Task.dart';
-import 'package:flutterapp/data/repositories/todo/task_repository_impl.dart';
 import 'package:flutterapp/data/repositories/todo/todo_repository.dart';
 import 'package:get/get.dart';
 
 class TodoController extends GetxController {
   var isLoading = false.obs;
-  TodoRepository _todoRepository = TaskRepositoryImpl();
+  TodoRepository _todoRepository = Get.find();
 
   List<Task> totoItems = <Task>[].obs;
 

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterapp/controller/auth_controller.dart';
-import 'package:flutterapp/ui/LoginScreen.dart';
+import 'package:flutterapp/ui/login_ui.dart';
 import 'package:get/get.dart';
 
-import 'home_page.dart';
-
 class SignUpUI extends StatelessWidget {
-  final AuthController authController = Get.put(AuthController());
+  final AuthController authController = Get.find();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();

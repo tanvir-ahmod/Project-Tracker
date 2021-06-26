@@ -1,13 +1,12 @@
 import 'package:flutterapp/data/model/request/login_request.dart';
 import 'package:flutterapp/data/model/request/registration_request.dart';
 import 'package:flutterapp/data/repositories/auth/auth_repository.dart';
-import 'package:flutterapp/data/repositories/auth/auth_repository_impl.dart';
 import 'package:flutterapp/helpers/Constants.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
-  AuthRepository authRepository = AuthRepositoryImpl();
+  AuthRepository authRepository = Get.find();
 
   Future<bool> login(String email, String password) async {
     isLoading.value = true;

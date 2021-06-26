@@ -4,10 +4,11 @@ import 'package:flutterapp/data/model/response/base_response.dart';
 import 'package:flutterapp/data/model/response/get_all_to_do_item_response.dart';
 import 'package:flutterapp/data/repositories/todo/todo_repository.dart';
 import 'package:flutterapp/services/api_service.dart';
-import 'package:flutterapp/services/remote_service.dart';
+import 'package:flutterapp/services/remote_service_impl.dart';
+import 'package:get/get.dart';
 
-class TaskRepositoryImpl extends TodoRepository {
-  ApiService _service = RemoteService();
+class TodoRepositoryImpl extends TodoRepository {
+  ApiService _service = Get.find();
 
 
   @override
