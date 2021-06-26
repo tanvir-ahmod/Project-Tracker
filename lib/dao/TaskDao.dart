@@ -4,7 +4,7 @@ import 'package:flutterapp/data/model/Task.dart';
 import 'package:flutterapp/data/model/response/base_response.dart';
 import 'package:flutterapp/database/databaseHelper.dart';
 import 'package:flutterapp/helpers/Constants.dart';
-import 'package:flutterapp/network/api_service.dart';
+import 'package:flutterapp/services/api_service.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TaskDao extends ApiService {

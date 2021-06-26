@@ -4,9 +4,9 @@ import 'package:flutterapp/data/model/response/login_response.dart';
 import 'package:flutterapp/data/model/response/registration_response.dart';
 import 'package:flutterapp/data/repositories/auth/auth_repository.dart';
 import 'package:flutterapp/helpers/Constants.dart';
-import 'package:flutterapp/network/api_service.dart';
-import 'package:flutterapp/network/auth_service.dart';
-import 'package:flutterapp/network/remote_service.dart';
+import 'package:flutterapp/services/api_service.dart';
+import 'package:flutterapp/services/auth_service.dart';
+import 'package:flutterapp/services/remote_service.dart';
 import 'package:get_storage/get_storage.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
