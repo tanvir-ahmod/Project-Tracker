@@ -24,6 +24,8 @@ class Task {
         "taskName": taskName,
       };
 
+  String toRawJson() => json.encode(toJson());
+
   factory Task.fromDatabaseToJson(Map<String, dynamic> data) => Task(
       id: data[DatabaseHelper.columnId],
       taskName: data[DatabaseHelper.columnTask]);

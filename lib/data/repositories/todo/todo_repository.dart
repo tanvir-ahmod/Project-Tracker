@@ -1,7 +1,8 @@
 import 'package:flutterapp/data/model/Task.dart';
+import 'package:flutterapp/data/model/response/base_response.dart';
 
 abstract class TodoRepository {
-  Future insertTask(Task task);
+  Future<BaseResponse> insertTask(Task task);
 
   Future<List<Task>> fetchAllTasks();
 

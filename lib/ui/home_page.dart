@@ -129,11 +129,10 @@ class MyHomePage extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  final task = Task(
-                                      taskName: _todoDescriptionFormController
-                                          .value.text);
-                                  if (task.taskName.isNotEmpty) {
-                                    _tasksBlock.insertTask(task);
+                                  if (_todoDescriptionFormController
+                                      .text.isNotEmpty) {
+                                    _todoController.insertTodo(
+                                        _todoDescriptionFormController.text);
 
                                     Navigator.pop(context);
                                   }

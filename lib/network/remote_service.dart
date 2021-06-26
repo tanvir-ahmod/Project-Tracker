@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutterapp/data/model/Task.dart';
 import 'package:flutterapp/data/model/request/login_request.dart';
 import 'package:flutterapp/data/model/request/registration_request.dart';
+import 'package:flutterapp/data/model/response/base_response.dart';
 import 'package:flutterapp/data/model/response/login_response.dart';
 import 'package:flutterapp/data/model/response/registration_response.dart';
 import 'package:flutterapp/helpers/Constants.dart';
@@ -69,10 +70,21 @@ class RemoteService implements ApiService, AuthService {
     throw UnimplementedError();
   }
 
-
   @override
-  Future<int> insert(Task task) {
-    // TODO: implement insert
-    throw UnimplementedError();
+  Future<BaseResponse> insert(Task task) async {
+    final url = Uri.parse(BASE_URL + "addTodo");
+    final json = task.toRawJson();
+    final token = GetStorage().read(Constants.TOKEN);
+    final headers = {
+      "Content-type": "application/json",
+      "Authorization": "Bearer $token"
+    };
+    final response = await http.post(url, headers: headers, body: json);
+
+    if (response.statusCode == Constants.RESPONSE_OK) {
+      return baseResponseFromJson(response.body);
+    } else {
+      return baseResponseFromJson("");
+    }
   }
 }
