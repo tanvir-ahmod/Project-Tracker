@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutterapp/controller/todo_controller.dart';
+import 'package:todo/controller/todo_controller.dart';
 import 'package:get/get.dart';
 
 class MyHomePage extends StatelessWidget {

@@ -1,5 +1,5 @@
-import 'package:flutterapp/data/model/Task.dart';
-import 'package:flutterapp/data/repositories/todo/todo_repository.dart';
+import 'package:todo/data/model/Task.dart';
+import 'package:todo/data/repositories/todo/todo_repository.dart';
 import 'package:get/get.dart';
 
 class TodoController extends GetxController {

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutterapp/database/databaseHelper.dart';
+import 'package:todo/database/databaseHelper.dart';
 
 List<Task> getToDoItemResponseFromJson(String str) => List<Task>.from(
     json.decode(str).map((x) => Task.fromJson(x)));

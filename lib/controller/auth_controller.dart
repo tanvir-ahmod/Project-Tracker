@@ -1,7 +1,7 @@
-import 'package:flutterapp/data/model/request/login_request.dart';
-import 'package:flutterapp/data/model/request/registration_request.dart';
-import 'package:flutterapp/data/repositories/auth/auth_repository.dart';
-import 'package:flutterapp/helpers/Constants.dart';
+import 'package:todo/data/model/request/login_request.dart';
+import 'package:todo/data/model/request/registration_request.dart';
+import 'package:todo/data/repositories/auth/auth_repository.dart';
+import 'package:todo/helpers/Constants.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {

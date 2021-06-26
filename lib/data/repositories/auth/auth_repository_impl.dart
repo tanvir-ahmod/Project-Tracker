@@ -1,12 +1,12 @@
-import 'package:flutterapp/data/model/request/login_request.dart';
-import 'package:flutterapp/data/model/request/registration_request.dart';
-import 'package:flutterapp/data/model/response/login_response.dart';
-import 'package:flutterapp/data/model/response/registration_response.dart';
-import 'package:flutterapp/data/repositories/auth/auth_repository.dart';
-import 'package:flutterapp/helpers/Constants.dart';
-import 'package:flutterapp/services/api_service.dart';
-import 'package:flutterapp/services/auth_service.dart';
-import 'package:flutterapp/services/remote_service_impl.dart';
+import 'package:todo/data/model/request/login_request.dart';
+import 'package:todo/data/model/request/registration_request.dart';
+import 'package:todo/data/model/response/login_response.dart';
+import 'package:todo/data/model/response/registration_response.dart';
+import 'package:todo/data/repositories/auth/auth_repository.dart';
+import 'package:todo/helpers/Constants.dart';
+import 'package:todo/services/api_service.dart';
+import 'package:todo/services/auth_service.dart';
+import 'package:todo/services/remote_service_impl.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

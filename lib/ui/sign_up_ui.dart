@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterapp/controller/auth_controller.dart';
-import 'package:flutterapp/ui/login_ui.dart';
+import 'package:todo/controller/auth_controller.dart';
+import 'package:todo/ui/login_ui.dart';
 import 'package:get/get.dart';
 
 class SignUpUI extends StatelessWidget {

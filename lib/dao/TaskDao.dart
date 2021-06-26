@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:flutterapp/data/model/Task.dart';
-import 'package:flutterapp/data/model/response/base_response.dart';
-import 'package:flutterapp/database/databaseHelper.dart';
-import 'package:flutterapp/helpers/Constants.dart';
-import 'package:flutterapp/services/api_service.dart';
+import 'package:todo/data/model/Task.dart';
+import 'package:todo/data/model/response/base_response.dart';
+import 'package:todo/database/databaseHelper.dart';
+import 'package:todo/helpers/Constants.dart';
+import 'package:todo/services/api_service.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TaskDao extends ApiService {

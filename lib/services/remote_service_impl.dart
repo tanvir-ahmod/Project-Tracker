@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:flutterapp/data/model/Task.dart';
-import 'package:flutterapp/data/model/request/login_request.dart';
-import 'package:flutterapp/data/model/request/registration_request.dart';
-import 'package:flutterapp/data/model/response/base_response.dart';
-import 'package:flutterapp/data/model/response/login_response.dart';
-import 'package:flutterapp/data/model/response/registration_response.dart';
-import 'package:flutterapp/helpers/Constants.dart';
-import 'package:flutterapp/services/api_service.dart';
+import 'package:todo/data/model/Task.dart';
+import 'package:todo/data/model/request/login_request.dart';
+import 'package:todo/data/model/request/registration_request.dart';
+import 'package:todo/data/model/response/base_response.dart';
+import 'package:todo/data/model/response/login_response.dart';
+import 'package:todo/data/model/response/registration_response.dart';
+import 'package:todo/helpers/Constants.dart';
+import 'package:todo/services/api_service.dart';
 
 import '../network/api_client.dart';
 import 'auth_service.dart';

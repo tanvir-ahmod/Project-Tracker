@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutterapp/helpers/Constants.dart';
+import 'package:todo/helpers/Constants.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ApiClient {
