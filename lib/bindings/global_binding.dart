@@ -12,11 +12,11 @@ import 'package:get/get.dart';
 class GlobalBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<AuthController>(() => AuthController());
-    Get.lazyPut<TodoController>(() => TodoController());
-    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl());
-    Get.lazyPut<TodoRepository>(() => TodoRepositoryImpl());
-    Get.lazyPut<AuthService>(() => RemoteServiceImpl());
-    Get.lazyPut<ApiService>(() => RemoteServiceImpl());
+    Get.lazyPut<AuthController>(() => AuthController(), fenix: true);
+    Get.lazyPut<TodoController>(() => TodoController(), fenix: true);
+    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(), fenix: true);
+    Get.lazyPut<TodoRepository>(() => TodoRepositoryImpl(), fenix: true);
+    Get.lazyPut<AuthService>(() => RemoteServiceImpl(), fenix: true);
+    Get.lazyPut<ApiService>(() => RemoteServiceImpl(), fenix: true);
   }
 }
