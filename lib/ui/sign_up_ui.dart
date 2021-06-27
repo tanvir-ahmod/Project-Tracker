@@ -111,7 +111,9 @@ class SignUpUI extends StatelessWidget {
                         var isRegistered = await authController.register(
                             _email.text, _pass.text, _confirmPass.text);
                         if (isRegistered) {
-                          Get.offAll(() => LoginScreen());
+                          Future.delayed(const Duration(milliseconds: 1500), () {
+                            Get.offAll(() => LoginScreen());
+                          });
                         }
                       }
                     },

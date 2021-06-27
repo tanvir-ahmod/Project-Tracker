@@ -92,7 +92,9 @@ class LoginScreen extends StatelessWidget {
                         var isAuthenticated =
                             await authController.login(_email.text, _pass.text);
                         if (isAuthenticated) {
-                          Get.offAll(() => MyHomePage());
+                          Future.delayed(const Duration(milliseconds: 1500), () {
+                            Get.offAll(() => MyHomePage());
+                          });
                         }
                       }
                     },
