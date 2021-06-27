@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 import 'package:todo/helpers/Constants.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:todo/ui/login_ui.dart';
 
 class ApiClient {
   Dio _dio = Dio();
@@ -25,6 +27,17 @@ class ApiClient {
     }, onResponse: (response, handler) {
       return handler.next(response);
     }, onError: (DioError e, handler) {
+      if (e.response?.statusCode == 403) {
+        Get.snackbar("Authentication", "Authentication failed",
+            snackPosition: SnackPosition.BOTTOM);
+
+        Future.delayed(const Duration(milliseconds: 2000), () {
+          Get.offAll(() => LoginScreen());
+        });
+      } else {
+        Get.snackbar("Error", "Could not connect to server",
+            snackPosition: SnackPosition.BOTTOM);
+      }
       return handler.next(e);
     }));
   }
