@@ -4,9 +4,7 @@ import 'package:todo/data/model/response/login_response.dart';
 import 'package:todo/data/model/response/registration_response.dart';
 import 'package:todo/data/repositories/auth/auth_repository.dart';
 import 'package:todo/helpers/Constants.dart';
-import 'package:todo/services/api_service.dart';
 import 'package:todo/services/auth_service.dart';
-import 'package:todo/services/remote_service_impl.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -24,5 +22,10 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<RegistrationResponse> register(
       RegistrationRequest registrationRequest) async {
     return await service.register(registrationRequest);
+  }
+
+  @override
+  void logout() {
+    GetStorage().erase();
   }
 }

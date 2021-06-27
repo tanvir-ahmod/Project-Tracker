@@ -19,14 +19,21 @@ class AuthController extends GetxController {
     return loginResponse.token.isNotEmpty;
   }
 
-  Future<bool> register(String email, String password, String confirmPassword) async {
+  Future<bool> register(
+      String email, String password, String confirmPassword) async {
     isLoading.value = true;
-    var loginResponse = await authRepository
-        .register(RegistrationRequest(email: email, password: password, confirmPassword: confirmPassword));
+    var loginResponse = await authRepository.register(RegistrationRequest(
+        email: email, password: password, confirmPassword: confirmPassword));
     isLoading.value = false;
     Get.snackbar("Authentication", loginResponse.responseMessage,
         snackPosition: SnackPosition.BOTTOM);
 
     return loginResponse.responseCode == Constants.RESPONSE_OK;
+  }
+
+  void logout() {
+    authRepository.logout();
+    Get.snackbar("Logged out", "You have been logged out",
+        snackPosition: SnackPosition.BOTTOM);
   }
 }

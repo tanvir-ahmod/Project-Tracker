@@ -8,4 +8,6 @@ abstract class AuthRepository {
 
   Future<RegistrationResponse> register(
       RegistrationRequest registrationRequest);
+
+  void logout();
 }

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:todo/controller/auth_controller.dart';
 import 'package:todo/controller/todo_controller.dart';
 import 'package:get/get.dart';
 
+import 'login_ui.dart';
+
 class MyHomePage extends StatelessWidget {
+  final AuthController _authController = Get.find();
   final TodoController _todoController = Get.find();
 
   @override
@@ -11,6 +15,25 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              _authController.logout();
+              Future.delayed(const Duration(milliseconds: 1500), () {
+                Get.offAll(() => LoginScreen());
+              });
+            },
+            itemBuilder: (BuildContext context) {
+              return { "Logout"}
+                  .map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          ),
+        ],
       ),
       body: _buildTaskList(),
       floatingActionButton: FloatingActionButton(
