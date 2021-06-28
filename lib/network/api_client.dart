@@ -13,9 +13,9 @@ class ApiClient {
 
   _initializeApiClient() {
     var options = BaseOptions(
-      baseUrl: 'http://192.168.0.100:8080/',
-      connectTimeout: 20000,
-      receiveTimeout: 20000,
+      baseUrl: Constants.BASE_URL,
+      connectTimeout: 60000,
+      receiveTimeout: 60000,
     );
     _dio.options = options;
 
