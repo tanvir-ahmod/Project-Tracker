@@ -26,6 +26,9 @@ dependencies:
   get: ^4.1.4
   get_storage: ^2.0.2
   dio: ^4.0.0
+  google_fonts: ^2.1.0
+  getwidget: ^2.0.3
+  percent_indicator: ^3.0.1
   flutter:
     sdk: flutter
 

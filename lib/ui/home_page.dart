@@ -4,6 +4,7 @@ import 'package:todo/controller/auth_controller.dart';
 import 'package:todo/controller/todo_controller.dart';
 import 'package:get/get.dart';
 
+import 'add_todo.dart';
 import 'login_ui.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -24,8 +25,7 @@ class MyHomePage extends StatelessWidget {
               });
             },
             itemBuilder: (BuildContext context) {
-              return { "Logout"}
-                  .map((String choice) {
+              return {"Logout"}.map((String choice) {
                 return PopupMenuItem<String>(
                   value: choice,
                   child: Text(choice),
@@ -37,7 +37,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body: _buildTaskList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddTodoSheet(context),
+        onPressed: () => Get.to(AddTodoScreen()),
         tooltip: "Add Task",
         child: Icon(Icons.add),
       ),
