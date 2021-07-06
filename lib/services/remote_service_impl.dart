@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:todo/data/model/Task.dart';
 import 'package:todo/data/model/request/login_request.dart';
 import 'package:todo/data/model/request/registration_request.dart';
@@ -28,14 +29,17 @@ class RemoteServiceImpl implements ApiService, AuthService {
 
   Future<RegistrationResponse> register(
       RegistrationRequest registrationRequest) async {
+    _apiClient.interceptors.clear();
     final data = registrationRequest.toRawJson();
-    final response = await _apiClient.post("register", data: data);
-
-    if (response.statusCode == Constants.RESPONSE_OK) {
+    try {
+      final response = await _apiClient.post("register", data: data);
       return RegistrationResponse.fromJson(response.data);
-    } else {
-      return registrationResponseFromJson("");
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 400)
+        return RegistrationResponse.fromJson(e.response!.data);
     }
+
+    return registrationResponseFromJson("");
   }
 
   @override

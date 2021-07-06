@@ -111,7 +111,8 @@ class SignUpUI extends StatelessWidget {
                         var isRegistered = await authController.register(
                             _email.text, _pass.text, _confirmPass.text);
                         if (isRegistered) {
-                          Future.delayed(const Duration(milliseconds: 1500), () {
+                          Future.delayed(const Duration(milliseconds: 2500),
+                              () {
                             Get.offAll(() => LoginScreen());
                           });
                         }
@@ -137,7 +138,7 @@ class SignUpUI extends StatelessWidget {
                     onTap: () {
                       Get.offAll(() => SignUpUI());
                     },
-                    child: Text('New User? Create Account'))
+                    child: Text('Already have account? Sign in'))
               ],
             ),
           ));

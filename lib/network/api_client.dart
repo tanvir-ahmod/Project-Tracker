@@ -27,7 +27,7 @@ class ApiClient {
     }, onResponse: (response, handler) {
       return handler.next(response);
     }, onError: (DioError e, handler) {
-      if (e.response?.statusCode == 403) {
+      if (e.response?.statusCode == 403 || e.response?.statusCode == 401) {
         Get.snackbar("Authentication", "Authentication failed",
             snackPosition: SnackPosition.BOTTOM);
 

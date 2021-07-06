@@ -14,7 +14,7 @@ class LoginResponse {
 
   int responseCode;
   String responseMessage;
-  String token;
+  String? token;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
         responseCode: json["responseCode"],

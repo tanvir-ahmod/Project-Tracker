@@ -16,7 +16,7 @@ class AuthController extends GetxController {
     Get.snackbar("Authentication", loginResponse.responseMessage,
         snackPosition: SnackPosition.BOTTOM);
 
-    return loginResponse.token.isNotEmpty;
+    return loginResponse.token != null && loginResponse.token!.isNotEmpty;
   }
 
   Future<bool> register(
