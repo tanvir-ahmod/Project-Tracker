@@ -29,6 +29,7 @@ dependencies:
   google_fonts: ^2.1.0
   getwidget: ^2.0.3
   percent_indicator: ^3.0.1
+  intl: ^0.17.0
   flutter:
     sdk: flutter
 

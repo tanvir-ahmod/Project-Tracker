@@ -56,17 +56,22 @@ class AddTodoScreen extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "-",
-                      style: GoogleFonts.nunito(
-                          textStyle: TextStyle(fontSize: 18)),
+                  Obx(() => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          _todoController.dateTimeText.value,
+                          style: GoogleFonts.nunito(
+                              textStyle: TextStyle(fontSize: 18)),
+                        ),
+                      )),
+                  InkWell(
+                    onTap: () {
+                      _selectDate(context);
+                    },
+                    child: Icon(
+                      Icons.arrow_drop_down,
+                      size: 24.0,
                     ),
-                  ),
-                  Icon(
-                    Icons.arrow_drop_down,
-                    size: 24.0,
                   ),
                 ],
               ),
@@ -124,9 +129,9 @@ class AddTodoScreen extends StatelessWidget {
                                       .checkLists[index].description),
                                   value: _todoController.checkLists[index].done,
                                   onChanged: (bool? value) {
-                                    if(value != null)
-                                    _todoController.updateCheckListStatus(
-                                        index, value);
+                                    if (value != null)
+                                      _todoController.updateCheckListStatus(
+                                          index, value);
                                   },
                                   activeColor: Colors.green,
                                   controlAffinity:
@@ -227,5 +232,18 @@ class AddTodoScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _todoController.selectedDate != null
+          ? _todoController.selectedDate!
+          : DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    _todoController.setSelectedDate(picked);
+    Get.back();
   }
 }

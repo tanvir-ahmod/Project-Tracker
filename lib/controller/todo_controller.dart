@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:todo/data/model/Task.dart';
 import 'package:todo/data/model/request/add_todo_request.dart';
 import 'package:todo/data/repositories/todo/todo_repository.dart';
@@ -20,6 +21,8 @@ class TodoController extends GetxController {
   var progress = 0.0.obs;
 
   CheckList? editedCheckList;
+  DateTime? selectedDate;
+  var dateTimeText = "----".obs;
 
   @override
   void onReady() {
@@ -108,5 +111,13 @@ class TodoController extends GetxController {
       progress.value = 0.0;
     else
       progress.value = completedTasks / totalTasks;
+  }
+
+  setSelectedDate(DateTime? dateTime) {
+    selectedDate = dateTime;
+
+    dateTimeText.value = selectedDate != null
+        ? DateFormat('yyyy-MM-dd').format(selectedDate!)
+        : "----";
   }
 }
