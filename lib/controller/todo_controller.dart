@@ -17,6 +17,7 @@ class TodoController extends GetxController {
   var isAddItemChecked = false.obs;
   var isAddItemValidate = true.obs;
   var editingIndex = -1;
+  var progress = 0.0.obs;
 
   CheckList? editedCheckList;
 
@@ -62,16 +63,18 @@ class TodoController extends GetxController {
     }
     showAddCheckListWidget(false);
     clearCheckListInputController();
+    updateProgress();
   }
 
   removeCheckList(int index) {
     checkLists.removeAt(index);
-    // checkLists.refresh();
+    updateProgress();
   }
 
   updateCheckListStatus(int index, bool status) {
     checkLists[index].done = status;
     checkLists.refresh();
+    updateProgress();
   }
 
   showAddCheckListWidget(bool isShow) {
@@ -96,5 +99,14 @@ class TodoController extends GetxController {
     editedCheckList = checkLists[index];
     removeCheckList(index);
     showAddCheckListWidget(true);
+  }
+
+  updateProgress() {
+    var totalTasks = checkLists.length;
+    var completedTasks = checkLists.where((i) => i.done).length;
+    if (totalTasks == 0 || completedTasks == 0)
+      progress.value = 0.0;
+    else
+      progress.value = completedTasks / totalTasks;
   }
 }

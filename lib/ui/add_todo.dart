@@ -75,16 +75,16 @@ class AddTodoScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
-                  CircularPercentIndicator(
-                    radius: 45.0,
-                    lineWidth: 5.0,
-                    percent: 0.0,
-                    center: Text(
-                      "0%",
-                      textAlign: TextAlign.center,
-                    ),
-                    progressColor: Colors.green,
-                  ),
+                  Obx(() => CircularPercentIndicator(
+                        radius: 45.0,
+                        lineWidth: 5.0,
+                        percent: _todoController.progress.value,
+                        center: Text(
+                          "${(_todoController.progress.value * 100).toInt()}%",
+                          textAlign: TextAlign.center,
+                        ),
+                        progressColor: Colors.green,
+                      )),
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0, top: 4.0),
                     child: Text(
@@ -124,8 +124,9 @@ class AddTodoScreen extends StatelessWidget {
                                       .checkLists[index].description),
                                   value: _todoController.checkLists[index].done,
                                   onChanged: (bool? value) {
+                                    if(value != null)
                                     _todoController.updateCheckListStatus(
-                                        index, value!);
+                                        index, value);
                                   },
                                   activeColor: Colors.green,
                                   controlAffinity:
@@ -181,7 +182,8 @@ class AddTodoScreen extends StatelessWidget {
               Checkbox(
                   value: _todoController.isAddItemChecked.value,
                   onChanged: (bool? value) {
-                    _todoController.isAddItemChecked.value = value!;
+                    if (value != null)
+                      _todoController.isAddItemChecked.value = value;
                   }),
               Expanded(
                 child: TextField(
