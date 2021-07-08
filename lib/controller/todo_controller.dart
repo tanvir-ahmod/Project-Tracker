@@ -139,13 +139,13 @@ class TodoController extends GetxController {
   setSelectedDate(DateTime? dateTime) {
     selectedDate = dateTime;
 
-    dateTimeText.value = selectedDate != null
-        ? DateFormat('yyyy-MM-dd').format(selectedDate!)
-        : "----";
-    showDateTimeRemoveIcon.value = true;
+    if (selectedDate != null) {
+      dateTimeText.value = DateFormat('yyyy-MM-dd').format(selectedDate!);
+      showDateTimeRemoveIcon.value = true;
+    }
   }
 
-  clearSelectedDate(){
+  clearSelectedDate() {
     selectedDate = null;
     dateTimeText.value = "----";
     showDateTimeRemoveIcon.value = false;

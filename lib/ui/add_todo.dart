@@ -43,7 +43,6 @@ class AddTodoScreen extends StatelessWidget {
                     child: TextField(
                       controller: _todoController.titleController,
                       keyboardType: TextInputType.multiline,
-                      maxLines: null,
                       textInputAction: TextInputAction.done,
                       style:
                           TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
@@ -247,6 +246,7 @@ class AddTodoScreen extends StatelessWidget {
                   if (_todoController
                       .inputCheckListController.text.isNotEmpty) {
                     _todoController.saveCheckList();
+                    FocusManager.instance.primaryFocus!.unfocus();
                   } else {
                     _todoController.isAddItemValidate.value = false;
                   }
@@ -260,6 +260,7 @@ class AddTodoScreen extends StatelessWidget {
                 ),
                 onTap: () {
                   _todoController.showAddCheckListWidget(false);
+                  FocusManager.instance.primaryFocus!.unfocus();
                 },
               ),
             ],
