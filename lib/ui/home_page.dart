@@ -148,13 +148,6 @@ class MyHomePage extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  if (_todoDescriptionFormController
-                                      .text.isNotEmpty) {
-                                    _todoController.insertTodo(
-                                        _todoDescriptionFormController.text);
-
-                                    Navigator.pop(context);
-                                  }
                                 },
                               ),
                             ),

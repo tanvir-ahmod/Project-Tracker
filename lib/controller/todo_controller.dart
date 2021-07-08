@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/data/model/Task.dart';
@@ -14,6 +15,8 @@ class TodoController extends GetxController {
 
   var isShowAddCheckListWidget = false.obs;
 
+  TextEditingController titleController = TextEditingController();
+  var isTitleValidated = true.obs;
   TextEditingController inputCheckListController = TextEditingController();
   var isAddItemChecked = false.obs;
   var isAddItemValidate = true.obs;
@@ -37,12 +40,26 @@ class TodoController extends GetxController {
     update();
   }
 
-  void insertTodo(String taskName) async {
-    final response = await _todoRepository.insertTask(Task(taskName: taskName));
-    Get.snackbar("Todo", response.responseMessage,
-        snackPosition: SnackPosition.BOTTOM);
-    getAllToDoItems();
-    update();
+  void insertTodo() async {
+    String deadline = selectedDate != null
+        ? DateFormat('yyyyMMdd').format(selectedDate!)
+        : "";
+
+    AddTodoRequest addTodoRequest = new AddTodoRequest(
+        checkLists: checkLists.toList(),
+        deadline: deadline,
+        description: titleController.text);
+    isLoading.value = true;
+    try {
+      final response = await _todoRepository.insertTask(addTodoRequest);
+      isLoading.value = false;
+      Get.snackbar("Todo", response.responseMessage,
+          snackPosition: SnackPosition.BOTTOM);
+    } on DioError catch (e) {
+      isLoading.value = false;
+    }
+    // getAllToDoItems();
+    // update();
   }
 
   void deleteTodoById(int id) async {
@@ -120,4 +137,6 @@ class TodoController extends GetxController {
         ? DateFormat('yyyy-MM-dd').format(selectedDate!)
         : "----";
   }
+
+  void submitTodo() {}
 }

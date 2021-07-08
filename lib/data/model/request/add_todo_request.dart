@@ -5,13 +5,13 @@ class AddTodoRequest {
     required this.checkLists,
     required this.deadline,
     required this.description,
-    required this.parentId,
+    this.parentId,
   });
 
   List<CheckList> checkLists;
   String deadline;
   String description;
-  int parentId;
+  int? parentId;
 
   factory AddTodoRequest.fromRawJson(String str) =>
       AddTodoRequest.fromJson(json.decode(str));

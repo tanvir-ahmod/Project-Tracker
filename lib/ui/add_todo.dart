@@ -5,175 +5,197 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:todo/controller/todo_controller.dart';
+import 'package:todo/ui/loading.dart';
 
 class AddTodoScreen extends StatelessWidget {
   TodoController _todoController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Add Todo"),
-      ),
-      body: Container(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                autofocus: false,
-                controller: null,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                textInputAction: TextInputAction.done,
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
-                decoration: InputDecoration.collapsed(
-                  hintText: 'Enter a title',
-                  hintStyle: TextStyle(
-                      color: Colors.grey.shade400,
-                      fontSize: 26,
-                      fontWeight: FontWeight.w700),
-                  border: InputBorder.none,
-                ),
-              ),
+    return Obx(() => _todoController.isLoading.value
+        ? Loading()
+        : Scaffold(
+            appBar: AppBar(
+              title: Text("Add Todo"),
+              actions: [
+                Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        if (_todoController.titleController.text.isNotEmpty) {
+                          _todoController.isTitleValidated.value = true;
+                          _todoController.insertTodo();
+                        } else
+                          _todoController.isTitleValidated.value = false;
+                      },
+                      child: Icon(
+                        Icons.done,
+                        size: 26.0,
+                      ),
+                    )),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
+            body: Container(
+              child: Column(
                 children: [
-                  Icon(
-                    Icons.date_range_rounded,
-                    color: Colors.deepPurpleAccent,
-                    size: 45,
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: TextField(
+                      controller: _todoController.titleController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      textInputAction: TextInputAction.done,
+                      style:
+                          TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
+                      decoration: InputDecoration(
+                        hintText: 'Enter a title',
+                        hintStyle: TextStyle(
+                            color: Colors.grey.shade400,
+                            fontSize: 26,
+                            fontWeight: FontWeight.w700),
+                        border: InputBorder.none,
+                        errorText: _todoController.isTitleValidated.value
+                            ? null
+                            : 'Value Can\'t Be Empty',
+                      ),
+                    ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                    child: Text(
-                      "Deadline",
-                      style: GoogleFonts.nunito(
-                          textStyle: TextStyle(fontSize: 18)),
-                      textAlign: TextAlign.center,
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.date_range_rounded,
+                          color: Colors.deepPurpleAccent,
+                          size: 45,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                          child: Text(
+                            "Deadline",
+                            style: GoogleFonts.nunito(
+                                textStyle: TextStyle(fontSize: 18)),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            _todoController.dateTimeText.value,
+                            style: GoogleFonts.nunito(
+                                textStyle: TextStyle(fontSize: 18)),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            _selectDate(context);
+                          },
+                          child: Icon(
+                            Icons.arrow_drop_down,
+                            size: 24.0,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Spacer(),
-                  Obx(() => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          _todoController.dateTimeText.value,
-                          style: GoogleFonts.nunito(
-                              textStyle: TextStyle(fontSize: 18)),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        CircularPercentIndicator(
+                          radius: 45.0,
+                          lineWidth: 5.0,
+                          percent: _todoController.progress.value,
+                          center: Text(
+                            "${(_todoController.progress.value * 100).toInt()}%",
+                            textAlign: TextAlign.center,
+                          ),
+                          progressColor: Colors.green,
                         ),
-                      )),
-                  InkWell(
-                    onTap: () {
-                      _selectDate(context);
-                    },
-                    child: Icon(
-                      Icons.arrow_drop_down,
-                      size: 24.0,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                          child: Text(
+                            "CheckLists",
+                            style: GoogleFonts.nunito(
+                                textStyle: TextStyle(fontSize: 18)),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Spacer(),
+                        InkWell(
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.green,
+                            size: 24.0,
+                          ),
+                          onTap: () {
+                            _todoController.showAddCheckListWidget(true);
+                          },
+                        ),
+                      ],
                     ),
+                  ),
+                  _addTodoWidget(),
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: _todoController.checkLists.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: CheckboxListTile(
+                                      title: Text(_todoController
+                                          .checkLists[index].description),
+                                      value: _todoController
+                                          .checkLists[index].done,
+                                      onChanged: (bool? value) {
+                                        if (value != null)
+                                          _todoController.updateCheckListStatus(
+                                              index, value);
+                                      },
+                                      activeColor: Colors.green,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: InkWell(
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: Colors.green,
+                                      size: 24.0,
+                                    ),
+                                    onTap: () {
+                                      _todoController.editCheckList(index);
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 4.0, right: 8.0),
+                                  child: InkWell(
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                      size: 24.0,
+                                    ),
+                                    onTap: () {
+                                      _todoController.removeCheckList(index);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  Obx(() => CircularPercentIndicator(
-                        radius: 45.0,
-                        lineWidth: 5.0,
-                        percent: _todoController.progress.value,
-                        center: Text(
-                          "${(_todoController.progress.value * 100).toInt()}%",
-                          textAlign: TextAlign.center,
-                        ),
-                        progressColor: Colors.green,
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                    child: Text(
-                      "CheckLists",
-                      style: GoogleFonts.nunito(
-                          textStyle: TextStyle(fontSize: 18)),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Spacer(),
-                  InkWell(
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.green,
-                      size: 24.0,
-                    ),
-                    onTap: () {
-                      _todoController.showAddCheckListWidget(true);
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Obx(() => _addTodoWidget()),
-            Expanded(
-              child: Obx(
-                () => ListView.builder(
-                    itemCount: _todoController.checkLists.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: CheckboxListTile(
-                                  title: Text(_todoController
-                                      .checkLists[index].description),
-                                  value: _todoController.checkLists[index].done,
-                                  onChanged: (bool? value) {
-                                    if (value != null)
-                                      _todoController.updateCheckListStatus(
-                                          index, value);
-                                  },
-                                  activeColor: Colors.green,
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: InkWell(
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.green,
-                                  size: 24.0,
-                                ),
-                                onTap: () {
-                                  _todoController.editCheckList(index);
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 4.0, right: 8.0),
-                              child: InkWell(
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                  size: 24.0,
-                                ),
-                                onTap: () {
-                                  _todoController.removeCheckList(index);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          ));
   }
 
   Widget _addTodoWidget() {
@@ -244,6 +266,5 @@ class AddTodoScreen extends StatelessWidget {
       lastDate: DateTime(2100),
     );
     _todoController.setSelectedDate(picked);
-    Get.back();
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:todo/data/model/Task.dart';
+import 'package:todo/data/model/request/add_todo_request.dart';
 import 'package:todo/data/model/request/login_request.dart';
 import 'package:todo/data/model/request/registration_request.dart';
 import 'package:todo/data/model/response/base_response.dart';
@@ -62,8 +63,8 @@ class RemoteServiceImpl implements ApiService, AuthService {
   }
 
   @override
-  Future<BaseResponse> insert(Task task) async {
-    final data = task.toRawJson();
+  Future<BaseResponse> insert(AddTodoRequest addTodoRequest) async {
+    final data = addTodoRequest.toRawJson();
     final response = await _apiClient.post("addTodo", data: data);
     if (response.statusCode == Constants.RESPONSE_OK) {
       return BaseResponse.fromJson(response.data);
