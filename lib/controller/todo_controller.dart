@@ -55,9 +55,14 @@ class TodoController extends GetxController {
       isLoading.value = false;
       Get.snackbar("Todo", response.responseMessage,
           snackPosition: SnackPosition.BOTTOM);
-    } on DioError catch (e) {
+    } on DioError {
       isLoading.value = false;
     }
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      Get.back(closeOverlays: true);
+      Get.delete<TodoController>();
+    });
+
     // getAllToDoItems();
     // update();
   }
@@ -137,6 +142,4 @@ class TodoController extends GetxController {
         ? DateFormat('yyyy-MM-dd').format(selectedDate!)
         : "----";
   }
-
-  void submitTodo() {}
 }

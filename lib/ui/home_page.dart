@@ -37,7 +37,10 @@ class MyHomePage extends StatelessWidget {
       ),
       body: _buildTaskList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(AddTodoScreen()),
+        onPressed: () {
+          Get.delete<TodoController>();
+          Get.to(() => AddTodoScreen());
+        },
         tooltip: "Add Task",
         child: Icon(Icons.add),
       ),
@@ -147,8 +150,7 @@ class MyHomePage extends StatelessWidget {
                                   size: 22,
                                   color: Colors.white,
                                 ),
-                                onPressed: () {
-                                },
+                                onPressed: () {},
                               ),
                             ),
                           )
