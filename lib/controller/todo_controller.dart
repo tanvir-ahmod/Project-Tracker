@@ -26,6 +26,7 @@ class TodoController extends GetxController {
   CheckList? editedCheckList;
   DateTime? selectedDate;
   var dateTimeText = "----".obs;
+  var showDateTimeRemoveIcon = false.obs;
 
   @override
   void onReady() {
@@ -141,5 +142,12 @@ class TodoController extends GetxController {
     dateTimeText.value = selectedDate != null
         ? DateFormat('yyyy-MM-dd').format(selectedDate!)
         : "----";
+    showDateTimeRemoveIcon.value = true;
+  }
+
+  clearSelectedDate(){
+    selectedDate = null;
+    dateTimeText.value = "----";
+    showDateTimeRemoveIcon.value = false;
   }
 }

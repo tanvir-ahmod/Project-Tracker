@@ -96,6 +96,19 @@ class AddTodoScreen extends StatelessWidget {
                             size: 24.0,
                           ),
                         ),
+                        Visibility(
+                          visible: _todoController.showDateTimeRemoveIcon.value,
+                          child: InkWell(
+                            onTap: () {
+                              _todoController.clearSelectedDate();
+                            },
+                            child: Icon(
+                              Icons.clear,
+                              size: 24.0,
+                              color: Colors.red,
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
