@@ -13,14 +13,14 @@ class ApiClient {
 
   _initializeApiClient() {
     var options = BaseOptions(
-      baseUrl: Constants.BASE_URL,
+      baseUrl: BASE_URL,
       connectTimeout: 60000,
       receiveTimeout: 60000,
     );
     _dio.options = options;
 
     _dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-      final token = GetStorage().read(Constants.TOKEN);
+      final token = GetStorage().read(TOKEN);
       options.headers["Authorization"] = "Bearer " + token;
       options.headers["Content-type"] = "application/json";
       return handler.next(options);

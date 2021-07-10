@@ -14,7 +14,7 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<LoginResponse> login(LoginRequest loginRequest) async {
     final response = await service.login(loginRequest);
     final box = GetStorage();
-    box.write(Constants.TOKEN, response.token);
+    box.write(TOKEN, response.token);
     return response;
   }
 

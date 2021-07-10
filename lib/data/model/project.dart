@@ -1,28 +1,30 @@
 import 'dart:convert';
 
-class AddTodoRequest {
-  AddTodoRequest({
+class Project {
+  Project({
     required this.checkLists,
     required this.deadline,
     required this.description,
+    this.progress,
     this.parentId,
   });
 
   List<CheckList> checkLists;
-  String deadline;
+  String? deadline;
   String description;
   int? parentId;
+  double? progress;
 
-  factory AddTodoRequest.fromRawJson(String str) =>
-      AddTodoRequest.fromJson(json.decode(str));
+  factory Project.fromRawJson(String str) => Project.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory AddTodoRequest.fromJson(Map<String, dynamic> json) => AddTodoRequest(
+  factory Project.fromJson(Map<String, dynamic> json) => Project(
         checkLists: List<CheckList>.from(
             json["checkLists"].map((x) => CheckList.fromJson(x))),
         deadline: json["deadline"],
         description: json["description"],
+        progress: json["progress"],
         parentId: json["parent_id"],
       );
 

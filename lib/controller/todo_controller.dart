@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:todo/data/model/Task.dart';
-import 'package:todo/data/model/request/add_todo_request.dart';
+import 'package:todo/data/model/project.dart';
 import 'package:todo/data/repositories/todo/todo_repository.dart';
 import 'package:get/get.dart';
 
@@ -10,7 +9,7 @@ class TodoController extends GetxController {
   var isLoading = false.obs;
   TodoRepository _todoRepository = Get.find();
 
-  List<Task> totoItems = <Task>[].obs;
+  List<Project> totoItems = <Project>[].obs;
   final checkLists = <CheckList>[].obs;
 
   var isShowAddCheckListWidget = false.obs;
@@ -31,12 +30,12 @@ class TodoController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    // getAllToDoItems();
+    getAllProjects();
   }
 
-  void getAllToDoItems() async {
+  void getAllProjects() async {
     isLoading.value = true;
-    var response = await _todoRepository.fetchAllTasks();
+    var response = await _todoRepository.fetchAllProjects();
     totoItems = response;
     update();
   }
@@ -46,13 +45,13 @@ class TodoController extends GetxController {
         ? DateFormat('yyyyMMdd').format(selectedDate!)
         : "";
 
-    AddTodoRequest addTodoRequest = new AddTodoRequest(
+    Project addTodoRequest = new Project(
         checkLists: checkLists.toList(),
         deadline: deadline,
         description: titleController.text);
     isLoading.value = true;
     try {
-      final response = await _todoRepository.insertTask(addTodoRequest);
+      final response = await _todoRepository.addProject(addTodoRequest);
       isLoading.value = false;
       Get.snackbar("Todo", response.responseMessage,
           snackPosition: SnackPosition.BOTTOM);
@@ -72,7 +71,7 @@ class TodoController extends GetxController {
     final response = await _todoRepository.deleteRowByID(id);
     Get.snackbar("Todo", response.responseMessage,
         snackPosition: SnackPosition.BOTTOM);
-    getAllToDoItems();
+    getAllProjects();
     update();
   }
 

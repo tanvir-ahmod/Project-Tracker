@@ -28,7 +28,7 @@ class AuthController extends GetxController {
     Get.snackbar("Authentication", loginResponse.responseMessage,
         snackPosition: SnackPosition.BOTTOM);
 
-    return loginResponse.responseCode == Constants.RESPONSE_OK;
+    return loginResponse.responseCode == RESPONSE_OK;
   }
 
   void logout() {

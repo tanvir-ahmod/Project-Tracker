@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:todo/data/model/Task.dart';
-import 'package:todo/data/model/request/add_todo_request.dart';
+import 'package:todo/data/model/project.dart';
 import 'package:todo/data/model/request/login_request.dart';
 import 'package:todo/data/model/request/registration_request.dart';
 import 'package:todo/data/model/response/base_response.dart';
@@ -21,7 +20,7 @@ class RemoteServiceImpl implements ApiService, AuthService {
     _apiClient.interceptors.clear();
     final data = jsonEncode(loginRequest.toJson());
     final response = await _apiClient.post('login', data: data);
-    if (response.statusCode == Constants.RESPONSE_OK) {
+    if (response.statusCode == RESPONSE_OK) {
       return LoginResponse.fromJson(response.data);
     } else {
       return loginResponseFromJson("");
@@ -44,18 +43,18 @@ class RemoteServiceImpl implements ApiService, AuthService {
   }
 
   @override
-  Future<List<Task>> fetchAllTasks() async {
+  Future<List<Project>> fetchAllProjects() async {
     final response = await _apiClient.get("getAllTodoItems");
-    if (response.statusCode == Constants.RESPONSE_OK) {
-      return List<Task>.from(response.data.map((x) => Task.fromJson(x)));
+    if (response.statusCode == RESPONSE_OK) {
+      return List<Project>.from(response.data.map((x) => Project.fromJson(x)));
     }
-    return getToDoItemResponseFromJson("");
+    return [];
   }
 
   @override
   Future<BaseResponse> deleteRowByID(int id) async {
     final response = await _apiClient.delete("deleteTodoById/$id");
-    if (response.statusCode == Constants.RESPONSE_OK) {
+    if (response.statusCode == RESPONSE_OK) {
       return BaseResponse.fromJson(response.data);
     } else {
       return baseResponseFromJson("");
@@ -63,10 +62,10 @@ class RemoteServiceImpl implements ApiService, AuthService {
   }
 
   @override
-  Future<BaseResponse> insert(AddTodoRequest addTodoRequest) async {
-    final data = addTodoRequest.toRawJson();
+  Future<BaseResponse> addProject(Project project) async {
+    final data = project.toRawJson();
     final response = await _apiClient.post("addTodo", data: data);
-    if (response.statusCode == Constants.RESPONSE_OK) {
+    if (response.statusCode == RESPONSE_OK) {
       return BaseResponse.fromJson(response.data);
     } else {
       return baseResponseFromJson("");

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:todo/controller/auth_controller.dart';
 import 'package:todo/controller/todo_controller.dart';
 import 'package:get/get.dart';
@@ -63,22 +64,40 @@ class MyHomePage extends StatelessWidget {
                               BorderSide(color: Colors.grey[200]!, width: 0.5),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        color: Colors.white,
-                        child: ListTile(
-                          title: Text(
-                            _dx.totoItems[index].taskName,
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.w500,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(_dx.totoItems[index].description),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: LinearPercentIndicator(
+                                    lineHeight: 10.0,
+                                    percent: _dx.totoItems[index].progress !=
+                                            null
+                                        ? _dx.totoItems[index].progress! / 100
+                                        : 0.0,
+                                    backgroundColor: Colors.grey,
+                                    progressColor: Colors.green,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Expanded(child: Text("Deadline")),
+                                      Text(_dx.totoItems[index].deadline ?? ""),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
-                          ),
-                          trailing: IconButton(
-                            icon: Icon(
-                              Icons.delete,
-                              size: 40,
-                            ),
-                            onPressed: () =>
-                                {_promptRemoveDialog(_dx.totoItems[index].id!)},
                           ),
                         ));
                   }),
