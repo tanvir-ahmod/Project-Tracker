@@ -9,7 +9,7 @@ class TodoController extends GetxController {
   var isLoading = false.obs;
   TodoRepository _todoRepository = Get.find();
 
-  List<Project> totoItems = <Project>[].obs;
+  var projects = <Project>[].obs;
   final checkLists = <CheckList>[].obs;
 
   var isShowAddCheckListWidget = false.obs;
@@ -30,9 +30,8 @@ class TodoController extends GetxController {
   void getAllProjects() async {
     isLoading.value = true;
     var response = await _todoRepository.fetchAllProjects();
-    totoItems = response;
+    projects.assignAll(response);
     isLoading.value = false;
-    update();
   }
 
   void insertTodo() async {
@@ -55,16 +54,19 @@ class TodoController extends GetxController {
     }
     Future.delayed(const Duration(milliseconds: 1000), () {
       Get.back(closeOverlays: true);
-      // Get.delete<TodoController>();
     });
     getAllProjects();
     update();
   }
 
-  void deleteTodoById(int id) async {
-    final response = await _todoRepository.deleteRowByID(id);
+  void deleteTodoById(int index) async {
+    isLoading.value = true;
+    final response = await _todoRepository.deleteRowByID(projects[index].id!);
+    isLoading.value = false;
     Get.snackbar("Todo", response.responseMessage,
         snackPosition: SnackPosition.BOTTOM);
+    projects.removeAt(index);
+    projects.refresh();
   }
 
   saveCheckList() {

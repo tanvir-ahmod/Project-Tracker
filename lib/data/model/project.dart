@@ -7,6 +7,7 @@ class Project {
     required this.description,
     this.progress,
     this.parentId,
+    this.id,
   });
 
   List<CheckList> checkLists;
@@ -14,6 +15,7 @@ class Project {
   String description;
   int? parentId;
   double? progress;
+  int? id;
 
   factory Project.fromRawJson(String str) => Project.fromJson(json.decode(str));
 
@@ -26,6 +28,7 @@ class Project {
         description: json["description"],
         progress: json["progress"],
         parentId: json["parent_id"],
+        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
