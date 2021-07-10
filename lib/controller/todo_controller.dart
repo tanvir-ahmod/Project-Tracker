@@ -27,22 +27,17 @@ class TodoController extends GetxController {
   var dateTimeText = "----".obs;
   var showDateTimeRemoveIcon = false.obs;
 
-  @override
-  void onReady() {
-    super.onReady();
-    getAllProjects();
-  }
-
   void getAllProjects() async {
     isLoading.value = true;
     var response = await _todoRepository.fetchAllProjects();
     totoItems = response;
+    isLoading.value = false;
     update();
   }
 
   void insertTodo() async {
     String deadline = selectedDate != null
-        ? DateFormat('yyyyMMdd').format(selectedDate!)
+        ? DateFormat('yyyy-MM-dd').format(selectedDate!)
         : "";
 
     Project addTodoRequest = new Project(
@@ -60,19 +55,16 @@ class TodoController extends GetxController {
     }
     Future.delayed(const Duration(milliseconds: 1000), () {
       Get.back(closeOverlays: true);
-      Get.delete<TodoController>();
+      // Get.delete<TodoController>();
     });
-
-    // getAllToDoItems();
-    // update();
+    getAllProjects();
+    update();
   }
 
   void deleteTodoById(int id) async {
     final response = await _todoRepository.deleteRowByID(id);
     Get.snackbar("Todo", response.responseMessage,
         snackPosition: SnackPosition.BOTTOM);
-    getAllProjects();
-    update();
   }
 
   saveCheckList() {
@@ -148,5 +140,12 @@ class TodoController extends GetxController {
     selectedDate = null;
     dateTimeText.value = "----";
     showDateTimeRemoveIcon.value = false;
+  }
+
+  clearCache() {
+    titleController.text = "";
+    checkLists.clear();
+    clearSelectedDate();
+    progress.value = 0.0;
   }
 }

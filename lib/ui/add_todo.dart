@@ -12,6 +12,7 @@ class AddTodoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _todoController.clearCache();
     return Obx(() => _todoController.isLoading.value
         ? Loading()
         : Scaffold(

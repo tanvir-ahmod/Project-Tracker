@@ -8,8 +8,14 @@ import 'package:get/get.dart';
 import 'add_todo.dart';
 import 'login_ui.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   final AuthController _authController = Get.find();
+
   final TodoController _todoController = Get.find();
 
   @override
@@ -36,10 +42,9 @@ class MyHomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: _buildTaskList(),
+      body: _buildTaskList(context),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.delete<TodoController>();
           Get.to(() => AddTodoScreen());
         },
         tooltip: "Add Task",
@@ -48,153 +53,66 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildTaskList() {
-    return SafeArea(
-      child: Column(
-        children: [
-          Expanded(
-            flex: 8,
-            child: GetBuilder<TodoController>(
-              builder: (_dx) => ListView.builder(
-                  itemCount: _dx.totoItems.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                        shape: RoundedRectangleBorder(
-                          side:
-                              BorderSide(color: Colors.grey[200]!, width: 0.5),
-                          borderRadius: BorderRadius.circular(5),
+  Widget _buildTaskList(BuildContext context) {
+    return GetBuilder<TodoController>(
+      builder: (_dx) => GridView.builder(
+          itemCount: _dx.totoItems.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 2.0,
+            mainAxisSpacing: 2.0,
+            childAspectRatio: MediaQuery.of(context).size.width /
+                (MediaQuery.of(context).size.height / 3),
+          ),
+          itemBuilder: (context, index) {
+            return Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(_dx.totoItems[index].description),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                        child: LinearPercentIndicator(
+                          lineHeight: 4.0,
+                          percent: _dx.totoItems[index].progress != null
+                              ? _dx.totoItems[index].progress! / 100
+                              : 0.0,
+                          backgroundColor: Colors.grey,
+                          progressColor: Colors.green,
                         ),
+                      ),
+                      Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(_dx.totoItems[index].description),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: LinearPercentIndicator(
-                                    lineHeight: 10.0,
-                                    percent: _dx.totoItems[index].progress !=
-                                            null
-                                        ? _dx.totoItems[index].progress! / 100
-                                        : 0.0,
-                                    backgroundColor: Colors.grey,
-                                    progressColor: Colors.green,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(child: Text("Deadline")),
-                                      Text(_dx.totoItems[index].deadline ?? ""),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Deadline",
+                                  style: Theme.of(context).textTheme.caption!),
+                              Text(_dx.totoItems[index].deadline ?? "",
+                                  style: Theme.of(context).textTheme.caption!),
+                            ],
                           ),
-                        ));
-                  }),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showAddTodoSheet(BuildContext context) {
-    final _todoDescriptionFormController = TextEditingController();
-    showModalBottomSheet(
-        context: context,
-        builder: (builder) {
-          return new Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: new Container(
-              color: Colors.transparent,
-              child: new Container(
-                height: 230,
-                decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: new BorderRadius.only(
-                        topLeft: const Radius.circular(10.0),
-                        topRight: const Radius.circular(10.0))),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: 15, top: 25.0, right: 15, bottom: 30),
-                  child: ListView(
-                    children: <Widget>[
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: TextFormField(
-                              controller: _todoDescriptionFormController,
-                              textInputAction: TextInputAction.newline,
-                              maxLines: 4,
-                              style: TextStyle(
-                                  fontSize: 21, fontWeight: FontWeight.w400),
-                              autofocus: true,
-                              decoration: const InputDecoration(
-                                  hintText: 'I have to...',
-                                  labelText: 'New Task',
-                                  labelStyle: TextStyle(
-                                      color: Colors.indigoAccent,
-                                      fontWeight: FontWeight.w500)),
-                              validator: (String? value) {
-                                if (value!.isEmpty) {
-                                  return 'Empty description!';
-                                }
-                                return value.contains('')
-                                    ? 'Do not use the @ char.'
-                                    : null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 5, top: 15),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.indigoAccent,
-                              radius: 18,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.save,
-                                  size: 22,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {},
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                      )
                     ],
                   ),
                 ),
               ),
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
 
-  void _promptRemoveDialog(int id) async {
-    Get.defaultDialog(
-        title: "Remove",
-        middleText: "Do you want to remove this task?",
-        textConfirm: "Confirm",
-        textCancel: "Cancel",
-        barrierDismissible: false,
-        radius: 50,
-        onConfirm: () {
-          _todoController.deleteTodoById(id);
-          Get.back();
-        });
+  @override
+  void initState() {
+    _todoController.getAllProjects();
+    super.initState();
   }
 }
