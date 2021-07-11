@@ -45,7 +45,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-            body: _showProjects(context),
+            body: GridView.builder(
+              itemCount: _todoController.projects.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 2.0,
+                mainAxisSpacing: 2.0,
+                childAspectRatio: MediaQuery.of(context).size.width /
+                    (MediaQuery.of(context).size.height / 3),
+              ),
+              itemBuilder: (context, index) {
+                return ProjectInfoCard(
+                  title: _getProjectTitle(
+                      _todoController.projects[index].description),
+                  deadline: _todoController.projects[index].deadline ?? "----",
+                  progress: _todoController.projects[index].progress != null
+                      ? _todoController.projects[index].progress! / 100
+                      : 0.0,
+                  projectId: _todoController.projects[index].id!,
+                  onDeleteClicked: _todoController.deleteTodoById,
+                );
+              },
+            ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 Get.to(() => AddTodoScreen());
@@ -54,30 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Icon(Icons.add),
             ),
           ));
-  }
-
-  Widget _showProjects(BuildContext context) {
-    return GridView.builder(
-      itemCount: _todoController.projects.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 2.0,
-        mainAxisSpacing: 2.0,
-        childAspectRatio: MediaQuery.of(context).size.width /
-            (MediaQuery.of(context).size.height / 3),
-      ),
-      itemBuilder: (context, index) {
-        return ProjectInfoCard(
-          title: _getProjectTitle(_todoController.projects[index].description),
-          deadline: _todoController.projects[index].deadline ?? "----",
-          progress: _todoController.projects[index].progress != null
-              ? _todoController.projects[index].progress! / 100
-              : 0.0,
-          projectId: _todoController.projects[index].id!,
-          onDeleteClicked: _todoController.deleteTodoById,
-        );
-      },
-    );
   }
 
   @override
