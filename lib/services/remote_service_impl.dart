@@ -71,4 +71,13 @@ class RemoteServiceImpl implements ApiService, AuthService {
       return baseResponseFromJson("");
     }
   }
+
+  @override
+  Future<List<Project>> fetchSubProjectsById(int id) async {
+    final response = await _apiClient.get("getTodoSubItemsByParentId/$id");
+    if (response.statusCode == RESPONSE_OK) {
+      return List<Project>.from(response.data.map((x) => Project.fromJson(x)));
+    }
+    return [];
+  }
 }

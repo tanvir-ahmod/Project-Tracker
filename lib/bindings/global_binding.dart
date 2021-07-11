@@ -1,5 +1,6 @@
 import 'package:todo/controller/auth_controller.dart';
 import 'package:todo/controller/todo_controller.dart';
+import 'package:todo/controller/view_projects_controller.dart';
 import 'package:todo/data/repositories/auth/auth_repository.dart';
 import 'package:todo/data/repositories/auth/auth_repository_impl.dart';
 import 'package:todo/data/repositories/todo/todo_repository.dart';
@@ -18,5 +19,7 @@ class GlobalBinding extends Bindings {
     Get.lazyPut<TodoRepository>(() => TodoRepositoryImpl(), fenix: true);
     Get.lazyPut<AuthService>(() => RemoteServiceImpl(), fenix: true);
     Get.lazyPut<ApiService>(() => RemoteServiceImpl(), fenix: true);
+    Get.lazyPut<ViewProjectController>(() => ViewProjectController(),
+        fenix: true);
   }
 }

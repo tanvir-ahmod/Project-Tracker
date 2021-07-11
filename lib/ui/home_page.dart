@@ -4,6 +4,7 @@ import 'package:todo/controller/auth_controller.dart';
 import 'package:todo/controller/todo_controller.dart';
 import 'package:get/get.dart';
 import 'package:todo/ui/projects/components/project_info_card.dart';
+import 'package:todo/ui/projects/view_project.dart';
 
 import 'projects/add_project.dart';
 import 'loading.dart';
@@ -55,15 +56,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     (MediaQuery.of(context).size.height / 3),
               ),
               itemBuilder: (context, index) {
-                return ProjectInfoCard(
-                  title: _getProjectTitle(
-                      _todoController.projects[index].description),
-                  deadline: _todoController.projects[index].deadline ?? "----",
-                  progress: _todoController.projects[index].progress != null
-                      ? _todoController.projects[index].progress! / 100
-                      : 0.0,
-                  projectId: _todoController.projects[index].id!,
-                  onDeleteClicked: _todoController.deleteTodoById,
+                return InkWell(
+                  onTap: (){
+                    Get.to(() => ViewProject(), arguments: _todoController.projects[index]);
+                  },
+                  child: ProjectInfoCard(
+                    project: _todoController.projects[index],
+                    onDeleteClicked: _todoController.deleteTodoById,
+                  ),
                 );
               },
             ),
@@ -83,8 +83,5 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  String _getProjectTitle(String originalText) {
-    if (originalText.length > 15) return originalText.substring(0, 15) + "...";
-    return originalText;
-  }
+
 }

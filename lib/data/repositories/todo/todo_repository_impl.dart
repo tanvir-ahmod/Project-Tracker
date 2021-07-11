@@ -16,4 +16,8 @@ class TodoRepositoryImpl extends TodoRepository {
 
   @override
   Future<BaseResponse> deleteRowByID(int id) => _service.deleteRowByID(id);
+
+  @override
+  Future<List<Project>> fetchSubProjectsById(int id) =>
+      _service.fetchSubProjectsById(id);
 }

@@ -2,20 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:todo/data/model/project.dart';
 
 class ProjectInfoCard extends StatelessWidget {
-  final String title;
-  final double progress;
-  final String deadline;
-  final int projectId;
   final Function onDeleteClicked;
 
-  ProjectInfoCard(
-      {required this.title,
-      required this.projectId,
-      required this.progress,
-      required this.deadline,
-      required this.onDeleteClicked});
+  final Project project;
+
+  ProjectInfoCard({required this.project, required this.onDeleteClicked});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +25,7 @@ class ProjectInfoCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(title),
+                    Text(_getProjectTitle(project.description)),
                     GestureDetector(
                         onTapDown: (TapDownDetails details) {
                           _showPopupMenu(details, context);
@@ -44,7 +38,8 @@ class ProjectInfoCard extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: LinearPercentIndicator(
                   lineHeight: 4.0,
-                  percent: progress,
+                  percent:
+                      project.progress != null ? project.progress! / 100 : 0.0,
                   backgroundColor: Colors.grey,
                   progressColor: Colors.green,
                 ),
@@ -57,7 +52,7 @@ class ProjectInfoCard extends StatelessWidget {
                     children: [
                       Text("Deadline",
                           style: Theme.of(context).textTheme.caption!),
-                      Text(deadline),
+                      Text(project.deadline ?? "----"),
                     ],
                   ),
                 ),
@@ -81,7 +76,7 @@ class ProjectInfoCard extends StatelessWidget {
         PopupMenuItem(
           child: InkWell(
               onTap: () {
-                onDeleteClicked(projectId);
+                onDeleteClicked(project.id);
                 Get.back();
               },
               child: Text("Delete")),
@@ -91,5 +86,10 @@ class ProjectInfoCard extends StatelessWidget {
       position: RelativeRect.fromRect(
           tapDownDetails.globalPosition & Size(40, 40), overlay!.paintBounds),
     );
+  }
+
+  String _getProjectTitle(String originalText) {
+    if (originalText.length > 15) return originalText.substring(0, 15) + "...";
+    return originalText;
   }
 }

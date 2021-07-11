@@ -8,4 +8,6 @@ abstract class TodoRepository {
 
   Future<BaseResponse> deleteRowByID(int id);
 
+  Future<List<Project>> fetchSubProjectsById(int id);
+
 }
