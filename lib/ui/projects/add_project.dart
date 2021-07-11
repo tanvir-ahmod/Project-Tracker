@@ -17,7 +17,7 @@ class AddTodoScreen extends StatelessWidget {
         ? Loading()
         : Scaffold(
             appBar: AppBar(
-              title: Text("Add Todo"),
+              title: Text("Add Project"),
               actions: [
                 Padding(
                     padding: EdgeInsets.only(right: 20.0),

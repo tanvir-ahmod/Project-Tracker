@@ -59,13 +59,14 @@ class TodoController extends GetxController {
     update();
   }
 
-  void deleteTodoById(int index) async {
+  void deleteTodoById(int id) async {
     isLoading.value = true;
-    final response = await _todoRepository.deleteRowByID(projects[index].id!);
+    final response = await _todoRepository.deleteRowByID(id);
     isLoading.value = false;
     Get.snackbar("Todo", response.responseMessage,
         snackPosition: SnackPosition.BOTTOM);
-    projects.removeAt(index);
+    Project project = projects.where((p) => p.id == id).first;
+    projects.removeAt(projects.indexOf(project));
     projects.refresh();
   }
 
