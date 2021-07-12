@@ -80,4 +80,15 @@ class RemoteServiceImpl implements ApiService, AuthService {
     }
     return [];
   }
+
+  @override
+  Future<BaseResponse> updateProject(Project project) async{
+    final data = project.toRawJson();
+    final response = await _apiClient.post("updateTodo", data: data);
+    if (response.statusCode == RESPONSE_OK) {
+      return BaseResponse.fromJson(response.data);
+    } else {
+      return baseResponseFromJson("");
+    }
+  }
 }

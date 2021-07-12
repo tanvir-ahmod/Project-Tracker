@@ -36,6 +36,7 @@ class Project {
         "deadline": deadline,
         "description": description,
         "parent_id": parentId,
+        "id": id,
       };
 }
 

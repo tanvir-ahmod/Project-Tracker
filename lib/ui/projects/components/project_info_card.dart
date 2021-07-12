@@ -4,12 +4,18 @@ import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:todo/data/model/project.dart';
 
+typedef OnEditClicked = void Function(Project project);
+
 class ProjectInfoCard extends StatelessWidget {
   final Function onDeleteClicked;
+  final OnEditClicked onEditClicked;
 
   final Project project;
 
-  ProjectInfoCard({required this.project, required this.onDeleteClicked});
+  ProjectInfoCard(
+      {required this.project,
+      required this.onDeleteClicked,
+      required this.onEditClicked});
 
   @override
   Widget build(BuildContext context) {
@@ -67,24 +73,27 @@ class ProjectInfoCard extends StatelessWidget {
   _showPopupMenu(TapDownDetails tapDownDetails, BuildContext context) async {
     final RenderObject? overlay =
         Overlay.of(context)?.context.findRenderObject();
-    await showMenu(
+    var selected = await showMenu(
       context: context,
       items: [
         PopupMenuItem(
           child: Text("Edit"),
+          value: 1,
         ),
         PopupMenuItem(
-          child: InkWell(
-              onTap: () {
-                _showConfirmationDialog();
-              },
-              child: Text("Delete")),
+          child: Text("Delete"),
+          value: 2,
         ),
       ],
       elevation: 8.0,
       position: RelativeRect.fromRect(
           tapDownDetails.globalPosition & Size(40, 40), overlay!.paintBounds),
     );
+
+    if (selected == 1) {
+      onEditClicked(project);
+    } else
+      _showConfirmationDialog();
   }
 
   String _getProjectTitle(String originalText) {

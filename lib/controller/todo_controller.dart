@@ -26,6 +26,9 @@ class TodoController extends GetxController {
   DateTime? selectedDate;
   var dateTimeText = "----".obs;
   var showDateTimeRemoveIcon = false.obs;
+  var isEditable = false.obs;
+
+  var project = Project(checkLists: [], deadline: null, description: "").obs;
 
   void getAllProjects() async {
     isLoading.value = true;
@@ -34,25 +37,34 @@ class TodoController extends GetxController {
     isLoading.value = false;
   }
 
-  void insertTodo() async {
+  void addOrModifyProject() async {
     String deadline = selectedDate != null
         ? DateFormat('yyyy-MM-dd').format(selectedDate!)
         : "";
-
-    Project addTodoRequest = new Project(
-        checkLists: checkLists.toList(),
-        deadline: deadline,
-        description: titleController.text);
+    late Project tempProject;
+    if (isEditable.value) {
+      tempProject = project.value;
+      tempProject.checkLists.assignAll(checkLists);
+      tempProject.deadline = deadline;
+      tempProject.description = titleController.text;
+    } else {
+      tempProject = new Project(
+          checkLists: checkLists.toList(),
+          deadline: deadline,
+          description: titleController.text);
+    }
     isLoading.value = true;
     try {
-      final response = await _todoRepository.addProject(addTodoRequest);
+      final response = isEditable.value
+          ? await _todoRepository.updateProject(tempProject)
+          : await _todoRepository.addProject(tempProject);
       isLoading.value = false;
       Get.snackbar("Todo", response.responseMessage,
           snackPosition: SnackPosition.BOTTOM);
     } on DioError {
       isLoading.value = false;
     }
-    Future.delayed(const Duration(milliseconds: 1000), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       Get.back(closeOverlays: true);
     });
     getAllProjects();
@@ -151,5 +163,18 @@ class TodoController extends GetxController {
     checkLists.clear();
     clearSelectedDate();
     progress.value = 0.0;
+    isEditable.value = false;
+  }
+
+  setProjectToEdit(Project? project) {
+    if (project != null) {
+      isEditable.value = true;
+      this.project.value = project;
+      this.checkLists.assignAll(project.checkLists);
+      titleController.text = project.description;
+      if (project.deadline != null)
+        setSelectedDate(DateFormat('yyyy-MM-dd').parse(project.deadline!));
+      updateProgress();
+    }
   }
 }

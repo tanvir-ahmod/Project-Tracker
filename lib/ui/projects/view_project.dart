@@ -9,6 +9,7 @@ import 'package:todo/data/model/project.dart';
 import 'package:todo/ui/projects/components/project_info_card.dart';
 
 import '../loading.dart';
+import 'add_project.dart';
 
 class ViewProject extends StatefulWidget {
   @override
@@ -36,6 +37,15 @@ class _ViewProjectState extends State<ViewProject> {
             appBar: AppBar(
               title: Text("View project"),
               actions: [
+                Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: GestureDetector(
+                      onTap: () => _onEditClicked(_viewProjectController.project.value),
+                      child: Icon(
+                        Icons.edit,
+                        size: 26.0,
+                      ),
+                    )), 
                 Padding(
                     padding: EdgeInsets.only(right: 20.0),
                     child: GestureDetector(
@@ -236,10 +246,12 @@ class _ViewProjectState extends State<ViewProject> {
                                                           .subProjects[index]);
                                             },
                                             child: ProjectInfoCard(
-                                                project: _viewProjectController
-                                                    .subProjects[index],
-                                                onDeleteClicked: _todoController
-                                                    .deleteTodoById),
+                                              project: _viewProjectController
+                                                  .subProjects[index],
+                                              onDeleteClicked: _todoController
+                                                  .deleteTodoById,
+                                              onEditClicked: _onEditClicked,
+                                            ),
                                           ),
                                         );
                                       }),
@@ -273,7 +285,6 @@ class _ViewProjectState extends State<ViewProject> {
         ),
         confirm: TextButton(
           onPressed: () {
-
             _todoController
                 .deleteTodoById(_viewProjectController.project.value.id!)
                 .then((isDelete) {
@@ -290,5 +301,9 @@ class _ViewProjectState extends State<ViewProject> {
             style: TextStyle(color: Colors.red),
           ),
         ));
+  }
+
+  void _onEditClicked(Project project) {
+    Get.to(() => AddTodoScreen(), arguments: project);
   }
 }

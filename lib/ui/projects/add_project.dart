@@ -5,19 +5,24 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:todo/controller/todo_controller.dart';
+import 'package:todo/data/model/project.dart';
 import 'package:todo/ui/loading.dart';
 
 class AddTodoScreen extends StatelessWidget {
   TodoController _todoController = Get.find();
+  Project? project = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
     _todoController.clearCache();
+    _todoController.setProjectToEdit(project);
     return Obx(() => _todoController.isLoading.value
         ? Loading()
         : Scaffold(
             appBar: AppBar(
-              title: Text("Add Project"),
+              title: Text(_todoController.isEditable.value
+                  ? "Edit Project"
+                  : "Add Project"),
               actions: [
                 Padding(
                     padding: EdgeInsets.only(right: 20.0),
@@ -25,7 +30,7 @@ class AddTodoScreen extends StatelessWidget {
                       onTap: () {
                         if (_todoController.titleController.text.isNotEmpty) {
                           _todoController.isTitleValidated.value = true;
-                          _todoController.insertTodo();
+                          _todoController.addOrModifyProject();
                         } else
                           _todoController.isTitleValidated.value = false;
                       },

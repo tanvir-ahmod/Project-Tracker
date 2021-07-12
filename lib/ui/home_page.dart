@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:todo/controller/auth_controller.dart';
 import 'package:todo/controller/todo_controller.dart';
 import 'package:get/get.dart';
+import 'package:todo/data/model/project.dart';
 import 'package:todo/ui/projects/components/project_info_card.dart';
 import 'package:todo/ui/projects/view_project.dart';
 
@@ -57,12 +58,14 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: (){
-                    Get.to(() => ViewProject(), arguments: _todoController.projects[index]);
+                  onTap: () {
+                    Get.to(() => ViewProject(),
+                        arguments: _todoController.projects[index]);
                   },
                   child: ProjectInfoCard(
                     project: _todoController.projects[index],
                     onDeleteClicked: _todoController.deleteTodoById,
+                    onEditClicked: _onEditClicked,
                   ),
                 );
               },
@@ -83,5 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-
+  void _onEditClicked(Project project) {
+    Get.to(() => AddTodoScreen(), arguments: project);
+  }
 }
