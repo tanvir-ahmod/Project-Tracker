@@ -76,8 +76,7 @@ class ProjectInfoCard extends StatelessWidget {
         PopupMenuItem(
           child: InkWell(
               onTap: () {
-                onDeleteClicked(project.id);
-                Get.back();
+                _showConfirmationDialog();
               },
               child: Text("Delete")),
         ),
@@ -91,5 +90,35 @@ class ProjectInfoCard extends StatelessWidget {
   String _getProjectTitle(String originalText) {
     if (originalText.length > 15) return originalText.substring(0, 15) + "...";
     return originalText;
+  }
+
+  void _showConfirmationDialog() {
+    Get.defaultDialog(
+        title: "Delete",
+        middleText: "Do you want to delete this data?",
+        textConfirm: "Confirm",
+        cancelTextColor: Colors.black,
+        confirmTextColor: Colors.red,
+        barrierDismissible: false,
+        radius: 20,
+        cancel: TextButton(
+          onPressed: () {
+            Get.back(closeOverlays: true);
+          },
+          child: Text(
+            "Cancel",
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+        confirm: TextButton(
+          onPressed: () {
+            onDeleteClicked(project.id!);
+            Get.back(closeOverlays: true);
+          },
+          child: Text(
+            "Confirm",
+            style: TextStyle(color: Colors.red),
+          ),
+        ));
   }
 }
