@@ -112,7 +112,7 @@ class ProjectInfoCard extends StatelessWidget {
         radius: 20,
         cancel: TextButton(
           onPressed: () {
-            Get.back(closeOverlays: true);
+            Get.back();
           },
           child: Text(
             "Cancel",
@@ -122,7 +122,7 @@ class ProjectInfoCard extends StatelessWidget {
         confirm: TextButton(
           onPressed: () {
             onDeleteClicked(project.id!);
-            Get.back(closeOverlays: true);
+            Get.back();
           },
           child: Text(
             "Confirm",

@@ -12,4 +12,5 @@ abstract class TodoRepository {
 
   Future<List<Project>> fetchSubProjectsById(int id);
 
+  Future<Project?> fetchProjectById(int id);
 }

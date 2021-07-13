@@ -26,4 +26,16 @@ class ViewProjectController extends GetxController {
     else
       checkListProgress.value = completedTasks / totalTasks;
   }
+
+  void removeSubItem(int id) async {
+    Project subProject = subProjects.where((project) => project.id == id).first;
+    subProject.parentId = -1;
+    isLoading.value = true;
+    await _todoRepository.updateProject(subProject);
+    Project? updatedProject = await _todoRepository.fetchProjectById(id);
+    if (updatedProject != null) project.value = updatedProject;
+    subProjects.remove(subProject);
+    subProjects.refresh();
+    isLoading.value = false;
+  }
 }

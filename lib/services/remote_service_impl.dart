@@ -82,7 +82,7 @@ class RemoteServiceImpl implements ApiService, AuthService {
   }
 
   @override
-  Future<BaseResponse> updateProject(Project project) async{
+  Future<BaseResponse> updateProject(Project project) async {
     final data = project.toRawJson();
     final response = await _apiClient.post("updateTodo", data: data);
     if (response.statusCode == RESPONSE_OK) {
@@ -90,5 +90,14 @@ class RemoteServiceImpl implements ApiService, AuthService {
     } else {
       return baseResponseFromJson("");
     }
+  }
+
+  @override
+  Future<Project?> fetchProjectById(int id) async {
+    final response = await _apiClient.get("getTodoItemById/$id");
+    if (response.statusCode == RESPONSE_OK) {
+      return Project.fromJson(response.data);
+    }
+    return null;
   }
 }

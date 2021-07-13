@@ -23,4 +23,7 @@ class TodoRepositoryImpl extends TodoRepository {
 
   @override
   Future<BaseResponse> updateProject(Project project) =>_service.updateProject(project);
+
+  @override
+  Future<Project?> fetchProjectById(int id) => _service.fetchProjectById(id);
 }

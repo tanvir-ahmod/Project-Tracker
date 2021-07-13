@@ -248,8 +248,7 @@ class _ViewProjectState extends State<ViewProject> {
                                             child: ProjectInfoCard(
                                               project: _viewProjectController
                                                   .subProjects[index],
-                                              onDeleteClicked: _todoController
-                                                  .deleteTodoById,
+                                              onDeleteClicked: _removeSubItem,
                                               onEditClicked: _onEditClicked,
                                             ),
                                           ),
@@ -305,5 +304,9 @@ class _ViewProjectState extends State<ViewProject> {
 
   void _onEditClicked(Project project) {
     Get.to(() => AddTodoScreen(), arguments: project);
+  }
+
+  void _removeSubItem(int projectId){
+    _viewProjectController.removeSubItem(projectId);
   }
 }
