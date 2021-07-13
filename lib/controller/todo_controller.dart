@@ -68,7 +68,6 @@ class TodoController extends GetxController {
       Get.back(closeOverlays: true);
     });
     getAllProjects();
-    update();
   }
 
   Future<bool> deleteTodoById(int id) async {
