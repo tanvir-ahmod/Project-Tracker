@@ -48,4 +48,18 @@ class ViewProjectController extends GetxController {
     subProjectsToAdd.assignAll(items);
     isSubProjectsToAddLoading.value = false;
   }
+
+  Future<void> setAsSubProject(Project subProject) async {
+    isSubProjectsToAddLoading.value = true;
+    subProject.parentId = project.value.id!;
+    await _todoRepository.updateProject(subProject);
+    Project? updatedProject =
+        await _todoRepository.fetchProjectById(project.value.id!);
+    if (updatedProject != null) {
+      setProject(updatedProject);
+    }
+    subProjects.add(subProject);
+    subProjects.refresh();
+    isSubProjectsToAddLoading.value = false;
+  }
 }

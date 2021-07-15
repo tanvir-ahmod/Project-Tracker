@@ -221,78 +221,73 @@ class _ViewProjectState extends State<ViewProject> {
                             child: CircularProgressIndicator(),
                           ),
                         )
-                      : Visibility(
-                          visible:
-                              _viewProjectController.subProjects.length != 0,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Divider(
-                                height: 10,
-                                thickness: 2,
-                                indent: 20,
-                                endIndent: 20,
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Divider(
+                              height: 10,
+                              thickness: 2,
+                              indent: 20,
+                              endIndent: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Dependent projects",
+                                      style: GoogleFonts.nunito(
+                                          textStyle: TextStyle(fontSize: 18)),
+                                      textAlign: TextAlign.center),
+                                  TextButton(
+                                      onPressed: () {
+                                        _showSubProjectAddDialog();
+                                      },
+                                      child: Text("+Add new"))
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("Dependent projects",
-                                        style: GoogleFonts.nunito(
-                                            textStyle: TextStyle(fontSize: 18)),
-                                        textAlign: TextAlign.center),
-                                    TextButton(
-                                        onPressed: () {
-                                          _showSubProjectAddDialog();
-                                        },
-                                        child: Text("+Add new"))
-                                  ],
-                                ),
+                            ),
+                            Visibility(
+                              visible: _viewProjectController
+                                  .isSubProjectsToAddLoading.value,
+                              child: Center(
+                                child: CircularProgressIndicator(),
                               ),
-                              Visibility(
-                                visible: _viewProjectController
-                                    .isSubProjectsToAddLoading.value,
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 150,
-                                  child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: _viewProjectController
-                                          .subProjects.length,
-                                      itemBuilder: (context, index) {
-                                        return SizedBox(
-                                          height: 40,
-                                          width: 200,
-                                          child: InkWell(
-                                            onTap: () {
-                                              Get.delete<
-                                                  ViewProjectController>();
-                                              Get.to(ViewProject(),
-                                                  arguments:
-                                                      _viewProjectController
-                                                          .subProjects[index]);
-                                            },
-                                            child: ProjectInfoCard(
-                                              project: _viewProjectController
-                                                  .subProjects[index],
-                                              onDeleteClicked: _removeSubItem,
-                                              onEditClicked: _onEditClicked,
-                                            ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                height: 150,
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: _viewProjectController
+                                        .subProjects.length,
+                                    itemBuilder: (context, index) {
+                                      return SizedBox(
+                                        height: 40,
+                                        width: 200,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.delete<ViewProjectController>();
+                                            Get.to(ViewProject(),
+                                                arguments:
+                                                    _viewProjectController
+                                                        .subProjects[index]);
+                                          },
+                                          child: ProjectInfoCard(
+                                            project: _viewProjectController
+                                                .subProjects[index],
+                                            onDeleteClicked: _removeSubItem,
+                                            onEditClicked: _onEditClicked,
                                           ),
-                                        );
-                                      }),
-                                ),
+                                        ),
+                                      );
+                                    }),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                 ],
               ),
@@ -360,8 +355,10 @@ class _ViewProjectState extends State<ViewProject> {
                 height: 150.0, // Change as per your requirement
                 width: 100.0,
                 child: InkWell(
-                  onTap: () {
-
+                  onTap: () async {
+                    await _viewProjectController.setAsSubProject(
+                        _viewProjectController.subProjectsToAdd[index]);
+                    Get.back();
                   },
                   child: ProjectInfoCard(
                       project: _viewProjectController.subProjectsToAdd[index]),
