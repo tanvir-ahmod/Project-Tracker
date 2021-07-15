@@ -14,6 +14,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _email.text = "test@gmail.com";
+    _pass.text = "password";
     return Obx(() {
       return Scaffold(
           backgroundColor: Colors.white,
@@ -92,7 +94,8 @@ class LoginScreen extends StatelessWidget {
                         var isAuthenticated =
                             await authController.login(_email.text, _pass.text);
                         if (isAuthenticated) {
-                          Future.delayed(const Duration(milliseconds: 1500), () {
+                          Future.delayed(const Duration(milliseconds: 1500),
+                              () {
                             Get.offAll(() => MyHomePage());
                           });
                         }

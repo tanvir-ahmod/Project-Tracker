@@ -100,4 +100,13 @@ class RemoteServiceImpl implements ApiService, AuthService {
     }
     return null;
   }
+
+  @override
+  Future<List<Project>> fetchSubProjectsToAdd(int id) async {
+    final response = await _apiClient.get("getSubProjectsToAdd/$id");
+    if (response.statusCode == RESPONSE_OK) {
+      return List<Project>.from(response.data.map((x) => Project.fromJson(x)));
+    }
+    return [];
+  }
 }

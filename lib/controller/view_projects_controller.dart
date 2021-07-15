@@ -5,7 +5,9 @@ import 'package:todo/data/repositories/todo/todo_repository.dart';
 class ViewProjectController extends GetxController {
   final TodoRepository _todoRepository = Get.find();
   var subProjects = <Project>[].obs;
+  var subProjectsToAdd = <Project>[].obs;
   var isLoading = false.obs;
+  var isSubProjectsToAddLoading = false.obs;
   var project = Project(checkLists: [], deadline: null, description: "").obs;
   var checkListProgress = 0.0.obs;
 
@@ -37,5 +39,13 @@ class ViewProjectController extends GetxController {
     subProjects.remove(subProject);
     subProjects.refresh();
     isLoading.value = false;
+  }
+
+  Future<void> showSubProjectsToAdd() async {
+    isSubProjectsToAddLoading.value = true;
+    final items =
+        await _todoRepository.fetchSubProjectsToAdd(project.value.id!);
+    subProjectsToAdd.assignAll(items);
+    isSubProjectsToAddLoading.value = false;
   }
 }

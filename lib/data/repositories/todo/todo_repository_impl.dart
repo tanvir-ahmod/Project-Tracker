@@ -26,4 +26,7 @@ class TodoRepositoryImpl extends TodoRepository {
 
   @override
   Future<Project?> fetchProjectById(int id) => _service.fetchProjectById(id);
+
+  @override
+  Future<List<Project>> fetchSubProjectsToAdd(int id) => _service.fetchSubProjectsToAdd(id);
 }

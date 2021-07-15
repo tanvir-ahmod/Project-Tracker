@@ -40,12 +40,13 @@ class _ViewProjectState extends State<ViewProject> {
                 Padding(
                     padding: EdgeInsets.only(right: 20.0),
                     child: GestureDetector(
-                      onTap: () => _onEditClicked(_viewProjectController.project.value),
+                      onTap: () =>
+                          _onEditClicked(_viewProjectController.project.value),
                       child: Icon(
                         Icons.edit,
                         size: 26.0,
                       ),
-                    )), 
+                    )),
                 Padding(
                     padding: EdgeInsets.only(right: 20.0),
                     child: GestureDetector(
@@ -109,25 +110,41 @@ class _ViewProjectState extends State<ViewProject> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text("Overall progress",
-                        style: GoogleFonts.nunito(
-                            textStyle: TextStyle(fontSize: 18)),
-                        textAlign: TextAlign.center),
-                  ),
-                  Center(
-                    child: CircularPercentIndicator(
-                      radius: 200.0,
-                      lineWidth: 5.0,
-                      percent: _viewProjectController.project.value.progress !=
-                              null
-                          ? _viewProjectController.project.value.progress! / 100
-                          : 0.0,
-                      center: Text(
-                        "${_viewProjectController.project.value.progress != null ? _viewProjectController.project.value.progress!.toInt() : 0}%",
-                        textAlign: TextAlign.center,
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                      progressColor: Colors.green,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Overall progress",
+                                style: GoogleFonts.nunito(
+                                    textStyle: TextStyle(fontSize: 18)),
+                                textAlign: TextAlign.center),
+                            Center(
+                              child: CircularPercentIndicator(
+                                radius: 200.0,
+                                lineWidth: 5.0,
+                                percent: _viewProjectController
+                                            .project.value.progress !=
+                                        null
+                                    ? _viewProjectController
+                                            .project.value.progress! /
+                                        100
+                                    : 0.0,
+                                center: Text(
+                                  "${_viewProjectController.project.value.progress != null ? _viewProjectController.project.value.progress!.toInt() : 0}%",
+                                  textAlign: TextAlign.center,
+                                ),
+                                progressColor: Colors.green,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                   Visibility(
@@ -218,10 +235,28 @@ class _ViewProjectState extends State<ViewProject> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(16.0),
-                                child: Text("Dependent projects",
-                                    style: GoogleFonts.nunito(
-                                        textStyle: TextStyle(fontSize: 18)),
-                                    textAlign: TextAlign.center),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Dependent projects",
+                                        style: GoogleFonts.nunito(
+                                            textStyle: TextStyle(fontSize: 18)),
+                                        textAlign: TextAlign.center),
+                                    TextButton(
+                                        onPressed: () {
+                                          _showSubProjectAddDialog();
+                                        },
+                                        child: Text("+Add new"))
+                                  ],
+                                ),
+                              ),
+                              Visibility(
+                                visible: _viewProjectController
+                                    .isSubProjectsToAddLoading.value,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -306,7 +341,34 @@ class _ViewProjectState extends State<ViewProject> {
     Get.to(() => AddTodoScreen(), arguments: project);
   }
 
-  void _removeSubItem(int projectId){
+  void _removeSubItem(int projectId) {
     _viewProjectController.removeSubItem(projectId);
+  }
+
+  void _showSubProjectAddDialog() async {
+    await _viewProjectController.showSubProjectsToAdd();
+    Get.defaultDialog(
+        title: "Click to as sub project",
+        content: Container(
+          height: 300.0, // Change as per your requirement
+          width: 300.0, // Change as per your requirement
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: _viewProjectController.subProjectsToAdd.length,
+            itemBuilder: (BuildContext context, int index) {
+              return SizedBox(
+                height: 150.0, // Change as per your requirement
+                width: 100.0,
+                child: InkWell(
+                  onTap: () {
+
+                  },
+                  child: ProjectInfoCard(
+                      project: _viewProjectController.subProjectsToAdd[index]),
+                ),
+              );
+            },
+          ),
+        ));
   }
 }

@@ -7,15 +7,13 @@ import 'package:todo/data/model/project.dart';
 typedef OnEditClicked = void Function(Project project);
 
 class ProjectInfoCard extends StatelessWidget {
-  final Function onDeleteClicked;
-  final OnEditClicked onEditClicked;
+  final Function? onDeleteClicked;
+  final OnEditClicked? onEditClicked;
 
   final Project project;
 
   ProjectInfoCard(
-      {required this.project,
-      required this.onDeleteClicked,
-      required this.onEditClicked});
+      {required this.project, this.onDeleteClicked, this.onEditClicked});
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +30,14 @@ class ProjectInfoCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(_getProjectTitle(project.description)),
-                    GestureDetector(
-                        onTapDown: (TapDownDetails details) {
-                          _showPopupMenu(details, context);
-                        },
-                        child: Icon(Icons.more_vert)),
+                    Visibility(
+                      visible: onDeleteClicked != null || onEditClicked != null,
+                      child: GestureDetector(
+                          onTapDown: (TapDownDetails details) {
+                            _showPopupMenu(details, context);
+                          },
+                          child: Icon(Icons.more_vert)),
+                    ),
                   ],
                 ),
               ),
@@ -91,7 +92,7 @@ class ProjectInfoCard extends StatelessWidget {
     );
 
     if (selected == 1) {
-      onEditClicked(project);
+      if (onEditClicked != null) onEditClicked!(project);
     } else
       _showConfirmationDialog();
   }
@@ -121,7 +122,7 @@ class ProjectInfoCard extends StatelessWidget {
         ),
         confirm: TextButton(
           onPressed: () {
-            onDeleteClicked(project.id!);
+            if (onDeleteClicked != null) onDeleteClicked!(project.id!);
             Get.back();
           },
           child: Text(

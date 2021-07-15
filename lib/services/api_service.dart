@@ -14,4 +14,6 @@ abstract class ApiService {
 
   Future<Project?> fetchProjectById(int id);
 
+  Future<List<Project>> fetchSubProjectsToAdd(int id);
+
 }
