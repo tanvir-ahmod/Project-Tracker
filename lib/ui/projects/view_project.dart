@@ -259,7 +259,7 @@ class _ViewProjectState extends State<ViewProject> {
                                 ? Container(
                                     alignment: Alignment.center,
                                     child: Image.asset(
-                                        'assets/images/no_sub_item.png',
+                                      'assets/images/no_sub_item.png',
                                     ),
                                   )
                                 : Padding(
@@ -353,6 +353,10 @@ class _ViewProjectState extends State<ViewProject> {
 
   void _showSubProjectAddDialog() async {
     await _viewProjectController.showSubProjectsToAdd();
+    if (_viewProjectController.subProjectsToAdd.isEmpty) {
+      Get.snackbar("Sub projects", "No projects to add", snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
     Get.defaultDialog(
         title: "Click to as sub project",
         content: Container(
