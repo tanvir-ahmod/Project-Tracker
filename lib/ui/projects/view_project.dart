@@ -255,38 +255,49 @@ class _ViewProjectState extends State<ViewProject> {
                                 child: CircularProgressIndicator(),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                height: 150,
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: _viewProjectController
-                                        .subProjects.length,
-                                    itemBuilder: (context, index) {
-                                      return SizedBox(
-                                        height: 40,
-                                        width: 200,
-                                        child: InkWell(
-                                          onTap: () {
-                                            Get.delete<ViewProjectController>();
-                                            Get.to(ViewProject(),
-                                                arguments:
-                                                    _viewProjectController
-                                                        .subProjects[index]);
-                                          },
-                                          child: ProjectInfoCard(
-                                            project: _viewProjectController
-                                                .subProjects[index],
-                                            onDeleteClicked: _removeSubItem,
-                                            onEditClicked: _onEditClicked,
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                              ),
-                            ),
+                            _viewProjectController.subProjects.length == 0
+                                ? Container(
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                        'assets/images/no_sub_item.png',
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      height: 150,
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: _viewProjectController
+                                              .subProjects.length,
+                                          itemBuilder: (context, index) {
+                                            return SizedBox(
+                                              height: 40,
+                                              width: 200,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Get.delete<
+                                                      ViewProjectController>();
+                                                  Get.to(ViewProject(),
+                                                      arguments:
+                                                          _viewProjectController
+                                                                  .subProjects[
+                                                              index]);
+                                                },
+                                                child: ProjectInfoCard(
+                                                  project:
+                                                      _viewProjectController
+                                                          .subProjects[index],
+                                                  onDeleteClicked:
+                                                      _removeSubItem,
+                                                  onEditClicked: _onEditClicked,
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                    ),
+                                  ),
                           ],
                         ),
                 ],
@@ -336,8 +347,8 @@ class _ViewProjectState extends State<ViewProject> {
     Get.to(() => AddTodoScreen(), arguments: project);
   }
 
-  void _removeSubItem(int projectId) {
-    _viewProjectController.removeSubItem(projectId);
+  void _removeSubItem(int subProjectId) {
+    _viewProjectController.removeSubItem(subProjectId);
   }
 
   void _showSubProjectAddDialog() async {
