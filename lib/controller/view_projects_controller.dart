@@ -29,12 +29,15 @@ class ViewProjectController extends GetxController {
       checkListProgress.value = completedTasks / totalTasks;
   }
 
-  void removeSubItem(int id) async {
-    Project subProject = subProjects.where((project) => project.id == id).first;
-    subProject.parentId = -1;
+  void removeSubItem(int subProjectId) async {
+    Project subProject =
+        subProjects.where((project) => project.id == subProjectId).first;
     isLoading.value = true;
-    await _todoRepository.updateProject(subProject);
-    Project? updatedProject = await _todoRepository.fetchProjectById(id);
+    await _todoRepository.removeParentProject(subProjectId);
+    Project? updatedProject;
+    if (subProject.parentId != null)
+      updatedProject =
+          await _todoRepository.fetchProjectById(subProject.parentId!);
     if (updatedProject != null) project.value = updatedProject;
     subProjects.remove(subProject);
     subProjects.refresh();
@@ -52,7 +55,8 @@ class ViewProjectController extends GetxController {
   Future<void> setAsSubProject(Project subProject) async {
     isSubProjectsToAddLoading.value = true;
     subProject.parentId = project.value.id!;
-    await _todoRepository.updateProject(subProject);
+    await _todoRepository.updateParentProject(
+        project.value.id!, subProject.id!);
     Project? updatedProject =
         await _todoRepository.fetchProjectById(project.value.id!);
     if (updatedProject != null) {

@@ -109,4 +109,26 @@ class RemoteServiceImpl implements ApiService, AuthService {
     }
     return [];
   }
+
+  @override
+  Future<BaseResponse> updateParentProject(
+      int parentId, int subProjectId) async {
+    final response = await _apiClient.get("updateParentId", queryParameters: {
+      'parent_id': parentId,
+      'sub_project_id': subProjectId
+    });
+    if (response.statusCode == RESPONSE_OK) {
+      return BaseResponse.fromJson(response.data);
+    }
+    return baseResponseFromJson("");
+  }
+
+  @override
+  Future<BaseResponse> removeParentProject(int subProjectId) async{
+    final response = await _apiClient.get("removeParentId/$subProjectId");
+    if (response.statusCode == RESPONSE_OK) {
+      return BaseResponse.fromJson(response.data);
+    }
+    return baseResponseFromJson("");
+  }
 }
