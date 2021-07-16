@@ -58,6 +58,9 @@ flutter:
   assets:
       - assets/images/password_setup.png
       - assets/images/default.png
+      - assets/images/no_items_found.jpeg
+      - assets/images/home_background.png
+      - assets/images/no_sub_item.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

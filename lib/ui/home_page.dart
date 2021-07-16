@@ -48,33 +48,43 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             body: RefreshIndicator(
-              onRefresh: () async {
-                return _todoController.getAllProjects();
-              },
-              child: GridView.builder(
-                itemCount: _todoController.projects.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 2.0,
-                  mainAxisSpacing: 2.0,
-                  childAspectRatio: MediaQuery.of(context).size.width /
-                      (MediaQuery.of(context).size.height / 3),
-                ),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Get.to(() => ViewProject(),
-                          arguments: _todoController.projects[index]);
-                    },
-                    child: ProjectInfoCard(
-                      project: _todoController.projects[index],
-                      onDeleteClicked: _todoController.deleteTodoById,
-                      onEditClicked: _onEditClicked,
-                    ),
-                  );
+                onRefresh: () async {
+                  return _todoController.getAllProjects();
                 },
-              ),
-            ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: _todoController.projects.length == 0
+                          ? AssetImage("assets/images/no_items_found.jpeg")
+                          : AssetImage("assets/images/home_background.png"),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  child: GridView.builder(
+                    itemCount: _todoController.projects.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 2.0,
+                      mainAxisSpacing: 2.0,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 3),
+                    ),
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Get.to(() => ViewProject(),
+                              arguments: _todoController.projects[index]);
+                        },
+                        child: ProjectInfoCard(
+                          project: _todoController.projects[index],
+                          onDeleteClicked: _todoController.deleteTodoById,
+                          onEditClicked: _onEditClicked,
+                        ),
+                      );
+                    },
+                  ),
+                )),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 Get.to(() => AddTodoScreen());
