@@ -6,6 +6,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:todo/controller/todo_controller.dart';
 import 'package:todo/controller/view_projects_controller.dart';
 import 'package:todo/data/model/project.dart';
+import 'package:todo/helpers/Constants.dart';
 import 'package:todo/ui/projects/components/project_info_card.dart';
 
 import '../loading.dart';
@@ -344,7 +345,7 @@ class _ViewProjectState extends State<ViewProject> {
   }
 
   void _onEditClicked(Project project) {
-    Get.to(() => AddTodoScreen(), arguments: project);
+    Get.to(() => AddTodoScreen(), arguments: {PROJECT: project});
   }
 
   void _removeSubItem(int subProjectId) {
@@ -354,7 +355,7 @@ class _ViewProjectState extends State<ViewProject> {
   void _showSubProjectAddDialog() async {
     await _viewProjectController.showSubProjectsToAdd();
     if (_viewProjectController.subProjectsToAdd.isEmpty) {
-      Get.snackbar("Sub projects", "No projects to add", snackPosition: SnackPosition.BOTTOM);
+      _viewProjectController.gotoAddToDoPage();
       return;
     }
     Get.defaultDialog(
@@ -362,24 +363,36 @@ class _ViewProjectState extends State<ViewProject> {
         content: Container(
           height: 300.0, // Change as per your requirement
           width: 300.0, // Change as per your requirement
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: _viewProjectController.subProjectsToAdd.length,
-            itemBuilder: (BuildContext context, int index) {
-              return SizedBox(
-                height: 150.0, // Change as per your requirement
-                width: 100.0,
-                child: InkWell(
-                  onTap: () async {
-                    await _viewProjectController.setAsSubProject(
-                        _viewProjectController.subProjectsToAdd[index]);
-                    Get.back();
-                  },
-                  child: ProjectInfoCard(
-                      project: _viewProjectController.subProjectsToAdd[index]),
-                ),
-              );
-            },
+          child: Column(
+            children: [
+              Center(
+                child: TextButton(
+                    onPressed: () async {
+                      _viewProjectController.gotoAddToDoPage();
+                    },
+                    child: Text("+Add new")),
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: _viewProjectController.subProjectsToAdd.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: 150.0, // Change as per your requirement
+                    width: 100.0,
+                    child: InkWell(
+                      onTap: () async {
+                        await _viewProjectController.setAsSubProject(
+                            _viewProjectController.subProjectsToAdd[index]);
+                        Get.back();
+                      },
+                      child: ProjectInfoCard(
+                          project:
+                              _viewProjectController.subProjectsToAdd[index]),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ));
   }

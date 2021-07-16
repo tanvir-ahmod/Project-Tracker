@@ -30,6 +30,8 @@ class TodoController extends GetxController {
 
   var project = Project(checkLists: [], deadline: null, description: "").obs;
 
+  int? parentId;
+
   void getAllProjects() async {
     isLoading.value = true;
     var response = await _todoRepository.fetchAllProjects();
@@ -52,6 +54,7 @@ class TodoController extends GetxController {
           checkLists: checkLists.toList(),
           deadline: deadline,
           description: titleController.text);
+      tempProject.parentId = this.parentId;
     }
     isLoading.value = true;
     try {
@@ -165,7 +168,8 @@ class TodoController extends GetxController {
     isEditable.value = false;
   }
 
-  setProjectToEdit(Project? project) {
+  setProjectToEdit(Project? project, int? parentId) {
+    this.parentId = parentId;
     if (project != null) {
       isEditable.value = true;
       this.project.value = project;

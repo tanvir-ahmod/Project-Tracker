@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:todo/data/model/project.dart';
 import 'package:todo/data/repositories/todo/todo_repository.dart';
+import 'package:todo/helpers/Constants.dart';
+import 'package:todo/ui/projects/add_project.dart';
 
 class ViewProjectController extends GetxController {
   final TodoRepository _todoRepository = Get.find();
@@ -65,5 +67,9 @@ class ViewProjectController extends GetxController {
     subProjects.add(subProject);
     subProjects.refresh();
     isSubProjectsToAddLoading.value = false;
+  }
+
+  void gotoAddToDoPage() {
+    Get.off(() => AddTodoScreen(), arguments: {PARENT_ID : this.project.value.id!});
   }
 }

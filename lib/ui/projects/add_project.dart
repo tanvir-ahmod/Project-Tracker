@@ -6,16 +6,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:todo/controller/todo_controller.dart';
 import 'package:todo/data/model/project.dart';
+import 'package:todo/helpers/Constants.dart';
 import 'package:todo/ui/loading.dart';
 
 class AddTodoScreen extends StatelessWidget {
   TodoController _todoController = Get.find();
-  Project? project = Get.arguments;
+
+  Project? project = Get.arguments != null ? Get.arguments[PROJECT] : null;
+  int? parentId = Get.arguments != null ? Get.arguments[PARENT_ID] : null;
 
   @override
   Widget build(BuildContext context) {
     _todoController.clearCache();
-    _todoController.setProjectToEdit(project);
+    _todoController.setProjectToEdit(project, parentId);
     return Obx(() => _todoController.isLoading.value
         ? Loading()
         : Scaffold(
