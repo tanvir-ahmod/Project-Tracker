@@ -31,6 +31,7 @@ class TodoController extends GetxController {
   var project = Project(checkLists: [], deadline: null, description: "").obs;
 
   int? parentId;
+  var isUpdateWidget = false.obs;
 
   void getAllProjects() async {
     isLoading.value = true;
@@ -62,14 +63,12 @@ class TodoController extends GetxController {
           ? await _todoRepository.updateProject(tempProject)
           : await _todoRepository.addProject(tempProject);
       isLoading.value = false;
-      Get.snackbar("Todo", response.responseMessage,
+      isUpdateWidget.value = true;
+      Get.snackbar("Project", response.responseMessage,
           snackPosition: SnackPosition.BOTTOM);
     } on DioError {
       isLoading.value = false;
     }
-    Future.delayed(const Duration(milliseconds: 500), () {
-      Get.back(closeOverlays: true);
-    });
     getAllProjects();
   }
 
@@ -166,6 +165,7 @@ class TodoController extends GetxController {
     clearSelectedDate();
     progress.value = 0.0;
     isEditable.value = false;
+    isUpdateWidget.value = false;
   }
 
   setProjectToEdit(Project? project, int? parentId) {

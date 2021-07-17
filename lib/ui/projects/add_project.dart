@@ -10,15 +10,27 @@ import 'package:todo/helpers/Constants.dart';
 import 'package:todo/ui/loading.dart';
 
 class AddTodoScreen extends StatelessWidget {
-  TodoController _todoController = Get.find();
+  final TodoController _todoController = Get.put(TodoController());
 
-  Project? project = Get.arguments != null ? Get.arguments[PROJECT] : null;
-  int? parentId = Get.arguments != null ? Get.arguments[PARENT_ID] : null;
+  final Project? project =
+      Get.arguments != null ? Get.arguments[PROJECT] : null;
+  final int? parentId = Get.arguments != null ? Get.arguments[PARENT_ID] : null;
+
+  final Function? updateWidget =
+      Get.arguments != null ? Get.arguments[UPDATE_LISTENER] : null;
 
   @override
   Widget build(BuildContext context) {
+    Get.delete<TodoController>();
     _todoController.clearCache();
     _todoController.setProjectToEdit(project, parentId);
+
+    _todoController.isUpdateWidget.listen((isUpdate) async {
+      if (isUpdate && updateWidget != null) {
+        await updateWidget!();
+        Get.back(closeOverlays: true);
+      }
+    });
     return Obx(() => _todoController.isLoading.value
         ? Loading()
         : Scaffold(

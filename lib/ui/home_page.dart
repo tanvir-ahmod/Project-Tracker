@@ -19,7 +19,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final AuthController _authController = Get.find();
-
   final TodoController _todoController = Get.find();
 
   @override
@@ -88,7 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 )),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                Get.to(() => AddTodoScreen());
+                Get.to(() => AddTodoScreen(),
+                    arguments: {UPDATE_LISTENER: updateWidget});
               },
               tooltip: "Add Task",
               child: Icon(Icons.add),
@@ -103,6 +103,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onEditClicked(Project project) {
-    Get.to(() => AddTodoScreen(), arguments: {PROJECT: project});
+    Get.to(() => AddTodoScreen(),
+        arguments: {PROJECT: project, UPDATE_LISTENER: updateWidget});
+  }
+
+  void updateWidget() {
+    _todoController.getAllProjects();
   }
 }

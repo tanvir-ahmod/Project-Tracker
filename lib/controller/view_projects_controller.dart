@@ -16,6 +16,7 @@ class ViewProjectController extends GetxController {
       Project(checkLists: [], deadline: null, description: "").obs;
   var parentProject = Rxn<Project>();
   var checkListProgress = 0.0.obs;
+  var isUpdateCurrentProject = false.obs;
 
   void getSubProjectsById(int id) async {
     isLoading.value = true;
@@ -42,11 +43,7 @@ class ViewProjectController extends GetxController {
         subProjects.where((project) => project.id == subProjectId).first;
     isLoading.value = true;
     await _todoRepository.removeParentProject(subProjectId);
-    Project? updatedProject;
-    if (subProject.parentId != null)
-      updatedProject =
-          await _todoRepository.fetchProjectById(subProject.parentId!);
-    if (updatedProject != null) currentProject.value = updatedProject;
+    isUpdateCurrentProject.value = true;
     subProjects.remove(subProject);
     subProjects.refresh();
     isLoading.value = false;
@@ -90,11 +87,7 @@ class ViewProjectController extends GetxController {
     subProject.parentId = currentProject.value.id!;
     await _todoRepository.updateParentProject(
         currentProject.value.id!, subProject.id!);
-    Project? updatedProject =
-        await _todoRepository.fetchProjectById(currentProject.value.id!);
-    if (updatedProject != null) {
-      setProject(updatedProject);
-    }
+    isUpdateCurrentProject.value = true;
     subProjects.add(subProject);
     subProjects.refresh();
     isSubProjectsToAddLoading.value = false;
@@ -109,8 +102,18 @@ class ViewProjectController extends GetxController {
     this.parentProject.value = parentProject;
   }
 
-  void gotoAddToDoPage() {
-    Get.off(() => AddTodoScreen(),
-        arguments: {PARENT_ID: this.currentProject.value.id!});
+  void gotoAddToDoPage(Function? onUpdateWidget) {
+    Get.off(() => AddTodoScreen(), arguments: {
+      PARENT_ID: this.currentProject.value.id!,
+      UPDATE_LISTENER: onUpdateWidget
+    });
+  }
+
+  Future<void> updateCurrentProject() async {
+    Project? updatedProject =
+        await _todoRepository.fetchProjectById(currentProject.value.id!);
+    if (updatedProject != null) {
+      setProject(updatedProject);
+    }
   }
 }
