@@ -279,7 +279,7 @@ class _ViewProjectState extends State<ViewProject> {
                                         child: ProjectInfoCard(
                                           project: _viewProjectController
                                               .parentProject.value!,
-                                          onDeleteClicked: _removeSubItem,
+                                          onDeleteClicked: _removeParentItem,
                                           onEditClicked: _onEditClicked,
                                         )),
                                   ),
@@ -420,6 +420,10 @@ class _ViewProjectState extends State<ViewProject> {
 
   void _removeSubItem(int subProjectId) {
     _viewProjectController.removeSubItem(subProjectId);
+  }
+
+  void _removeParentItem(int subProjectId) {
+    _viewProjectController.removeParentItem();
   }
 
   void _showParentProjectAddDialog() async {

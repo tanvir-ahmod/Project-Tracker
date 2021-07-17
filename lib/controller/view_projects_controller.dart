@@ -52,6 +52,14 @@ class ViewProjectController extends GetxController {
     isLoading.value = false;
   }
 
+  void removeParentItem() async {
+    isLoading.value = true;
+    await _todoRepository.removeParentProject(currentProject.value.id!);
+    currentProject.value.parentId = null;
+    parentProject.value = null;
+    isLoading.value = false;
+  }
+
   Future<void> showSubProjectsToAdd() async {
     isSubProjectsToAddLoading.value = true;
     final items =
