@@ -8,9 +8,12 @@ class ViewProjectController extends GetxController {
   final TodoRepository _todoRepository = Get.find();
   var subProjects = <Project>[].obs;
   var subProjectsToAdd = <Project>[].obs;
+  var parentProjectsToAdd = <Project>[].obs;
   var isLoading = false.obs;
+  var isParentProjectsLoading = false.obs;
   var isSubProjectsToAddLoading = false.obs;
   var project = Project(checkLists: [], deadline: null, description: "").obs;
+  var parentProject = Rxn<Project>();
   var checkListProgress = 0.0.obs;
 
   void getSubProjectsById(int id) async {
@@ -29,6 +32,8 @@ class ViewProjectController extends GetxController {
       checkListProgress.value = 0.0;
     else
       checkListProgress.value = completedTasks / totalTasks;
+
+    _setParentProject();
   }
 
   void removeSubItem(int subProjectId) async {
@@ -54,6 +59,14 @@ class ViewProjectController extends GetxController {
     isSubProjectsToAddLoading.value = false;
   }
 
+  Future<void> showParentProjectsToAdd() async {
+    isParentProjectsLoading.value = true;
+    final items =
+        await _todoRepository.fetchParentProjectsToAdd(project.value.id!);
+    parentProjectsToAdd.assignAll(items);
+    isParentProjectsLoading.value = false;
+  }
+
   Future<void> setAsSubProject(Project subProject) async {
     isSubProjectsToAddLoading.value = true;
     subProject.parentId = project.value.id!;
@@ -69,7 +82,16 @@ class ViewProjectController extends GetxController {
     isSubProjectsToAddLoading.value = false;
   }
 
+  void _setParentProject() async {
+    Project? parentProject;
+    if (project.value.parentId != null)
+      parentProject =
+          await _todoRepository.fetchProjectById(project.value.parentId!);
+    this.parentProject.value = parentProject;
+  }
+
   void gotoAddToDoPage() {
-    Get.off(() => AddTodoScreen(), arguments: {PARENT_ID : this.project.value.id!});
+    Get.off(() => AddTodoScreen(),
+        arguments: {PARENT_ID: this.project.value.id!});
   }
 }

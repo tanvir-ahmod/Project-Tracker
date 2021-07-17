@@ -33,6 +33,10 @@ class TodoRepositoryImpl extends TodoRepository {
       _service.fetchSubProjectsToAdd(id);
 
   @override
+  Future<List<Project>> fetchParentProjectsToAdd(int id) =>
+      _service.fetchParentProjectsToAdd(id);
+
+  @override
   Future<BaseResponse> updateParentProject(int parentId, int subProjectId) =>
       _service.updateParentProject(parentId, subProjectId);
 

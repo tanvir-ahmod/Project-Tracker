@@ -16,6 +16,8 @@ abstract class TodoRepository {
 
   Future<List<Project>> fetchSubProjectsToAdd(int id);
 
+  Future<List<Project>> fetchParentProjectsToAdd(int id);
+
   Future<BaseResponse> updateParentProject(int parentId, int subProjectId);
 
   Future<BaseResponse> removeParentProject(int subProjectId);

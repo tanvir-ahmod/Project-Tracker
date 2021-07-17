@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_navigation/src/snackbar/snack.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:todo/controller/todo_controller.dart';
@@ -25,8 +26,9 @@ class _ViewProjectState extends State<ViewProject> {
   void initState() {
     final project = Get.arguments as Project;
     _viewProjectController.setProject(project);
-    if (project.id != null)
+    if (project.id != null) {
       _viewProjectController.getSubProjectsById(project.id!);
+    }
     super.initState();
   }
 
@@ -215,6 +217,67 @@ class _ViewProjectState extends State<ViewProject> {
                       ],
                     ),
                   ),
+                  _viewProjectController.isParentProjectsLoading.value
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Divider(
+                              height: 10,
+                              thickness: 2,
+                              indent: 20,
+                              endIndent: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Parent project",
+                                      style: GoogleFonts.nunito(
+                                          textStyle: TextStyle(fontSize: 18)),
+                                      textAlign: TextAlign.center),
+                                  TextButton(
+                                      onPressed: () {
+                                        _showParentProjectAddDialog();
+                                      },
+                                      child: Text("+Add new"))
+                                ],
+                              ),
+                            ),
+                            Visibility(
+                              visible: _viewProjectController
+                                  .isSubProjectsToAddLoading.value,
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                            _viewProjectController.parentProject.value == null
+                                ? Container(
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      'assets/images/no_sub_item.png',
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                        height: 150,
+                                        child: ProjectInfoCard(
+                                          project: _viewProjectController
+                                              .parentProject.value!,
+                                          onDeleteClicked: _removeSubItem,
+                                          onEditClicked: _onEditClicked,
+                                        )),
+                                  ),
+                          ],
+                        ),
                   _viewProjectController.isLoading.value
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -352,6 +415,41 @@ class _ViewProjectState extends State<ViewProject> {
     _viewProjectController.removeSubItem(subProjectId);
   }
 
+  void _showParentProjectAddDialog() async {
+    await _viewProjectController.showParentProjectsToAdd();
+    if (_viewProjectController.parentProjectsToAdd.isEmpty) {
+      Get.snackbar("Parent Project", "No parent project to add",
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+    Get.defaultDialog(
+        title: "Click to set as parent project",
+        content: Container(
+          height: 300.0,
+          width: 300.0,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: _viewProjectController.parentProjectsToAdd.length,
+            itemBuilder: (BuildContext context, int index) {
+              return SizedBox(
+                height: 150.0, // Change as per your requirement
+                width: 100.0,
+                child: InkWell(
+                  onTap: () async {
+                    /*await _viewProjectController.setAsSubProject(
+                        _viewProjectController.parentProjectsToAdd[index]);
+                    Get.back();*/
+                  },
+                  child: ProjectInfoCard(
+                      project:
+                          _viewProjectController.parentProjectsToAdd[index]),
+                ),
+              );
+            },
+          ),
+        ));
+  }
+
   void _showSubProjectAddDialog() async {
     await _viewProjectController.showSubProjectsToAdd();
     if (_viewProjectController.subProjectsToAdd.isEmpty) {
@@ -359,10 +457,10 @@ class _ViewProjectState extends State<ViewProject> {
       return;
     }
     Get.defaultDialog(
-        title: "Click to as sub project",
+        title: "Click to set as sub project",
         content: Container(
-          height: 300.0, // Change as per your requirement
-          width: 300.0, // Change as per your requirement
+          height: 300.0,
+          width: 300.0,
           child: Column(
             children: [
               Center(
