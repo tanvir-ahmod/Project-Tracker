@@ -43,8 +43,8 @@ class _ViewProjectState extends State<ViewProject> {
                 Padding(
                     padding: EdgeInsets.only(right: 20.0),
                     child: GestureDetector(
-                      onTap: () =>
-                          _onEditClicked(_viewProjectController.project.value),
+                      onTap: () => _onEditClicked(
+                          _viewProjectController.currentProject.value),
                       child: Icon(
                         Icons.edit,
                         size: 26.0,
@@ -68,7 +68,7 @@ class _ViewProjectState extends State<ViewProject> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                        _viewProjectController.project.value.description,
+                        _viewProjectController.currentProject.value.description,
                         style: TextStyle(
                             fontSize: 26, fontWeight: FontWeight.w700)),
                   ),
@@ -94,7 +94,8 @@ class _ViewProjectState extends State<ViewProject> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            _viewProjectController.project.value.deadline ??
+                            _viewProjectController
+                                    .currentProject.value.deadline ??
                                 "----",
                             style: GoogleFonts.nunito(
                                 textStyle: TextStyle(fontSize: 18)),
@@ -132,14 +133,14 @@ class _ViewProjectState extends State<ViewProject> {
                                 radius: 200.0,
                                 lineWidth: 5.0,
                                 percent: _viewProjectController
-                                            .project.value.progress !=
+                                            .currentProject.value.progress !=
                                         null
                                     ? _viewProjectController
-                                            .project.value.progress! /
+                                            .currentProject.value.progress! /
                                         100
                                     : 0.0,
                                 center: Text(
-                                  "${_viewProjectController.project.value.progress != null ? _viewProjectController.project.value.progress!.toInt() : 0}%",
+                                  "${_viewProjectController.currentProject.value.progress != null ? _viewProjectController.currentProject.value.progress!.toInt() : 0}%",
                                   textAlign: TextAlign.center,
                                 ),
                                 progressColor: Colors.green,
@@ -152,7 +153,7 @@ class _ViewProjectState extends State<ViewProject> {
                   ),
                   Visibility(
                     visible: _viewProjectController
-                            .project.value.checkLists.length !=
+                            .currentProject.value.checkLists.length !=
                         0,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,15 +199,21 @@ class _ViewProjectState extends State<ViewProject> {
                           child: ListView.builder(
                               shrinkWrap: true,
                               itemCount: _viewProjectController
-                                  .project.value.checkLists.length,
+                                  .currentProject.value.checkLists.length,
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: CheckboxListTile(
-                                      title: Text(_viewProjectController.project
-                                          .value.checkLists[index].description),
+                                      title: Text(_viewProjectController
+                                          .currentProject
+                                          .value
+                                          .checkLists[index]
+                                          .description),
                                       value: _viewProjectController
-                                          .project.value.checkLists[index].done,
+                                          .currentProject
+                                          .value
+                                          .checkLists[index]
+                                          .done,
                                       onChanged: (bool? value) {},
                                       activeColor: Colors.green,
                                       controlAffinity:
@@ -390,7 +397,7 @@ class _ViewProjectState extends State<ViewProject> {
         confirm: TextButton(
           onPressed: () {
             _todoController
-                .deleteTodoById(_viewProjectController.project.value.id!)
+                .deleteTodoById(_viewProjectController.currentProject.value.id!)
                 .then((isDelete) {
               if (isDelete) {
                 Future.delayed(Duration(microseconds: 500), () {
@@ -432,13 +439,13 @@ class _ViewProjectState extends State<ViewProject> {
             itemCount: _viewProjectController.parentProjectsToAdd.length,
             itemBuilder: (BuildContext context, int index) {
               return SizedBox(
-                height: 150.0, // Change as per your requirement
+                height: 150.0,
                 width: 100.0,
                 child: InkWell(
                   onTap: () async {
-                    /*await _viewProjectController.setAsSubProject(
+                    await _viewProjectController.setAsParentProject(
                         _viewProjectController.parentProjectsToAdd[index]);
-                    Get.back();*/
+                    Get.back();
                   },
                   child: ProjectInfoCard(
                       project:
@@ -475,7 +482,7 @@ class _ViewProjectState extends State<ViewProject> {
                 itemCount: _viewProjectController.subProjectsToAdd.length,
                 itemBuilder: (BuildContext context, int index) {
                   return SizedBox(
-                    height: 150.0, // Change as per your requirement
+                    height: 150.0,
                     width: 100.0,
                     child: InkWell(
                       onTap: () async {

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:todo/data/model/response/base_response.dart';
 import 'package:todo/helpers/Constants.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:todo/ui/login_ui.dart';
@@ -34,6 +35,14 @@ class ApiClient {
         Future.delayed(const Duration(milliseconds: 2000), () {
           Get.offAll(() => LoginScreen());
         });
+      } else if (e.response?.statusCode == 400) {
+        if (e.response != null) {
+          BaseResponse response = BaseResponse.fromJson(e.response?.data);
+          Get.snackbar("Error", response.responseMessage,
+              snackPosition: SnackPosition.BOTTOM);
+        } else
+          Get.snackbar("Error", "Could not connect to server",
+              snackPosition: SnackPosition.BOTTOM);
       } else {
         Get.snackbar("Error", "Could not connect to server",
             snackPosition: SnackPosition.BOTTOM);
