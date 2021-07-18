@@ -20,9 +20,9 @@ class AuthController extends GetxController {
     isLoading.value = false;
     if (loginResponse.responseCode == 200 &&
         (loginResponse.token != null && loginResponse.token!.isNotEmpty)) {
-      Get.off(HomeScreen());
+      Get.offAll(() => HomeScreen());
     } else if (loginResponse.responseCode == 417) {
-      Get.off(ResendConfirmationEmailScreen(email: email));
+      Get.offAll(() => ResendConfirmationEmailScreen(email: email));
     }
   }
 
@@ -35,7 +35,7 @@ class AuthController extends GetxController {
         snackPosition: SnackPosition.BOTTOM);
 
     if (loginResponse.responseCode == RESPONSE_OK) {
-      Get.to(ResendConfirmationEmailScreen(email: email));
+      Get.to(() => ResendConfirmationEmailScreen(email: email));
     }
   }
 

@@ -50,7 +50,7 @@ class RemoteServiceImpl implements ApiService, AuthService {
 
   @override
   Future<List<Project>> fetchAllProjects() async {
-    final response = await _apiClient.get("getAllTodoItems");
+    final response = await _apiClient.get("getAllProjects");
     if (response.statusCode == RESPONSE_OK) {
       return List<Project>.from(response.data.map((x) => Project.fromJson(x)));
     }
@@ -59,7 +59,7 @@ class RemoteServiceImpl implements ApiService, AuthService {
 
   @override
   Future<BaseResponse> deleteRowByID(int id) async {
-    final response = await _apiClient.delete("deleteTodoById/$id");
+    final response = await _apiClient.delete("deleteProjectById/$id");
     if (response.statusCode == RESPONSE_OK) {
       return BaseResponse.fromJson(response.data);
     } else {
@@ -70,7 +70,7 @@ class RemoteServiceImpl implements ApiService, AuthService {
   @override
   Future<BaseResponse> addProject(Project project) async {
     final data = project.toRawJson();
-    final response = await _apiClient.post("addTodo", data: data);
+    final response = await _apiClient.post("addProject", data: data);
     if (response.statusCode == RESPONSE_OK) {
       return BaseResponse.fromJson(response.data);
     } else {
@@ -80,7 +80,7 @@ class RemoteServiceImpl implements ApiService, AuthService {
 
   @override
   Future<List<Project>> fetchSubProjectsById(int id) async {
-    final response = await _apiClient.get("getTodoSubItemsByParentId/$id");
+    final response = await _apiClient.get("getSubProjectByParentId/$id");
     if (response.statusCode == RESPONSE_OK) {
       return List<Project>.from(response.data.map((x) => Project.fromJson(x)));
     }
@@ -90,7 +90,7 @@ class RemoteServiceImpl implements ApiService, AuthService {
   @override
   Future<BaseResponse> updateProject(Project project) async {
     final data = project.toRawJson();
-    final response = await _apiClient.post("updateTodo", data: data);
+    final response = await _apiClient.post("updateProject", data: data);
     if (response.statusCode == RESPONSE_OK) {
       return BaseResponse.fromJson(response.data);
     } else {
@@ -100,7 +100,7 @@ class RemoteServiceImpl implements ApiService, AuthService {
 
   @override
   Future<Project?> fetchProjectById(int id) async {
-    final response = await _apiClient.get("getTodoItemById/$id");
+    final response = await _apiClient.get("getProjectById/$id");
     if (response.statusCode == RESPONSE_OK) {
       return Project.fromJson(response.data);
     }
