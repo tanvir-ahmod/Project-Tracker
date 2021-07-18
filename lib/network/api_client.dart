@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:todo/data/model/response/base_response.dart';
 import 'package:todo/helpers/Constants.dart';
@@ -29,23 +31,28 @@ class ApiClient {
       return handler.next(response);
     }, onError: (DioError e, handler) {
       if (e.response?.statusCode == 403 || e.response?.statusCode == 401) {
-        Get.snackbar("Authentication", "Authentication failed",
-            snackPosition: SnackPosition.BOTTOM);
-
-        Future.delayed(const Duration(milliseconds: 2000), () {
-          Get.offAll(() => LoginScreen());
-        });
+        Fluttertoast.showToast(
+            msg: "Authentication failed",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        Get.offAll(() => LoginScreen());
       } else if (e.response?.statusCode == 400) {
         if (e.response != null) {
           BaseResponse response = BaseResponse.fromJson(e.response?.data);
-          Get.snackbar("Error", response.responseMessage,
-              snackPosition: SnackPosition.BOTTOM);
-        } else
-          Get.snackbar("Error", "Could not connect to server",
-              snackPosition: SnackPosition.BOTTOM);
+          Fluttertoast.showToast(
+              msg: response.responseMessage, toastLength: Toast.LENGTH_LONG);
+        } else {
+          Fluttertoast.showToast(
+              msg: "Could not connect to server",
+              toastLength: Toast.LENGTH_LONG);
+        }
       } else {
-        Get.snackbar("Error", "Could not connect to server",
-            snackPosition: SnackPosition.BOTTOM);
+        Fluttertoast.showToast(
+            msg: "Could not connect to server", toastLength: Toast.LENGTH_LONG);
       }
       return handler.next(e);
     }));

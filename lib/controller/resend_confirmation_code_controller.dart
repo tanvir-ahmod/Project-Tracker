@@ -1,3 +1,4 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:todo/data/repositories/auth/auth_repository.dart';
 
@@ -9,8 +10,9 @@ class ResendConfirmationEmailController extends GetxController {
   void resendCode() async {
     isLoading.value = true;
     final response = await authRepository.resendConfirmationLink(email);
-    Get.snackbar("Resent Code", response.responseMessage,
-        snackPosition: SnackPosition.BOTTOM);
+    Fluttertoast.showToast(
+        msg: response.responseMessage, toastLength: Toast.LENGTH_LONG);
+
     isLoading.value = false;
   }
 }

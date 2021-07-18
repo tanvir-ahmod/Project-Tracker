@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/snackbar/snack.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:todo/controller/todo_controller.dart';
@@ -472,8 +472,8 @@ class _ViewProjectState extends State<ViewProject> {
   void _showParentProjectAddDialog() async {
     await _viewProjectController.showParentProjectsToAdd();
     if (_viewProjectController.parentProjectsToAdd.isEmpty) {
-      Get.snackbar("Parent Project", "No parent project to add",
-          snackPosition: SnackPosition.BOTTOM);
+      Fluttertoast.showToast(
+          msg: "No parent project to add", toastLength: Toast.LENGTH_LONG);
       return;
     }
     Get.defaultDialog(

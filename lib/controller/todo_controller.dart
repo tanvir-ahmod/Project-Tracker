@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/data/model/project.dart';
 import 'package:todo/data/repositories/todo/todo_repository.dart';
@@ -64,8 +65,8 @@ class TodoController extends GetxController {
           : await _todoRepository.addProject(tempProject);
       isLoading.value = false;
       isUpdateWidget.value = true;
-      Get.snackbar("Project", response.responseMessage,
-          snackPosition: SnackPosition.BOTTOM);
+      Fluttertoast.showToast(
+          msg: response.responseMessage, toastLength: Toast.LENGTH_LONG);
     } on DioError {
       isLoading.value = false;
     }
@@ -76,8 +77,8 @@ class TodoController extends GetxController {
     isLoading.value = true;
     final response = await _todoRepository.deleteRowByID(id);
     isLoading.value = false;
-    Get.snackbar("Todo", response.responseMessage,
-        snackPosition: SnackPosition.BOTTOM);
+    Fluttertoast.showToast(
+        msg: response.responseMessage, toastLength: Toast.LENGTH_LONG);
     Project project = projects.where((p) => p.id == id).first;
     projects.removeAt(projects.indexOf(project));
     projects.refresh();

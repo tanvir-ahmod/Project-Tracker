@@ -32,9 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 PopupMenuButton<String>(
                   onSelected: (value) {
                     _authController.logout();
-                    Future.delayed(const Duration(milliseconds: 1500), () {
-                      Get.offAll(() => LoginScreen());
-                    });
                   },
                   itemBuilder: (BuildContext context) {
                     return {"Logout"}.map((String choice) {
