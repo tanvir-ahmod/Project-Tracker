@@ -12,12 +12,12 @@ import 'projects/add_project.dart';
 import 'loading.dart';
 import 'login_ui.dart';
 
-class MyHomePage extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   final AuthController _authController = Get.find();
   final TodoController _todoController = Get.find();
 

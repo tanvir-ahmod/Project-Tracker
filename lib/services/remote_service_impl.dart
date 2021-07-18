@@ -19,7 +19,13 @@ class RemoteServiceImpl implements ApiService, AuthService {
   Future<LoginResponse> login(LoginRequest loginRequest) async {
     _apiClient.interceptors.clear();
     final data = jsonEncode(loginRequest.toJson());
-    final response = await _apiClient.post('login', data: data);
+    var response;
+    try {
+      response = await _apiClient.post('login', data: data);
+    } on DioError catch (e) {
+      if (e.response?.data != null)
+        return LoginResponse.fromJson(e.response!.data);
+    }
     if (response.statusCode == RESPONSE_OK) {
       return LoginResponse.fromJson(response.data);
     } else {
@@ -124,7 +130,7 @@ class RemoteServiceImpl implements ApiService, AuthService {
   }
 
   @override
-  Future<BaseResponse> removeParentProject(int subProjectId) async{
+  Future<BaseResponse> removeParentProject(int subProjectId) async {
     final response = await _apiClient.get("removeParentId/$subProjectId");
     if (response.statusCode == RESPONSE_OK) {
       return BaseResponse.fromJson(response.data);
@@ -133,11 +139,21 @@ class RemoteServiceImpl implements ApiService, AuthService {
   }
 
   @override
-  Future<List<Project>> fetchParentProjectsToAdd(int id) async{
+  Future<List<Project>> fetchParentProjectsToAdd(int id) async {
     final response = await _apiClient.get("getParentProjectsToAdd/$id");
     if (response.statusCode == RESPONSE_OK) {
       return List<Project>.from(response.data.map((x) => Project.fromJson(x)));
     }
     return [];
+  }
+
+  @override
+  Future<BaseResponse> resendConfirmationLink(String email) async {
+    final response =
+        await _apiClient.get("resendToken", queryParameters: {'email': email});
+    if (response.statusCode == RESPONSE_OK) {
+      return BaseResponse.fromJson(response.data);
+    }
+    return baseResponseFromJson("");
   }
 }

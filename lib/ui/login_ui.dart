@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:todo/controller/auth_controller.dart';
-import 'package:todo/ui/sign_up_ui.dart';
+import 'package:todo/ui/registration/sign_up_ui.dart';
 import 'package:get/get.dart';
 
-import 'home_page.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   final AuthController authController = Get.find();
@@ -89,16 +89,9 @@ class LoginScreen extends StatelessWidget {
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(20)),
                   child: TextButton(
-                    onPressed: () async {
+                    onPressed: () {
                       if (_form.currentState!.validate()) {
-                        var isAuthenticated =
-                            await authController.login(_email.text, _pass.text);
-                        if (isAuthenticated) {
-                          Future.delayed(const Duration(milliseconds: 1500),
-                              () {
-                            Get.offAll(() => MyHomePage());
-                          });
-                        }
+                        authController.login(_email.text, _pass.text);
                       }
                     },
                     child: Text(

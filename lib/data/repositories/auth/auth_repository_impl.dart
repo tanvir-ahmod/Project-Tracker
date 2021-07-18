@@ -1,5 +1,6 @@
 import 'package:todo/data/model/request/login_request.dart';
 import 'package:todo/data/model/request/registration_request.dart';
+import 'package:todo/data/model/response/base_response.dart';
 import 'package:todo/data/model/response/login_response.dart';
 import 'package:todo/data/model/response/registration_response.dart';
 import 'package:todo/data/repositories/auth/auth_repository.dart';
@@ -9,10 +10,11 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
-  AuthService service = Get.find();
+  AuthService _service = Get.find();
+
   @override
   Future<LoginResponse> login(LoginRequest loginRequest) async {
-    final response = await service.login(loginRequest);
+    final response = await _service.login(loginRequest);
     final box = GetStorage();
     box.write(TOKEN, response.token);
     return response;
@@ -21,11 +23,15 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<RegistrationResponse> register(
       RegistrationRequest registrationRequest) async {
-    return await service.register(registrationRequest);
+    return await _service.register(registrationRequest);
   }
 
   @override
   void logout() {
     GetStorage().erase();
   }
+
+  @override
+  Future<BaseResponse> resendConfirmationLink(String email) =>
+      _service.resendConfirmationLink(email);
 }

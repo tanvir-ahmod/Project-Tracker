@@ -1,4 +1,5 @@
 import 'package:todo/controller/auth_controller.dart';
+import 'package:todo/controller/resend_confirmation_code_controller.dart';
 import 'package:todo/controller/todo_controller.dart';
 import 'package:todo/controller/view_projects_controller.dart';
 import 'package:todo/data/repositories/auth/auth_repository.dart';
@@ -20,6 +21,9 @@ class GlobalBinding extends Bindings {
     Get.lazyPut<AuthService>(() => RemoteServiceImpl(), fenix: true);
     Get.lazyPut<ApiService>(() => RemoteServiceImpl(), fenix: true);
     Get.lazyPut<ViewProjectController>(() => ViewProjectController(),
+        fenix: true);
+    Get.lazyPut<ResendConfirmationEmailController>(
+        () => ResendConfirmationEmailController(),
         fenix: true);
   }
 }

@@ -106,16 +106,10 @@ class SignUpUI extends StatelessWidget {
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(20)),
                   child: TextButton(
-                    onPressed: () async {
+                    onPressed: () {
                       if (_form.currentState!.validate()) {
-                        var isRegistered = await authController.register(
+                        authController.register(
                             _email.text, _pass.text, _confirmPass.text);
-                        if (isRegistered) {
-                          Future.delayed(const Duration(milliseconds: 2500),
-                              () {
-                            Get.offAll(() => LoginScreen());
-                          });
-                        }
                       }
                     },
                     child: Text(
@@ -136,7 +130,7 @@ class SignUpUI extends StatelessWidget {
                 ),
                 InkWell(
                     onTap: () {
-                      Get.offAll(() => SignUpUI());
+                      Get.offAll(() => LoginScreen());
                     },
                     child: Text('Already have account? Sign in'))
               ],

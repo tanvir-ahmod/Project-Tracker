@@ -3,24 +3,30 @@ import 'package:todo/data/model/request/registration_request.dart';
 import 'package:todo/data/repositories/auth/auth_repository.dart';
 import 'package:todo/helpers/Constants.dart';
 import 'package:get/get.dart';
+import 'package:todo/ui/home_screen.dart';
+import 'package:todo/ui/registration/resend_confirmation_email.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
   AuthRepository authRepository = Get.find();
 
-  Future<bool> login(String email, String password) async {
+  void login(String email, String password) async {
     isLoading.value = true;
     var loginResponse = await authRepository
         .login(LoginRequest(email: email, password: password));
-    isLoading.value = false;
+
     Get.snackbar("Authentication", loginResponse.responseMessage,
         snackPosition: SnackPosition.BOTTOM);
-
-    return loginResponse.token != null && loginResponse.token!.isNotEmpty;
+    isLoading.value = false;
+    if (loginResponse.responseCode == 200 &&
+        (loginResponse.token != null && loginResponse.token!.isNotEmpty)) {
+      Get.off(HomeScreen());
+    } else if (loginResponse.responseCode == 417) {
+      Get.off(ResendConfirmationEmailScreen(email: email));
+    }
   }
 
-  Future<bool> register(
-      String email, String password, String confirmPassword) async {
+  void register(String email, String password, String confirmPassword) async {
     isLoading.value = true;
     var loginResponse = await authRepository.register(RegistrationRequest(
         email: email, password: password, confirmPassword: confirmPassword));
@@ -28,7 +34,9 @@ class AuthController extends GetxController {
     Get.snackbar("Authentication", loginResponse.responseMessage,
         snackPosition: SnackPosition.BOTTOM);
 
-    return loginResponse.responseCode == RESPONSE_OK;
+    if (loginResponse.responseCode == RESPONSE_OK) {
+      Get.to(ResendConfirmationEmailScreen(email: email));
+    }
   }
 
   void logout() {
