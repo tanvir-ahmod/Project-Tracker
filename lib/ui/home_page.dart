@@ -73,8 +73,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          Get.to(() => ViewProject(),
-                              arguments: _todoController.projects[index]);
+                          Get.to(() => ViewProject(
+                              onUpdateClicked: updateWidget,
+                              project: _todoController.projects[index]));
                         },
                         child: ProjectInfoCard(
                           project: _todoController.projects[index],

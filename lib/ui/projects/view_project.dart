@@ -15,27 +15,31 @@ import 'add_project.dart';
 
 class ViewProject extends StatefulWidget {
   final Function? onUpdateClicked;
+  final Project? project;
 
-  const ViewProject({Key? key, this.onUpdateClicked}) : super(key: key);
+  const ViewProject({Key? key, this.onUpdateClicked, this.project})
+      : super(key: key);
 
   @override
-  _ViewProjectState createState() => _ViewProjectState(onUpdateClicked);
+  _ViewProjectState createState() =>
+      _ViewProjectState(onUpdateClicked, project);
 }
 
 class _ViewProjectState extends State<ViewProject> {
   final ViewProjectController _viewProjectController = Get.find();
   final TodoController _todoController = Get.find();
-
+  final Project? project;
   final Function? onUpdateClicked;
 
-  _ViewProjectState(this.onUpdateClicked);
+  _ViewProjectState(this.onUpdateClicked, this.project);
 
   @override
   void initState() {
-    final project = Get.arguments as Project;
-    _viewProjectController.setProject(project);
-    if (project.id != null) {
-      _viewProjectController.getSubProjectsById(project.id!);
+    if (project != null) {
+      _viewProjectController.setProject(project!);
+      if (project!.id != null) {
+        _viewProjectController.getSubProjectsById(project!.id!);
+      }
     }
     super.initState();
   }
@@ -374,14 +378,22 @@ class _ViewProjectState extends State<ViewProject> {
                                                     onTap: () {
                                                       Get.delete<
                                                           ViewProjectController>();
-                                                      Get.to(
-                                                          ViewProject(
+
+                                                      // Get.to() not working for multiple click
+                                                      navigator!.push(
+                                                        MaterialPageRoute(
+                                                          builder: (_) {
+                                                            return ViewProject(
                                                               onUpdateClicked:
-                                                                  updateCurrentProject),
-                                                          arguments:
-                                                              _viewProjectController
-                                                                      .subProjects[
-                                                                  index]);
+                                                                  updateCurrentProject,
+                                                              project:
+                                                                  _viewProjectController
+                                                                          .subProjects[
+                                                                      index],
+                                                            );
+                                                          },
+                                                        ),
+                                                      );
                                                     },
                                                     child: ProjectInfoCard(
                                                       project:
