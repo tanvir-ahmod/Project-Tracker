@@ -5,6 +5,7 @@ import 'package:todo/controller/todo_controller.dart';
 import 'package:get/get.dart';
 import 'package:todo/data/model/project.dart';
 import 'package:todo/helpers/Constants.dart';
+import 'package:todo/ui/profile/change_password.dart';
 import 'package:todo/ui/projects/components/project_info_card.dart';
 import 'package:todo/ui/projects/view_project.dart';
 
@@ -31,10 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
               actions: [
                 PopupMenuButton<String>(
                   onSelected: (value) {
-                    _authController.logout();
+                    _handleMenuClick(value);
                   },
                   itemBuilder: (BuildContext context) {
-                    return {"Logout"}.map((String choice) {
+                    return {CHANGE_PASSWORD, LOGOUT}.map((String choice) {
                       return PopupMenuItem<String>(
                         value: choice,
                         child: Text(choice),
@@ -107,5 +108,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void updateWidget() {
     _todoController.getAllProjects();
+  }
+
+  void _handleMenuClick(String value) {
+    switch (value) {
+      case LOGOUT:
+        _authController.logout();
+        break;
+      case CHANGE_PASSWORD:
+        Get.to(() => ChangePasswordScreen());
+        break;
+    }
   }
 }

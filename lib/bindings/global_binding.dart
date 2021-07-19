@@ -1,14 +1,19 @@
 import 'package:todo/controller/auth_controller.dart';
+import 'package:todo/controller/change_password_controller.dart';
 import 'package:todo/controller/resend_confirmation_code_controller.dart';
 import 'package:todo/controller/todo_controller.dart';
 import 'package:todo/controller/view_projects_controller.dart';
 import 'package:todo/data/repositories/auth/auth_repository.dart';
 import 'package:todo/data/repositories/auth/auth_repository_impl.dart';
+import 'package:todo/data/repositories/profile/profile_repository.dart';
+import 'package:todo/data/repositories/profile/profile_repository_impl.dart';
 import 'package:todo/data/repositories/todo/todo_repository.dart';
 import 'package:todo/data/repositories/todo/todo_repository_impl.dart';
 import 'package:todo/services/api_service.dart';
 import 'package:todo/services/auth_service.dart';
 import 'package:todo/services/auth_service_impl.dart';
+import 'package:todo/services/profile_service.dart';
+import 'package:todo/services/profile_service_impl.dart';
 import 'package:todo/services/remote_service_impl.dart';
 import 'package:get/get.dart';
 
@@ -26,5 +31,9 @@ class GlobalBinding extends Bindings {
     Get.lazyPut<ResendConfirmationEmailController>(
         () => ResendConfirmationEmailController(),
         fenix: true);
+    Get.lazyPut<ChangePasswordController>(() => ChangePasswordController(),
+        fenix: true);
+    Get.lazyPut<ProfileRepository>(() => ProfileRepositoryImpl(), fenix: true);
+    Get.lazyPut<ProfileService>(() => ProfileServiceImpl(), fenix: true);
   }
 }

@@ -6,3 +6,6 @@ const UPDATE_LISTENER = "updateListener";
 const BASE_URL = "http://192.168.0.102:8080/";
 
 const int RESPONSE_OK = 200;
+
+const LOGOUT = "Logout";
+const CHANGE_PASSWORD = "Change Password";
