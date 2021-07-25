@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:todo/controller/auth_controller.dart';
+import 'package:todo/ui/forgot_password.dart';
 import 'package:todo/ui/registration/sign_up_ui.dart';
 import 'package:get/get.dart';
 
@@ -110,6 +111,9 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   height: 50,
                 ),
+                TextButton(
+                    onPressed: () => Get.to(() => ForgotPassword()),
+                    child: Text("Forgot Password")),
                 InkWell(
                     onTap: () {
                       Get.offAll(SignUpUI());

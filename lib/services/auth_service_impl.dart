@@ -11,11 +11,10 @@ import 'package:todo/network/api_client.dart';
 import 'package:todo/services/auth_service.dart';
 
 class AuthServiceImpl implements AuthService {
-  final _apiClient = ApiClient().getApiClient();
+  final _apiClient = ApiClient().getApiClientWithoutInterceptors();
 
   @override
   Future<LoginResponse> login(LoginRequest loginRequest) async {
-    _apiClient.interceptors.clear();
     final data = jsonEncode(loginRequest.toJson());
     var response;
     try {
@@ -34,7 +33,6 @@ class AuthServiceImpl implements AuthService {
   @override
   Future<RegistrationResponse> register(
       RegistrationRequest registrationRequest) async {
-    _apiClient.interceptors.clear();
     final data = registrationRequest.toRawJson();
     try {
       final response = await _apiClient.post("register", data: data);
@@ -52,6 +50,16 @@ class AuthServiceImpl implements AuthService {
   Future<BaseResponse> resendConfirmationLink(String email) async {
     final response =
         await _apiClient.get("resendToken", queryParameters: {'email': email});
+    if (response.statusCode == RESPONSE_OK) {
+      return BaseResponse.fromJson(response.data);
+    }
+    return baseResponseFromJson("");
+  }
+
+  @override
+  Future<BaseResponse> resetPassword(String email) async {
+    final response = await _apiClient
+        .get("resetPassword", queryParameters: {'email': email});
     if (response.statusCode == RESPONSE_OK) {
       return BaseResponse.fromJson(response.data);
     }

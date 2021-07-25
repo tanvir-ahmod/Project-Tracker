@@ -12,5 +12,7 @@ abstract class AuthRepository {
 
   Future<BaseResponse> resendConfirmationLink(String email);
 
+  Future<BaseResponse> resetPassword(String email);
+
   void logout();
 }

@@ -61,4 +61,9 @@ class ApiClient {
   Dio getApiClient() {
     return _dio;
   }
+
+  Dio getApiClientWithoutInterceptors() {
+    _dio.interceptors.clear();
+    return _dio;
+  }
 }

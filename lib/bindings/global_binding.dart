@@ -1,5 +1,6 @@
 import 'package:todo/controller/auth_controller.dart';
 import 'package:todo/controller/change_password_controller.dart';
+import 'package:todo/controller/forgot_password_controller.dart';
 import 'package:todo/controller/resend_confirmation_code_controller.dart';
 import 'package:todo/controller/todo_controller.dart';
 import 'package:todo/controller/view_projects_controller.dart';
@@ -35,5 +36,6 @@ class GlobalBinding extends Bindings {
         fenix: true);
     Get.lazyPut<ProfileRepository>(() => ProfileRepositoryImpl(), fenix: true);
     Get.lazyPut<ProfileService>(() => ProfileServiceImpl(), fenix: true);
+    Get.lazyPut<ForgotPasswordController>(() => ForgotPasswordController(), fenix: true);
   }
 }

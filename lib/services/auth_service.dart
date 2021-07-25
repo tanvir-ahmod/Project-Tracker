@@ -4,7 +4,7 @@ import 'package:todo/data/model/response/base_response.dart';
 import 'package:todo/data/model/response/login_response.dart';
 import 'package:todo/data/model/response/registration_response.dart';
 
-abstract class AuthService{
+abstract class AuthService {
   Future<LoginResponse> login(LoginRequest loginRequest);
 
   Future<RegistrationResponse> register(
@@ -12,4 +12,5 @@ abstract class AuthService{
 
   Future<BaseResponse> resendConfirmationLink(String email);
 
+  Future<BaseResponse> resetPassword(String email);
 }

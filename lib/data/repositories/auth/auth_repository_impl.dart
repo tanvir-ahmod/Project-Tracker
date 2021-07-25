@@ -34,4 +34,7 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<BaseResponse> resendConfirmationLink(String email) =>
       _service.resendConfirmationLink(email);
+
+  @override
+  Future<BaseResponse> resetPassword(String email)=>_service.resetPassword(email);
 }
