@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:todo/data/model/project.dart';
 
@@ -41,14 +42,22 @@ class ProjectInfoCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                child: LinearPercentIndicator(
-                  lineHeight: 4.0,
-                  percent:
-                      project.progress != null ? project.progress! / 100 : 0.0,
-                  backgroundColor: Colors.grey,
-                  progressColor: Colors.green,
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  child: CircularPercentIndicator(
+                    lineWidth: 4.0,
+                    center: Text(
+                      "${project.progress != null ? project.progress!.toInt() : 0}%",
+                      textAlign: TextAlign.center,
+                    ),
+                    percent: project.progress != null
+                        ? project.progress! / 100
+                        : 0.0,
+                    backgroundColor: Colors.grey,
+                    progressColor: Colors.green,
+                    radius: 40,
+                  ),
                 ),
               ),
               Expanded(
@@ -93,8 +102,7 @@ class ProjectInfoCard extends StatelessWidget {
 
     if (selected == 1) {
       if (onEditClicked != null) onEditClicked!(project);
-    } else
-      _showConfirmationDialog();
+    } else if (selected == 2) _showConfirmationDialog();
   }
 
   String _getProjectTitle(String originalText) {

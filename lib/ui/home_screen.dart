@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisSpacing: 2.0,
                       mainAxisSpacing: 2.0,
                       childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 3),
+                          (MediaQuery.of(context).size.height / 2),
                     ),
                     itemBuilder: (context, index) {
                       return InkWell(
@@ -75,7 +75,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               onUpdateClicked: updateWidget,
                               project: _todoController.projects[index]));
                         },
-                        child: ProjectInfoCard(
+                        child:
+                        // Text(_todoController.projects[index].description)
+                        ProjectInfoCard(
                           project: _todoController.projects[index],
                           onDeleteClicked: _todoController.deleteTodoById,
                           onEditClicked: _onEditClicked,
