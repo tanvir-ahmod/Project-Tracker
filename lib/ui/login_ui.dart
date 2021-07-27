@@ -5,7 +5,6 @@ import 'package:todo/ui/forgot_password.dart';
 import 'package:todo/ui/registration/sign_up_ui.dart';
 import 'package:get/get.dart';
 
-import 'home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   final AuthController authController = Get.find();
@@ -15,8 +14,6 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _email.text = "test@gmail.com";
-    _pass.text = "password";
     return Obx(() {
       return Scaffold(
           backgroundColor: Colors.white,

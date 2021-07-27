@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:todo/data/model/project.dart';
 
 typedef OnEditClicked = void Function(Project project);
@@ -10,11 +9,15 @@ typedef OnEditClicked = void Function(Project project);
 class ProjectInfoCard extends StatelessWidget {
   final Function? onDeleteClicked;
   final OnEditClicked? onEditClicked;
+  final String? deleteMessage;
 
   final Project project;
 
   ProjectInfoCard(
-      {required this.project, this.onDeleteClicked, this.onEditClicked});
+      {required this.project,
+      this.onDeleteClicked,
+      this.onEditClicked,
+      this.deleteMessage});
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +116,7 @@ class ProjectInfoCard extends StatelessWidget {
   void _showConfirmationDialog() {
     Get.defaultDialog(
         title: "Delete",
-        middleText: "Do you want to delete this data?",
+        middleText: deleteMessage ?? "Do you want to delete this data?",
         textConfirm: "Confirm",
         cancelTextColor: Colors.black,
         confirmTextColor: Colors.red,

@@ -308,6 +308,7 @@ class _ViewProjectState extends State<ViewProject> {
                                               onDeleteClicked:
                                                   _removeParentItem,
                                               onEditClicked: _onEditClicked,
+                                              deleteMessage: "Do you want to remove it from parent project?",
                                             )),
                                       ),
                               ],
@@ -404,6 +405,8 @@ class _ViewProjectState extends State<ViewProject> {
                                                           _removeSubItem,
                                                       onEditClicked:
                                                           _onEditClicked,
+                                                      deleteMessage: "Do you want to remove it from sub project?",
+
                                                     ),
                                                   ),
                                                 );
