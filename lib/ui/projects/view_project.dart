@@ -46,9 +46,6 @@ class _ViewProjectState extends State<ViewProject> {
 
   @override
   Widget build(BuildContext context) {
-    _viewProjectController.isUpdateCurrentProject.listen((isUpdate) {
-      if (isUpdate) updateCurrentProject();
-    });
     return Obx(() => _viewProjectController.isLoading.value
         ? Loading()
         : RefreshIndicator(
@@ -510,7 +507,7 @@ class _ViewProjectState extends State<ViewProject> {
   void _showSubProjectAddDialog() async {
     await _viewProjectController.showSubProjectsToAdd();
     if (_viewProjectController.subProjectsToAdd.isEmpty) {
-      _viewProjectController.gotoAddToDoPage(onUpdateClicked);
+      _viewProjectController.gotoAddToDoPage(updateCurrentProject);
       return;
     }
     Get.defaultDialog(
@@ -520,7 +517,7 @@ class _ViewProjectState extends State<ViewProject> {
             Center(
               child: TextButton(
                   onPressed: () async {
-                    _viewProjectController.gotoAddToDoPage(onUpdateClicked);
+                    _viewProjectController.gotoAddToDoPage(updateCurrentProject);
                   },
                   child: Text("+Add new")),
             ),

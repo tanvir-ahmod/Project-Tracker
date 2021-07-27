@@ -16,7 +16,6 @@ class ViewProjectController extends GetxController {
       Project(checkLists: [], deadline: null, description: "").obs;
   var parentProject = Rxn<Project>();
   var checkListProgress = 0.0.obs;
-  var isUpdateCurrentProject = false.obs;
 
   void getSubProjectsById(int id) async {
     isLoading.value = true;
@@ -36,17 +35,14 @@ class ViewProjectController extends GetxController {
       checkListProgress.value = completedTasks / totalTasks;
 
     _getParentProject();
+    getSubProjectsById(currentProject.value.id!);
   }
 
   void removeSubItem(int subProjectId) async {
-    Project subProject =
-        subProjects.where((project) => project.id == subProjectId).first;
-    isLoading.value = true;
+     isLoading.value = true;
     await _todoRepository.removeParentProject(subProjectId);
-    isUpdateCurrentProject.value = true;
-    subProjects.remove(subProject);
-    subProjects.refresh();
     isLoading.value = false;
+    updateCurrentProject();
   }
 
   void removeParentItem() async {
@@ -80,17 +76,14 @@ class ViewProjectController extends GetxController {
         parentProject.id!, currentProject.value.id!);
     this.parentProject.value = parentProject;
     isParentProjectsLoading.value = false;
+    _getParentProject();
   }
 
   Future<void> setAsSubProject(Project subProject) async {
-    isSubProjectsToAddLoading.value = true;
     subProject.parentId = currentProject.value.id!;
     await _todoRepository.updateParentProject(
         currentProject.value.id!, subProject.id!);
-    isUpdateCurrentProject.value = true;
-    subProjects.add(subProject);
-    subProjects.refresh();
-    isSubProjectsToAddLoading.value = false;
+    updateCurrentProject();
   }
 
   void _getParentProject() async {
