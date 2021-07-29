@@ -110,6 +110,7 @@ class AddTodoScreen extends StatelessWidget {
                         InkWell(
                           onTap: () {
                             _selectDate(context);
+                            FocusManager.instance.primaryFocus?.unfocus();
                           },
                           child: Icon(
                             Icons.arrow_drop_down,
@@ -267,7 +268,7 @@ class AddTodoScreen extends StatelessWidget {
                   if (_todoController
                       .inputCheckListController.text.isNotEmpty) {
                     _todoController.saveCheckList();
-                    FocusManager.instance.primaryFocus!.unfocus();
+                    FocusManager.instance.primaryFocus?.unfocus();
                   } else {
                     _todoController.isAddItemValidate.value = false;
                   }
@@ -281,7 +282,7 @@ class AddTodoScreen extends StatelessWidget {
                 ),
                 onTap: () {
                   _todoController.showAddCheckListWidget(false);
-                  FocusManager.instance.primaryFocus!.unfocus();
+                  FocusManager.instance.primaryFocus?.unfocus();
                 },
               ),
             ],
