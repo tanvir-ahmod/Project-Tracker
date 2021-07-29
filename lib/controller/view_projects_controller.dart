@@ -16,6 +16,7 @@ class ViewProjectController extends GetxController {
       Project(checkLists: [], deadline: null, description: "").obs;
   var parentProject = Rxn<Project>();
   var checkListProgress = 0.0.obs;
+  Function? _onUpdateClicked;
 
   void getSubProjectsById(int id) async {
     isLoading.value = true;
@@ -51,6 +52,7 @@ class ViewProjectController extends GetxController {
     currentProject.value.parentId = null;
     parentProject.value = null;
     isLoading.value = false;
+    updateCurrentProject();
   }
 
   Future<void> showSubProjectsToAdd() async {
@@ -102,11 +104,16 @@ class ViewProjectController extends GetxController {
     });
   }
 
-  Future<void> updateCurrentProject() async {
+  updateCurrentProject() async {
     Project? updatedProject =
         await _todoRepository.fetchProjectById(currentProject.value.id!);
     if (updatedProject != null) {
       setProject(updatedProject);
     }
+    _onUpdateClicked?.call();
+  }
+
+  void setOnUpdateClick(Function? onUpdateClicked){
+    _onUpdateClicked = onUpdateClicked;
   }
 }

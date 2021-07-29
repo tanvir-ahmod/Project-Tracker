@@ -72,12 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       return InkWell(
                         onTap: () {
                           Get.to(() => ViewProject(
-                              onUpdateClicked: updateWidget,
+                              onUpdateClicked: _updateWidget,
                               project: _todoController.projects[index]));
                         },
-                        child:
-                        // Text(_todoController.projects[index].description)
-                        ProjectInfoCard(
+                        child: ProjectInfoCard(
                           project: _todoController.projects[index],
                           onDeleteClicked: _todoController.deleteTodoById,
                           onEditClicked: _onEditClicked,
@@ -89,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 Get.to(() => AddTodoScreen(),
-                    arguments: {UPDATE_LISTENER: updateWidget});
+                    arguments: {UPDATE_LISTENER: _updateWidget});
               },
               tooltip: "Add Task",
               child: Icon(Icons.add),
@@ -105,10 +103,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onEditClicked(Project project) {
     Get.to(() => AddTodoScreen(),
-        arguments: {PROJECT: project, UPDATE_LISTENER: updateWidget});
+        arguments: {PROJECT: project, UPDATE_LISTENER: _updateWidget});
   }
 
-  void updateWidget() {
+  void _updateWidget() {
     _todoController.getAllProjects();
   }
 

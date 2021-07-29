@@ -37,9 +37,7 @@ class _ViewProjectState extends State<ViewProject> {
   void initState() {
     if (project != null) {
       _viewProjectController.setProject(project!);
-      if (project!.id != null) {
-        _viewProjectController.getSubProjectsById(project!.id!);
-      }
+      _viewProjectController.setOnUpdateClick(onUpdateClicked);
     }
     super.initState();
   }
@@ -50,7 +48,7 @@ class _ViewProjectState extends State<ViewProject> {
         ? Loading()
         : RefreshIndicator(
             onRefresh: () {
-              return updateCurrentProject();
+              return _viewProjectController.updateCurrentProject();
             },
             child: Scaffold(
                 appBar: AppBar(
@@ -305,7 +303,8 @@ class _ViewProjectState extends State<ViewProject> {
                                               onDeleteClicked:
                                                   _removeParentItem,
                                               onEditClicked: _onEditClicked,
-                                              deleteMessage: "Do you want to remove it from parent project?",
+                                              deleteMessage:
+                                                  "Do you want to remove it from parent project?",
                                             )),
                                       ),
                               ],
@@ -383,7 +382,8 @@ class _ViewProjectState extends State<ViewProject> {
                                                           builder: (_) {
                                                             return ViewProject(
                                                               onUpdateClicked:
-                                                                  updateCurrentProject,
+                                                                  _viewProjectController
+                                                                      .updateCurrentProject,
                                                               project:
                                                                   _viewProjectController
                                                                           .subProjects[
@@ -402,8 +402,8 @@ class _ViewProjectState extends State<ViewProject> {
                                                           _removeSubItem,
                                                       onEditClicked:
                                                           _onEditClicked,
-                                                      deleteMessage: "Do you want to remove it from sub project?",
-
+                                                      deleteMessage:
+                                                          "Do you want to remove it from sub project?",
                                                     ),
                                                   ),
                                                 );
@@ -457,8 +457,10 @@ class _ViewProjectState extends State<ViewProject> {
   }
 
   void _onEditClicked(Project project) {
-    Get.to(() => AddTodoScreen(),
-        arguments: {PROJECT: project, UPDATE_LISTENER: updateCurrentProject});
+    Get.to(() => AddTodoScreen(), arguments: {
+      PROJECT: project,
+      UPDATE_LISTENER: _viewProjectController.updateCurrentProject
+    });
   }
 
   void _removeSubItem(int subProjectId) {
@@ -507,7 +509,8 @@ class _ViewProjectState extends State<ViewProject> {
   void _showSubProjectAddDialog() async {
     await _viewProjectController.showSubProjectsToAdd();
     if (_viewProjectController.subProjectsToAdd.isEmpty) {
-      _viewProjectController.gotoAddToDoPage(updateCurrentProject);
+      _viewProjectController
+          .gotoAddToDoPage(_viewProjectController.updateCurrentProject);
       return;
     }
     Get.defaultDialog(
@@ -517,7 +520,8 @@ class _ViewProjectState extends State<ViewProject> {
             Center(
               child: TextButton(
                   onPressed: () async {
-                    _viewProjectController.gotoAddToDoPage(updateCurrentProject);
+                    _viewProjectController.gotoAddToDoPage(
+                        _viewProjectController.updateCurrentProject);
                   },
                   child: Text("+Add new")),
             ),
@@ -547,10 +551,5 @@ class _ViewProjectState extends State<ViewProject> {
             ),
           ],
         ));
-  }
-
-  Future<void> updateCurrentProject() {
-    if (onUpdateClicked != null) onUpdateClicked!();
-    return _viewProjectController.updateCurrentProject();
   }
 }
