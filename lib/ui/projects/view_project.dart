@@ -305,6 +305,7 @@ class _ViewProjectState extends State<ViewProject> {
                                               onEditClicked: _onEditClicked,
                                               deleteMessage:
                                                   "Do you want to remove it from parent project?",
+                                              deleteText: "Remove",
                                             )),
                                       ),
                               ],
@@ -394,17 +395,17 @@ class _ViewProjectState extends State<ViewProject> {
                                                       );
                                                     },
                                                     child: ProjectInfoCard(
-                                                      project:
-                                                          _viewProjectController
-                                                                  .subProjects[
-                                                              index],
-                                                      onDeleteClicked:
-                                                          _removeSubItem,
-                                                      onEditClicked:
-                                                          _onEditClicked,
-                                                      deleteMessage:
-                                                          "Do you want to remove it from sub project?",
-                                                    ),
+                                                        project:
+                                                            _viewProjectController
+                                                                    .subProjects[
+                                                                index],
+                                                        onDeleteClicked:
+                                                            _removeSubItem,
+                                                        onEditClicked:
+                                                            _onEditClicked,
+                                                        deleteMessage:
+                                                            "Do you want to remove it from sub project?",
+                                                        deleteText: "Remove"),
                                                   ),
                                                 );
                                               }),

@@ -10,6 +10,7 @@ class ProjectInfoCard extends StatelessWidget {
   final Function? onDeleteClicked;
   final OnEditClicked? onEditClicked;
   final String? deleteMessage;
+  final String? deleteText;
 
   final Project project;
 
@@ -17,7 +18,8 @@ class ProjectInfoCard extends StatelessWidget {
       {required this.project,
       this.onDeleteClicked,
       this.onEditClicked,
-      this.deleteMessage});
+      this.deleteMessage,
+      this.deleteText});
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +96,7 @@ class ProjectInfoCard extends StatelessWidget {
           value: 1,
         ),
         PopupMenuItem(
-          child: Text("Delete"),
+          child: Text(deleteText ?? "Delete"),
           value: 2,
         ),
       ],
@@ -115,7 +117,7 @@ class ProjectInfoCard extends StatelessWidget {
 
   void _showConfirmationDialog() {
     Get.defaultDialog(
-        title: "Delete",
+        title: deleteText ?? "Delete",
         middleText: deleteMessage ?? "Do you want to delete this data?",
         textConfirm: "Confirm",
         cancelTextColor: Colors.black,
