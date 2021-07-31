@@ -93,7 +93,7 @@ class _ViewProjectState extends State<ViewProject> {
                           children: [
                             Icon(
                               Icons.date_range_rounded,
-                              color: Colors.deepPurpleAccent,
+                              color: Colors.blue[800],
                               size: 45,
                             ),
                             Padding(

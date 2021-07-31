@@ -86,7 +86,7 @@ class AddTodoScreen extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.date_range_rounded,
-                          color: Colors.deepPurpleAccent,
+                          color: Colors.blue[800],
                           size: 45,
                         ),
                         Padding(
