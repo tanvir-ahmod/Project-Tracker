@@ -27,7 +27,7 @@ class SignUpUI extends StatelessWidget {
                     child: Container(
                         width: 200,
                         height: 150,
-                        child: Image.asset('assets/images/password_setup.png')),
+                        child: Image.asset('assets/images/login.png')),
                   ),
                 ),
                 SizedBox(
@@ -38,85 +38,100 @@ class SignUpUI extends StatelessWidget {
                   child: Column(
                     children: [
                       Padding(
-                        //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: TextFormField(
-                          controller: _email,
-                          textInputAction: TextInputAction.next,
-                          validator: (val) {
-                            if (val != null && val.isEmpty)
-                              return 'Field can not be empty';
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Email address',
-                              hintText: 'Enter email address'),
-                        ),
-                      ),
+                          padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
+                          child: TextFormField(
+                            controller: _email,
+                            validator: (val) {
+                              if (val != null && val.isEmpty)
+                                return 'Field can not be empty';
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(20, 8, 8, 8),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50.0)),
+                                  borderSide:
+                                      BorderSide(color: Colors.white24)),
+                              labelText: 'Email',
+                              labelStyle:
+                                  TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            // ignore: missing_return
+                          )),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 15, bottom: 0),
-                        //padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: TextFormField(
-                          controller: _pass,
-                          obscureText: true,
-                          textInputAction: TextInputAction.next,
-                          validator: (val) {
-                            if (val != null && val.isEmpty)
-                              return 'Field can not be empty';
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
+                          padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+                          child: TextFormField(
+                            controller: _pass,
+                            obscureText: true,
+                            textInputAction: TextInputAction.done,
+                            validator: (val) {
+                              if (val != null && val.isEmpty)
+                                return 'Field can not be empty';
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(20, 8, 8, 8),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50.0)),
+                                  borderSide:
+                                      BorderSide(color: Colors.white24)),
                               labelText: 'Password',
-                              hintText: 'Enter password'),
-                        ),
-                      ),
+                              labelStyle:
+                                  TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            // ignore: missing_return
+                          )),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 15, bottom: 0),
-                        //padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: TextFormField(
-                          controller: _confirmPass,
-                          obscureText: true,
-                          textInputAction: TextInputAction.done,
-                          validator: (val) {
-                            if (val!.isEmpty) return 'Field can not be empty';
-                            if (val != _pass.text)
-                              return 'Password does not match';
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
+                          padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+                          child: TextFormField(
+                            controller: _confirmPass,
+                            obscureText: true,
+                            textInputAction: TextInputAction.done,
+                            validator: (val) {
+                              if (val!.isEmpty) return 'Field can not be empty';
+                              if (val != _pass.text)
+                                return 'Password does not match';
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(20, 8, 8, 8),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50.0)),
+                                  borderSide:
+                                      BorderSide(color: Colors.white24)),
                               labelText: 'Confirm Password',
-                              hintText: 'Enter password again'),
-                        ),
-                      ),
+                              labelStyle:
+                                  TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            // ignore: missing_return
+                          )),
                     ],
                   ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  height: 50,
-                  width: 250,
-                  decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: TextButton(
-                    onPressed: () {
-                      if (_form.currentState!.validate()) {
-                        authController.register(
-                            _email.text, _pass.text, _confirmPass.text);
-                      }
-                    },
-                    child: Text(
-                      'Register',
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    ),
+                MaterialButton(
+                  onPressed: () {
+                    if (_form.currentState!.validate()) {
+                      authController.register(
+                          _email.text, _pass.text, _confirmPass.text);
+                    }
+                  },
+                  child: Text(
+                    'Register',
+                    // style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 60.0, vertical: 8.0),
+                  color: Colors.blue[600],
+                  textColor: Theme.of(context).primaryTextTheme.button!.color,
                 ),
                 SizedBox(
                   height: 20,
