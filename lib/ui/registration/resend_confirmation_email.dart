@@ -26,11 +26,16 @@ class ResendConfirmationEmailScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Please confirm your email to continue",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
-                    textAlign: TextAlign.center,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Please confirm your email to continue',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.blue[800],
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
