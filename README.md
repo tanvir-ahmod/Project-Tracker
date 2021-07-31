@@ -12,6 +12,15 @@ A flutter app to track projects. This app is made by integrating [this API](http
 * Edit / delete project
 
 
+## Screenshots
+
+<img src="https://github.com/tanvir-ahmod/Project-Tracker/blob/master/screenshots/1.jpg" height="400" width="200"> <img src="https://github.com/tanvir-ahmod/Project-Tracker/blob/master/screenshots/2.jpg" height="400" width="200">
+<img src="https://github.com/tanvir-ahmod/Project-Tracker/blob/master/screenshots/3.jpg" height="400" width="200">
+<img src="https://github.com/tanvir-ahmod/Project-Tracker/blob/master/screenshots/4.jpg" height="400" width="200">
+<img src="https://github.com/tanvir-ahmod/Project-Tracker/blob/master/screenshots/5.jpg" height="400" width="200">
+<img src="https://github.com/tanvir-ahmod/Project-Tracker/blob/master/screenshots/6.jpg" height="400" width="200">
+
+
 ## Technology Used
 - Dart (Primary Language)
 - Libraries: 
