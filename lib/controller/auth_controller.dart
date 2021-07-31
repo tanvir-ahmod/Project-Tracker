@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:todo/data/model/request/login_request.dart';
-import 'package:todo/data/model/request/registration_request.dart';
-import 'package:todo/data/repositories/auth/auth_repository.dart';
-import 'package:todo/helpers/Constants.dart';
+import 'package:project_tracker/data/model/request/login_request.dart';
+import 'package:project_tracker/data/model/request/registration_request.dart';
+import 'package:project_tracker/data/repositories/auth/auth_repository.dart';
+import 'package:project_tracker/helpers/Constants.dart';
 import 'package:get/get.dart';
-import 'package:todo/ui/home_screen.dart';
-import 'package:todo/ui/login_ui.dart';
-import 'package:todo/ui/registration/resend_confirmation_email.dart';
+import 'package:project_tracker/ui/home_screen.dart';
+import 'package:project_tracker/ui/login_ui.dart';
+import 'package:project_tracker/ui/registration/resend_confirmation_email.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;

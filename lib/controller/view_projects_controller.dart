@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
-import 'package:todo/data/model/project.dart';
-import 'package:todo/data/repositories/todo/todo_repository.dart';
-import 'package:todo/helpers/Constants.dart';
-import 'package:todo/ui/projects/add_project.dart';
+import 'package:project_tracker/data/model/project.dart';
+import 'package:project_tracker/data/repositories/project/project_repository.dart';
+import 'package:project_tracker/helpers/Constants.dart';
+import 'package:project_tracker/ui/projects/add_project.dart';
 
 class ViewProjectController extends GetxController {
-  final TodoRepository _todoRepository = Get.find();
+  final ProjectRepository _projectRepository = Get.find();
   var subProjects = <Project>[].obs;
   var subProjectsToAdd = <Project>[].obs;
   var parentProjectsToAdd = <Project>[].obs;
@@ -20,7 +20,7 @@ class ViewProjectController extends GetxController {
 
   void getSubProjectsById(int id) async {
     isLoading.value = true;
-    var response = await _todoRepository.fetchSubProjectsById(id);
+    var response = await _projectRepository.fetchSubProjectsById(id);
     subProjects.assignAll(response);
     isLoading.value = false;
   }
@@ -41,14 +41,14 @@ class ViewProjectController extends GetxController {
 
   void removeSubItem(int subProjectId) async {
      isLoading.value = true;
-    await _todoRepository.removeParentProject(subProjectId);
+    await _projectRepository.removeParentProject(subProjectId);
     isLoading.value = false;
     updateCurrentProject();
   }
 
   void removeParentItem() async {
     isLoading.value = true;
-    await _todoRepository.removeParentProject(currentProject.value.id!);
+    await _projectRepository.removeParentProject(currentProject.value.id!);
     currentProject.value.parentId = null;
     parentProject.value = null;
     isLoading.value = false;
@@ -58,14 +58,14 @@ class ViewProjectController extends GetxController {
   Future<void> showSubProjectsToAdd() async {
     isSubProjectsToAddLoading.value = true;
     final items =
-        await _todoRepository.fetchSubProjectsToAdd(currentProject.value.id!);
+        await _projectRepository.fetchSubProjectsToAdd(currentProject.value.id!);
     subProjectsToAdd.assignAll(items);
     isSubProjectsToAddLoading.value = false;
   }
 
   Future<void> showParentProjectsToAdd() async {
     isParentProjectsLoading.value = true;
-    final items = await _todoRepository
+    final items = await _projectRepository
         .fetchParentProjectsToAdd(currentProject.value.id!);
     parentProjectsToAdd.assignAll(items);
     isParentProjectsLoading.value = false;
@@ -74,7 +74,7 @@ class ViewProjectController extends GetxController {
   Future<void> setAsParentProject(Project parentProject) async {
     isParentProjectsLoading.value = true;
     currentProject.value.parentId = parentProject.id;
-    await _todoRepository.updateParentProject(
+    await _projectRepository.updateParentProject(
         parentProject.id!, currentProject.value.id!);
     this.parentProject.value = parentProject;
     isParentProjectsLoading.value = false;
@@ -83,7 +83,7 @@ class ViewProjectController extends GetxController {
 
   Future<void> setAsSubProject(Project subProject) async {
     subProject.parentId = currentProject.value.id!;
-    await _todoRepository.updateParentProject(
+    await _projectRepository.updateParentProject(
         currentProject.value.id!, subProject.id!);
     updateCurrentProject();
   }
@@ -92,7 +92,7 @@ class ViewProjectController extends GetxController {
     Project? parentProject;
     if (currentProject.value.parentId != null &&
         currentProject.value.parentId != 0)
-      parentProject = await _todoRepository
+      parentProject = await _projectRepository
           .fetchProjectById(currentProject.value.parentId!);
     this.parentProject.value = parentProject;
   }
@@ -106,7 +106,7 @@ class ViewProjectController extends GetxController {
 
   updateCurrentProject() async {
     Project? updatedProject =
-        await _todoRepository.fetchProjectById(currentProject.value.id!);
+        await _projectRepository.fetchProjectById(currentProject.value.id!);
     if (updatedProject != null) {
       setProject(updatedProject);
     }

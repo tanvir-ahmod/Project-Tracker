@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo/controller/change_password_controller.dart';
+import 'package:project_tracker/controller/change_password_controller.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
   final ChangePasswordController _changePasswordController = Get.find();

@@ -1,10 +1,10 @@
-import 'package:todo/data/model/project.dart';
-import 'package:todo/data/model/response/base_response.dart';
-import 'package:todo/data/repositories/todo/todo_repository.dart';
-import 'package:todo/services/api_service.dart';
+import 'package:project_tracker/data/model/project.dart';
+import 'package:project_tracker/data/model/response/base_response.dart';
+import 'package:project_tracker/data/repositories/project/project_repository.dart';
+import 'package:project_tracker/services/api_service.dart';
 import 'package:get/get.dart';
 
-class TodoRepositoryImpl extends TodoRepository {
+class ProjectRepositoryImpl extends ProjectRepository {
   ApiService _service = Get.find();
 
   @override

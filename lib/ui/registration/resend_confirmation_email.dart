@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo/controller/resend_confirmation_code_controller.dart';
-import 'package:todo/ui/loading.dart';
-import 'package:todo/ui/login_ui.dart';
+import 'package:project_tracker/controller/resend_confirmation_code_controller.dart';
+import 'package:project_tracker/ui/loading.dart';
+import 'package:project_tracker/ui/login_ui.dart';
 
 class ResendConfirmationEmailScreen extends StatelessWidget {
   final ResendConfirmationEmailController _resendEmailController = Get.find();

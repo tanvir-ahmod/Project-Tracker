@@ -1,7 +1,7 @@
-import 'package:todo/data/model/request/change_password_request.dart';
-import 'package:todo/data/model/response/base_response.dart';
-import 'package:todo/network/api_client.dart';
-import 'package:todo/services/profile_service.dart';
+import 'package:project_tracker/data/model/request/change_password_request.dart';
+import 'package:project_tracker/data/model/response/base_response.dart';
+import 'package:project_tracker/network/api_client.dart';
+import 'package:project_tracker/services/profile_service.dart';
 
 class ProfileServiceImpl implements ProfileService {
   final _apiClient = ApiClient().getApiClient();

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:todo/data/model/project.dart';
+import 'package:project_tracker/data/model/project.dart';
 
 typedef OnEditClicked = void Function(Project project);
 

@@ -1,11 +1,11 @@
-import 'package:todo/data/model/request/login_request.dart';
-import 'package:todo/data/model/request/registration_request.dart';
-import 'package:todo/data/model/response/base_response.dart';
-import 'package:todo/data/model/response/login_response.dart';
-import 'package:todo/data/model/response/registration_response.dart';
-import 'package:todo/data/repositories/auth/auth_repository.dart';
-import 'package:todo/helpers/Constants.dart';
-import 'package:todo/services/auth_service.dart';
+import 'package:project_tracker/data/model/request/login_request.dart';
+import 'package:project_tracker/data/model/request/registration_request.dart';
+import 'package:project_tracker/data/model/response/base_response.dart';
+import 'package:project_tracker/data/model/response/login_response.dart';
+import 'package:project_tracker/data/model/response/registration_response.dart';
+import 'package:project_tracker/data/repositories/auth/auth_repository.dart';
+import 'package:project_tracker/helpers/Constants.dart';
+import 'package:project_tracker/services/auth_service.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

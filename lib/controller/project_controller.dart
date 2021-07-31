@@ -2,13 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:todo/data/model/project.dart';
-import 'package:todo/data/repositories/todo/todo_repository.dart';
 import 'package:get/get.dart';
+import 'package:project_tracker/data/model/project.dart';
+import 'package:project_tracker/data/repositories/project/project_repository.dart';
 
-class TodoController extends GetxController {
+class ProjectController extends GetxController {
   var isLoading = false.obs;
-  TodoRepository _todoRepository = Get.find();
+  ProjectRepository _projectRepository = Get.find();
 
   var projects = <Project>[].obs;
   final checkLists = <CheckList>[].obs;
@@ -36,7 +36,7 @@ class TodoController extends GetxController {
 
   void getAllProjects() async {
     isLoading.value = true;
-    var response = await _todoRepository.fetchAllProjects();
+    var response = await _projectRepository.fetchAllProjects();
     projects.assignAll(response);
     isLoading.value = false;
   }
@@ -61,8 +61,8 @@ class TodoController extends GetxController {
     isLoading.value = true;
     try {
       final response = isEditable.value
-          ? await _todoRepository.updateProject(tempProject)
-          : await _todoRepository.addProject(tempProject);
+          ? await _projectRepository.updateProject(tempProject)
+          : await _projectRepository.addProject(tempProject);
       isLoading.value = false;
       isUpdateWidget.value = true;
       Fluttertoast.showToast(
@@ -75,7 +75,7 @@ class TodoController extends GetxController {
 
   Future<bool> deleteTodoById(int id) async {
     isLoading.value = true;
-    final response = await _todoRepository.deleteRowByID(id);
+    final response = await _projectRepository.deleteRowByID(id);
     isLoading.value = false;
     Fluttertoast.showToast(
         msg: response.responseMessage, toastLength: Toast.LENGTH_LONG);

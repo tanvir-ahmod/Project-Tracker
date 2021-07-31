@@ -1,7 +1,7 @@
-import 'package:todo/data/model/project.dart';
-import 'package:todo/data/model/response/base_response.dart';
-import 'package:todo/helpers/Constants.dart';
-import 'package:todo/services/api_service.dart';
+import 'package:project_tracker/data/model/project.dart';
+import 'package:project_tracker/data/model/response/base_response.dart';
+import 'package:project_tracker/helpers/Constants.dart';
+import 'package:project_tracker/services/api_service.dart';
 
 import '../network/api_client.dart';
 

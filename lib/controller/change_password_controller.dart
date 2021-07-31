@@ -2,9 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:todo/data/model/request/change_password_request.dart';
-import 'package:todo/data/repositories/profile/profile_repository.dart';
-import 'package:todo/ui/login_ui.dart';
+import 'package:project_tracker/data/model/request/change_password_request.dart';
+import 'package:project_tracker/data/repositories/profile/profile_repository.dart';
+import 'package:project_tracker/ui/login_ui.dart';
 
 class ChangePasswordController extends GetxController {
   final GlobalKey<FormState> form = GlobalKey<FormState>();

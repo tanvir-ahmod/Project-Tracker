@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:todo/data/repositories/auth/auth_repository.dart';
+import 'package:project_tracker/data/repositories/auth/auth_repository.dart';
 
 class ForgotPasswordController extends GetxController {
   final AuthRepository _authRepository = Get.find();

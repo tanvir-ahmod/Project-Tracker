@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:todo/controller/auth_controller.dart';
-import 'package:todo/ui/forgot_password.dart';
-import 'package:todo/ui/registration/sign_up_ui.dart';
+import 'package:project_tracker/controller/auth_controller.dart';
+import 'package:project_tracker/ui/forgot_password.dart';
+import 'package:project_tracker/ui/registration/sign_up_ui.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {

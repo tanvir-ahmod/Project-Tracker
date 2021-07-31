@@ -2,10 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:todo/data/model/response/base_response.dart';
-import 'package:todo/helpers/Constants.dart';
+import 'package:project_tracker/data/model/response/base_response.dart';
+import 'package:project_tracker/helpers/Constants.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:todo/ui/login_ui.dart';
+import 'package:project_tracker/ui/login_ui.dart';
 
 class ApiClient {
   Dio _dio = Dio();

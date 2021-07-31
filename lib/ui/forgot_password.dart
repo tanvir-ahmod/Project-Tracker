@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:todo/controller/forgot_password_controller.dart';
+import 'package:project_tracker/controller/forgot_password_controller.dart';
 
 class ForgotPassword extends StatelessWidget {
   final ForgotPasswordController _forgotPasswordController = Get.find();

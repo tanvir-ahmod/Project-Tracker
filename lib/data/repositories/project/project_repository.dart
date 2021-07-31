@@ -1,7 +1,7 @@
-import 'package:todo/data/model/project.dart';
-import 'package:todo/data/model/response/base_response.dart';
+import 'package:project_tracker/data/model/project.dart';
+import 'package:project_tracker/data/model/response/base_response.dart';
 
-abstract class TodoRepository {
+abstract class ProjectRepository {
   Future<BaseResponse> addProject(Project project);
 
   Future<BaseResponse> updateProject(Project project);

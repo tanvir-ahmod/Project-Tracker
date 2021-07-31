@@ -1,6 +1,6 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:todo/data/repositories/auth/auth_repository.dart';
+import 'package:project_tracker/data/repositories/auth/auth_repository.dart';
 
 class ResendConfirmationEmailController extends GetxController {
   AuthRepository authRepository = Get.find();

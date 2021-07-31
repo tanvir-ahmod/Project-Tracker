@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:todo/controller/auth_controller.dart';
-import 'package:todo/controller/todo_controller.dart';
+import 'package:project_tracker/controller/auth_controller.dart';
+import 'package:project_tracker/controller/project_controller.dart';
 import 'package:get/get.dart';
-import 'package:todo/data/model/project.dart';
-import 'package:todo/helpers/Constants.dart';
-import 'package:todo/ui/profile/change_password.dart';
-import 'package:todo/ui/projects/components/project_info_card.dart';
-import 'package:todo/ui/projects/view_project.dart';
+import 'package:project_tracker/data/model/project.dart';
+import 'package:project_tracker/helpers/Constants.dart';
+import 'package:project_tracker/ui/profile/change_password.dart';
+import 'package:project_tracker/ui/projects/components/project_info_card.dart';
+import 'package:project_tracker/ui/projects/view_project.dart';
 
 import 'projects/add_project.dart';
 import 'loading.dart';
-import 'login_ui.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -20,11 +19,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final AuthController _authController = Get.find();
-  final TodoController _todoController = Get.find();
+  final ProjectController _projectController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => _todoController.isLoading.value
+    return Obx(() => _projectController.isLoading.value
         ? Loading()
         : Scaffold(
             appBar: AppBar(
@@ -47,20 +46,20 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             body: RefreshIndicator(
                 onRefresh: () async {
-                  return _todoController.getAllProjects();
+                  return _projectController.getAllProjects();
                 },
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     image: DecorationImage(
-                      image: _todoController.projects.length == 0
+                      image: _projectController.projects.length == 0
                           ? AssetImage("assets/images/no_items_found.jpeg")
                           : AssetImage("assets/images/home_background.png"),
                       fit: BoxFit.contain,
                     ),
                   ),
                   child: GridView.builder(
-                    itemCount: _todoController.projects.length,
+                    itemCount: _projectController.projects.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 2.0,
@@ -73,11 +72,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           Get.to(() => ViewProject(
                               onUpdateClicked: _updateWidget,
-                              project: _todoController.projects[index]));
+                              project: _projectController.projects[index]));
                         },
                         child: ProjectInfoCard(
-                          project: _todoController.projects[index],
-                          onDeleteClicked: _todoController.deleteTodoById,
+                          project: _projectController.projects[index],
+                          onDeleteClicked: _projectController.deleteTodoById,
                           onEditClicked: _onEditClicked,
                         ),
                       );
@@ -97,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _todoController.getAllProjects();
+    _projectController.getAllProjects();
     super.initState();
   }
 
@@ -107,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _updateWidget() {
-    _todoController.getAllProjects();
+    _projectController.getAllProjects();
   }
 
   void _handleMenuClick(String value) {

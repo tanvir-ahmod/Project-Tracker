@@ -4,11 +4,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:todo/controller/todo_controller.dart';
-import 'package:todo/controller/view_projects_controller.dart';
-import 'package:todo/data/model/project.dart';
-import 'package:todo/helpers/Constants.dart';
-import 'package:todo/ui/projects/components/project_info_card.dart';
+import 'package:project_tracker/controller/project_controller.dart';
+import 'package:project_tracker/controller/view_projects_controller.dart';
+import 'package:project_tracker/data/model/project.dart';
+import 'package:project_tracker/helpers/Constants.dart';
+import 'package:project_tracker/ui/projects/components/project_info_card.dart';
 
 import '../loading.dart';
 import 'add_project.dart';
@@ -27,7 +27,7 @@ class ViewProject extends StatefulWidget {
 
 class _ViewProjectState extends State<ViewProject> {
   final ViewProjectController _viewProjectController = Get.find();
-  final TodoController _todoController = Get.find();
+  final ProjectController _projectController = Get.find();
   final Project? project;
   final Function? onUpdateClicked;
 
@@ -439,7 +439,7 @@ class _ViewProjectState extends State<ViewProject> {
         ),
         confirm: TextButton(
           onPressed: () {
-            _todoController
+            _projectController
                 .deleteTodoById(_viewProjectController.currentProject.value.id!)
                 .then((isDelete) {
               if (isDelete) {

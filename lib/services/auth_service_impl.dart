@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:todo/data/model/request/login_request.dart';
-import 'package:todo/data/model/request/registration_request.dart';
-import 'package:todo/data/model/response/base_response.dart';
-import 'package:todo/data/model/response/login_response.dart';
-import 'package:todo/data/model/response/registration_response.dart';
-import 'package:todo/helpers/Constants.dart';
-import 'package:todo/network/api_client.dart';
-import 'package:todo/services/auth_service.dart';
+import 'package:project_tracker/data/model/request/login_request.dart';
+import 'package:project_tracker/data/model/request/registration_request.dart';
+import 'package:project_tracker/data/model/response/base_response.dart';
+import 'package:project_tracker/data/model/response/login_response.dart';
+import 'package:project_tracker/data/model/response/registration_response.dart';
+import 'package:project_tracker/helpers/Constants.dart';
+import 'package:project_tracker/network/api_client.dart';
+import 'package:project_tracker/services/auth_service.dart';
 
 class AuthServiceImpl implements AuthService {
   final _apiClient = ApiClient().getApiClientWithoutInterceptors();
