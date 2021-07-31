@@ -8,7 +8,10 @@ void main() async {
   await GetStorage.init();
   GlobalBinding().dependencies();
   runApp(GetMaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: LoginScreen()
-  ));
+      theme: ThemeData(
+        primaryColor: Colors.lightBlue[800],
+        accentColor: Colors.cyan[600],
+      ),
+      debugShowCheckedModeBanner: false,
+      home: LoginScreen()));
 }
