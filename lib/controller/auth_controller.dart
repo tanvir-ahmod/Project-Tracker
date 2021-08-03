@@ -22,12 +22,7 @@ class AuthController extends GetxController {
 
     Fluttertoast.showToast(
         msg: loginResponse.responseMessage,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
+        toastLength: Toast.LENGTH_SHORT);
 
     if (loginResponse.responseCode == 200 &&
         (loginResponse.token != null && loginResponse.token!.isNotEmpty)) {
