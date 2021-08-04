@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                Get.to(() => AddTodoScreen(),
+                Get.to(() => AddProject(),
                     arguments: {UPDATE_LISTENER: _updateWidget});
               },
               tooltip: "Add Task",
@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onEditClicked(Project project) {
-    Get.to(() => AddTodoScreen(),
+    Get.to(() => AddProject(),
         arguments: {PROJECT: project, UPDATE_LISTENER: _updateWidget});
   }
 

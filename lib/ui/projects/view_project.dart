@@ -458,7 +458,7 @@ class _ViewProjectState extends State<ViewProject> {
   }
 
   void _onEditClicked(Project project) {
-    Get.to(() => AddTodoScreen(), arguments: {
+    Get.to(() => AddProject(), arguments: {
       PROJECT: project,
       UPDATE_LISTENER: _viewProjectController.updateCurrentProject
     });
