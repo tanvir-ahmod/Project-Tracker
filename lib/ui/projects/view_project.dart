@@ -159,7 +159,7 @@ class _ViewProjectState extends State<ViewProject> {
                                             100
                                         : 0.0,
                                     center: Text(
-                                      "${_viewProjectController.currentProject.value.progress != null ? _viewProjectController.currentProject.value.progress!.toInt() : 0}%",
+                                      "${_viewProjectController.currentProject.value.progress != null ? _viewProjectController.currentProject.value.progress : 0}%",
                                       textAlign: TextAlign.center,
                                     ),
                                     progressColor: Colors.green,
