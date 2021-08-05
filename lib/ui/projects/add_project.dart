@@ -21,6 +21,7 @@ class AddProject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _projectController.clearCache();
     _projectController.setProjectToEdit(project, parentId);
     _projectController.setOnUpdateClick(updateWidget);
     return Obx(() => _projectController.isLoading.value

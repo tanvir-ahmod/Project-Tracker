@@ -177,4 +177,13 @@ class ProjectController extends GetxController {
   void setOnUpdateClick(Function? onUpdateClicked) {
     _onUpdateClicked = onUpdateClicked;
   }
+
+  clearCache() {
+    titleController.text = "";
+    checkLists.clear();
+    clearSelectedDate();
+    progress.value = 0.0;
+    isEditable.value = false;
+  }
+
 }
