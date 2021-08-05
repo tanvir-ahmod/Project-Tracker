@@ -21,16 +21,8 @@ class AddProject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.delete<ProjectController>();
-    _projectController.clearCache();
     _projectController.setProjectToEdit(project, parentId);
-
-    _projectController.isUpdateWidget.listen((isUpdate) async {
-      if (isUpdate && updateWidget != null) {
-        await updateWidget!();
-        Get.back(closeOverlays: true);
-      }
-    });
+    _projectController.setOnUpdateClick(updateWidget);
     return Obx(() => _projectController.isLoading.value
         ? Loading()
         : Scaffold(

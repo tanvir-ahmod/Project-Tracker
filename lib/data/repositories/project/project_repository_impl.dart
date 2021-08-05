@@ -15,7 +15,7 @@ class ProjectRepositoryImpl extends ProjectRepository {
   Future<List<Project>> fetchAllProjects() => _service.fetchAllProjects();
 
   @override
-  Future<BaseResponse> deleteRowByID(int id) => _service.deleteRowByID(id);
+  Future<BaseResponse> deleteProjectById(int id) => _service.deleteRowByID(id);
 
   @override
   Future<List<Project>> fetchSubProjectsById(int id) =>

@@ -8,7 +8,7 @@ abstract class ProjectRepository {
 
   Future<List<Project>> fetchAllProjects();
 
-  Future<BaseResponse> deleteRowByID(int id);
+  Future<BaseResponse> deleteProjectById(int id);
 
   Future<List<Project>> fetchSubProjectsById(int id);
 

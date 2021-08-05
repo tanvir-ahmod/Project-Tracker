@@ -38,6 +38,7 @@ class _ViewProjectState extends State<ViewProject> {
     if (project != null) {
       _viewProjectController.setProject(project!);
       _viewProjectController.setOnUpdateClick(onUpdateClicked);
+      _projectController.setOnUpdateClick(onUpdateClicked);
     }
     super.initState();
   }
@@ -430,7 +431,7 @@ class _ViewProjectState extends State<ViewProject> {
         radius: 20,
         cancel: TextButton(
           onPressed: () {
-            Get.back(closeOverlays: true);
+            Get.back();
           },
           child: Text(
             "Cancel",
@@ -439,16 +440,9 @@ class _ViewProjectState extends State<ViewProject> {
         ),
         confirm: TextButton(
           onPressed: () {
-            _projectController
-                .deleteTodoById(_viewProjectController.currentProject.value.id!)
-                .then((isDelete) {
-              if (isDelete) {
-                Future.delayed(Duration(microseconds: 500), () {
-                  Get.back(closeOverlays: true);
-                });
-              }
-            });
-            Get.back(closeOverlays: true);
+            _projectController.deleteProjectById(
+                _viewProjectController.currentProject.value.id!,
+                isPopup: true);
           },
           child: Text(
             "Confirm",

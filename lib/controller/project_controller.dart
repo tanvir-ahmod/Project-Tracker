@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:project_tracker/data/model/project.dart';
 import 'package:project_tracker/data/repositories/project/project_repository.dart';
+import 'package:project_tracker/helpers/Constants.dart';
 
 class ProjectController extends GetxController {
   var isLoading = false.obs;
@@ -32,7 +33,7 @@ class ProjectController extends GetxController {
   var project = Project(checkLists: [], deadline: null, description: "").obs;
 
   int? parentId;
-  var isUpdateWidget = false.obs;
+  Function? _onUpdateClicked;
 
   void getAllProjects() async {
     isLoading.value = true;
@@ -64,25 +65,25 @@ class ProjectController extends GetxController {
           ? await _projectRepository.updateProject(tempProject)
           : await _projectRepository.addProject(tempProject);
       isLoading.value = false;
-      isUpdateWidget.value = true;
       Fluttertoast.showToast(
           msg: response.responseMessage, toastLength: Toast.LENGTH_LONG);
     } on DioError {
       isLoading.value = false;
     }
-    getAllProjects();
+    _onUpdateClicked?.call();
+    Get.back();
   }
 
-  Future<bool> deleteTodoById(int id) async {
+  void deleteProjectById(int id, {bool isPopup = false}) async {
     isLoading.value = true;
-    final response = await _projectRepository.deleteRowByID(id);
+    final response = await _projectRepository.deleteProjectById(id);
     isLoading.value = false;
     Fluttertoast.showToast(
         msg: response.responseMessage, toastLength: Toast.LENGTH_LONG);
-    Project project = projects.where((p) => p.id == id).first;
-    projects.removeAt(projects.indexOf(project));
-    projects.refresh();
-    return true;
+    if (response.responseCode == RESPONSE_OK) {
+      _onUpdateClicked?.call();
+      if (isPopup) Get.back(closeOverlays: true);
+    }
   }
 
   saveCheckList() {
@@ -160,15 +161,6 @@ class ProjectController extends GetxController {
     showDateTimeRemoveIcon.value = false;
   }
 
-  clearCache() {
-    titleController.text = "";
-    checkLists.clear();
-    clearSelectedDate();
-    progress.value = 0.0;
-    isEditable.value = false;
-    isUpdateWidget.value = false;
-  }
-
   setProjectToEdit(Project? project, int? parentId) {
     this.parentId = parentId;
     if (project != null) {
@@ -180,5 +172,9 @@ class ProjectController extends GetxController {
         setSelectedDate(DateFormat('yyyy-MM-dd').parse(project.deadline!));
       updateProgress();
     }
+  }
+
+  void setOnUpdateClick(Function? onUpdateClicked) {
+    _onUpdateClicked = onUpdateClicked;
   }
 }

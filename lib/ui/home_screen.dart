@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: ProjectInfoCard(
                           project: _projectController.projects[index],
-                          onDeleteClicked: _projectController.deleteTodoById,
+                          onDeleteClicked: _projectController.deleteProjectById,
                           onEditClicked: _onEditClicked,
                         ),
                       );
