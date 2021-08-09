@@ -217,6 +217,7 @@ class _ViewProjectState extends State<ViewProject> {
                             Container(
                               child: ListView.builder(
                                   shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
                                   itemCount: _viewProjectController
                                       .currentProject.value.checkLists.length,
                                   itemBuilder: (context, index) {
