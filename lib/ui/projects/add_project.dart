@@ -284,7 +284,7 @@ class AddProject extends StatelessWidget {
                   size: 24.0,
                 ),
                 onTap: () {
-                  _projectController.showAddCheckListWidget(false);
+                  _projectController.cancelEditing();
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
               ),

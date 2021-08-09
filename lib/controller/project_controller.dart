@@ -88,9 +88,9 @@ class ProjectController extends GetxController {
 
   saveCheckList() {
     if (editedCheckList != null) {
+      editedCheckList?.description = inputCheckListController.text;
+      editedCheckList?.done = isAddItemChecked.value;
       checkLists.insert(editingIndex, editedCheckList!);
-      checkLists[editingIndex].description = inputCheckListController.text;
-      checkLists[editingIndex].done = isAddItemChecked.value;
       checkLists.refresh();
     } else {
       checkLists.add(CheckList(
@@ -124,6 +124,14 @@ class ProjectController extends GetxController {
     }
   }
 
+  void cancelEditing() {
+    if (editedCheckList != null) {
+      checkLists.insert(editingIndex, editedCheckList!);
+      checkLists.refresh();
+    }
+    showAddCheckListWidget(false);
+  }
+
   clearCheckListInputController() {
     inputCheckListController.text = "";
   }
@@ -133,7 +141,7 @@ class ProjectController extends GetxController {
     inputCheckListController.text = checkLists[index].description;
     isAddItemChecked.value = checkLists[index].done;
     editedCheckList = checkLists[index];
-    removeCheckList(index);
+    checkLists.removeAt(index);
     showAddCheckListWidget(true);
   }
 
@@ -185,5 +193,4 @@ class ProjectController extends GetxController {
     progress.value = 0.0;
     isEditable.value = false;
   }
-
 }
