@@ -77,6 +77,7 @@ class _ViewProjectState extends State<ViewProject> {
                 ),
                 body: SingleChildScrollView(
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -362,38 +363,37 @@ class _ViewProjectState extends State<ViewProject> {
                                     : Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
-                                          height: 150,
+                                          height: 200,
                                           child: ListView.builder(
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,
                                               itemCount: _viewProjectController
                                                   .subProjects.length,
                                               itemBuilder: (context, index) {
-                                                return SizedBox(
-                                                  height: 100,
-                                                  width: 200,
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      Get.delete<
-                                                          ViewProjectController>();
+                                                return InkWell(
+                                                  onTap: () {
+                                                    Get.delete<
+                                                        ViewProjectController>();
 
-                                                      // Get.to() not working for multiple click
-                                                      navigator!.push(
-                                                        MaterialPageRoute(
-                                                          builder: (_) {
-                                                            return ViewProject(
-                                                              onUpdateClicked:
-                                                                  _viewProjectController
-                                                                      .updateCurrentProject,
-                                                              project:
-                                                                  _viewProjectController
-                                                                          .subProjects[
-                                                                      index],
-                                                            );
-                                                          },
-                                                        ),
-                                                      );
-                                                    },
+                                                    // Get.to() not working for multiple click
+                                                    navigator!.push(
+                                                      MaterialPageRoute(
+                                                        builder: (_) {
+                                                          return ViewProject(
+                                                            onUpdateClicked:
+                                                                _viewProjectController
+                                                                    .updateCurrentProject,
+                                                            project:
+                                                                _viewProjectController
+                                                                        .subProjects[
+                                                                    index],
+                                                          );
+                                                        },
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    width: MediaQuery.of(context).size.width / 3,
                                                     child: ProjectInfoCard(
                                                         project:
                                                             _viewProjectController

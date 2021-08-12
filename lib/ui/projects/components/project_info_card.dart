@@ -108,11 +108,11 @@ class ProjectInfoCard extends StatelessWidget {
     final RenderObject? overlay =
         Overlay.of(context)?.context.findRenderObject();
     var activeInactiveText = "Active";
-    var activeInactiveTextColor = Colors.green[900];
+    var activeInactiveTextColor = Colors.green;
     var projectStatus = true;
     if (project.isActive != null && project.isActive!) {
       activeInactiveText = "Inactive";
-      activeInactiveTextColor = Colors.red[600];
+      activeInactiveTextColor = Colors.red;
       projectStatus = false;
     }
     var selected = await showMenu(
