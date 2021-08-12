@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 class Project {
-  Project({
-    required this.checkLists,
-    required this.deadline,
-    required this.description,
-    this.progress,
-    this.parentId,
-    this.id,
-  });
+  Project(
+      {required this.checkLists,
+      required this.deadline,
+      required this.description,
+      this.progress,
+      this.parentId,
+      this.id,
+      this.isActive});
 
   List<CheckList> checkLists;
   String? deadline;
@@ -16,6 +16,7 @@ class Project {
   int? parentId;
   double? progress;
   int? id;
+  bool? isActive;
 
   factory Project.fromRawJson(String str) => Project.fromJson(json.decode(str));
 
@@ -29,6 +30,7 @@ class Project {
         progress: json["progress"],
         parentId: json["parent_id"],
         id: json["id"],
+        isActive: json["is_active"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,6 +39,7 @@ class Project {
         "description": description,
         "parent_id": parentId,
         "id": id,
+        "is_active": isActive
       };
 }
 

@@ -9,6 +9,7 @@ typedef OnEditClicked = void Function(Project project);
 class ProjectInfoCard extends StatelessWidget {
   final Function? onDeleteClicked;
   final OnEditClicked? onEditClicked;
+  final Function? onActiveInactiveClicked;
   final String? deleteMessage;
   final String? deleteText;
 
@@ -19,7 +20,8 @@ class ProjectInfoCard extends StatelessWidget {
       this.onDeleteClicked,
       this.onEditClicked,
       this.deleteMessage,
-      this.deleteText});
+      this.deleteText,
+      this.onActiveInactiveClicked});
 
   @override
   Widget build(BuildContext context) {
@@ -65,19 +67,36 @@ class ProjectInfoCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Deadline",
-                          style: Theme.of(context).textTheme.caption!),
-                      Text(project.deadline ?? "----"),
-                    ],
-                  ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Status"),
+                    Container(
+                      width: 10.0,
+                      height: 10.0,
+                      decoration: new BoxDecoration(
+                        color: (project.isActive != null && project.isActive!)
+                            ? Colors.green
+                            : Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                    )
+                  ],
                 ),
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Deadline",
+                        style: Theme.of(context).textTheme.caption!),
+                    Text(project.deadline ?? "----"),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -88,9 +107,22 @@ class ProjectInfoCard extends StatelessWidget {
   _showPopupMenu(TapDownDetails tapDownDetails, BuildContext context) async {
     final RenderObject? overlay =
         Overlay.of(context)?.context.findRenderObject();
+    var activeInactiveText = "Inactive";
+    var activeInactiveTextColor = Colors.red[900];
+    if (project.isActive != null && project.isActive!) {
+      activeInactiveText = "Active";
+      activeInactiveTextColor = Colors.green[600];
+    }
     var selected = await showMenu(
       context: context,
       items: [
+        PopupMenuItem(
+          child: Text(
+            activeInactiveText,
+            style: TextStyle(color: activeInactiveTextColor),
+          ),
+          value: 3,
+        ),
         PopupMenuItem(
           child: Text("Edit"),
           value: 1,
@@ -107,7 +139,15 @@ class ProjectInfoCard extends StatelessWidget {
 
     if (selected == 1) {
       if (onEditClicked != null) onEditClicked!(project);
-    } else if (selected == 2) _showConfirmationDialog();
+    } else if (selected == 2) {
+      final title = deleteText ?? "Delete";
+      final bodyText = deleteMessage ?? "Do you want to delete this data?";
+      _showConfirmationDialog(title, bodyText, onDeleteClicked);
+    } else if (selected == 3) {
+      final bodyText = "Do you want to $activeInactiveText this data?";
+      _showConfirmationDialog(
+          activeInactiveText, bodyText, onActiveInactiveClicked);
+    }
   }
 
   String _getProjectTitle(String originalText) {
@@ -115,10 +155,11 @@ class ProjectInfoCard extends StatelessWidget {
     return originalText;
   }
 
-  void _showConfirmationDialog() {
+  void _showConfirmationDialog(
+      String title, String message, Function? onConfirmClicked) {
     Get.defaultDialog(
-        title: deleteText ?? "Delete",
-        middleText: deleteMessage ?? "Do you want to delete this data?",
+        title: title,
+        middleText: message,
         textConfirm: "Confirm",
         cancelTextColor: Colors.black,
         confirmTextColor: Colors.red,
@@ -135,7 +176,7 @@ class ProjectInfoCard extends StatelessWidget {
         ),
         confirm: TextButton(
           onPressed: () {
-            if (onDeleteClicked != null) onDeleteClicked!(project.id!);
+            onConfirmClicked?.call(project.id!);
             Get.back();
           },
           child: Text(
