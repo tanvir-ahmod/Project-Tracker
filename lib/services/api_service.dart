@@ -22,4 +22,6 @@ abstract class ApiService {
 
   Future<BaseResponse> removeParentProject(int subProjectId);
 
+  Future<BaseResponse> updateProjectStatus(int projectId, bool status);
+
 }

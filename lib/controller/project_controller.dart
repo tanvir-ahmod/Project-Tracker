@@ -73,7 +73,7 @@ class ProjectController extends GetxController {
     getAllProjects();
   }
 
-  Future<bool> deleteTodoById(int id) async {
+  Future<bool> deleteProjectById(int id) async {
     isLoading.value = true;
     final response = await _projectRepository.deleteRowByID(id);
     isLoading.value = false;
@@ -180,5 +180,15 @@ class ProjectController extends GetxController {
         setSelectedDate(DateFormat('yyyy-MM-dd').parse(project.deadline!));
       updateProgress();
     }
+  }
+
+  void updateProjectStatus(int projectId, bool status, {Function? onUpdate}) async {
+    isLoading.value = true;
+    final response =
+        await _projectRepository.updateProjectStatus(projectId, status);
+    isLoading.value = false;
+    Fluttertoast.showToast(
+        msg: response.responseMessage, toastLength: Toast.LENGTH_LONG);
+    onUpdate?.call();
   }
 }

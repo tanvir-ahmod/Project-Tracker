@@ -76,8 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: ProjectInfoCard(
                           project: _projectController.projects[index],
-                          onDeleteClicked: _projectController.deleteTodoById,
+                          onDeleteClicked: _projectController.deleteProjectById,
                           onEditClicked: _onEditClicked,
+                          onActiveInactiveClicked: _updateProjectStatus,
                         ),
                       );
                     },
@@ -118,5 +119,10 @@ class _HomeScreenState extends State<HomeScreen> {
         Get.to(() => ChangePasswordScreen());
         break;
     }
+  }
+
+  void _updateProjectStatus(int projectId, bool status) {
+    _projectController.updateProjectStatus(projectId, status,
+        onUpdate: _updateWidget);
   }
 }

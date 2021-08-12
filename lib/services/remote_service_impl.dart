@@ -106,4 +106,14 @@ class RemoteServiceImpl implements ApiService {
     }
     return [];
   }
+
+  @override
+  Future<BaseResponse> updateProjectStatus(int projectId, bool status) async {
+    final response = await _apiClient.get("activateProject",
+        queryParameters: {'projectId': projectId, 'isActive': status});
+    if (response.statusCode == RESPONSE_OK) {
+      return BaseResponse.fromJson(response.data);
+    }
+    return baseResponseFromJson("");
+  }
 }

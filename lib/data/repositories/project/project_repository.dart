@@ -21,4 +21,6 @@ abstract class ProjectRepository {
   Future<BaseResponse> updateParentProject(int parentId, int subProjectId);
 
   Future<BaseResponse> removeParentProject(int subProjectId);
+
+  Future<BaseResponse> updateProjectStatus(int projectId, bool status);
 }

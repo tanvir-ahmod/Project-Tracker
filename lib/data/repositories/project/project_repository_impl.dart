@@ -43,4 +43,8 @@ class ProjectRepositoryImpl extends ProjectRepository {
   @override
   Future<BaseResponse> removeParentProject(int subProjectId) =>
       _service.removeParentProject(subProjectId);
+
+  @override
+  Future<BaseResponse> updateProjectStatus(int projectId, bool status) =>
+      _service.updateProjectStatus(projectId, status);
 }

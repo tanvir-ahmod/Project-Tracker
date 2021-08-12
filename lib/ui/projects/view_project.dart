@@ -296,7 +296,7 @@ class _ViewProjectState extends State<ViewProject> {
                                     : Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
-                                            height: 150,
+                                            height: 180,
                                             child: ProjectInfoCard(
                                               project: _viewProjectController
                                                   .parentProject.value!,
@@ -370,7 +370,7 @@ class _ViewProjectState extends State<ViewProject> {
                                                   .subProjects.length,
                                               itemBuilder: (context, index) {
                                                 return SizedBox(
-                                                  height: 40,
+                                                  height: 100,
                                                   width: 200,
                                                   child: InkWell(
                                                     onTap: () {
@@ -405,7 +405,9 @@ class _ViewProjectState extends State<ViewProject> {
                                                             _onEditClicked,
                                                         deleteMessage:
                                                             "Do you want to remove it from sub project?",
-                                                        deleteText: "Remove"),
+                                                        deleteText: "Remove",
+                                                        onActiveInactiveClicked:
+                                                            _updateProjectStatus),
                                                   ),
                                                 );
                                               }),
@@ -440,7 +442,8 @@ class _ViewProjectState extends State<ViewProject> {
         confirm: TextButton(
           onPressed: () {
             _projectController
-                .deleteTodoById(_viewProjectController.currentProject.value.id!)
+                .deleteProjectById(
+                    _viewProjectController.currentProject.value.id!)
                 .then((isDelete) {
               if (isDelete) {
                 Future.delayed(Duration(microseconds: 500), () {
@@ -470,6 +473,11 @@ class _ViewProjectState extends State<ViewProject> {
 
   void _removeParentItem(int subProjectId) {
     _viewProjectController.removeParentItem();
+  }
+
+  void _updateProjectStatus(int projectId, bool status) {
+    _projectController.updateProjectStatus(projectId, status,
+        onUpdate: _viewProjectController.updateCurrentProject);
   }
 
   void _showParentProjectAddDialog() async {

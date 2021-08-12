@@ -107,22 +107,25 @@ class ProjectInfoCard extends StatelessWidget {
   _showPopupMenu(TapDownDetails tapDownDetails, BuildContext context) async {
     final RenderObject? overlay =
         Overlay.of(context)?.context.findRenderObject();
-    var activeInactiveText = "Inactive";
-    var activeInactiveTextColor = Colors.red[900];
+    var activeInactiveText = "Active";
+    var activeInactiveTextColor = Colors.green[900];
+    var projectStatus = true;
     if (project.isActive != null && project.isActive!) {
-      activeInactiveText = "Active";
-      activeInactiveTextColor = Colors.green[600];
+      activeInactiveText = "Inactive";
+      activeInactiveTextColor = Colors.red[600];
+      projectStatus = false;
     }
     var selected = await showMenu(
       context: context,
       items: [
-        PopupMenuItem(
-          child: Text(
-            activeInactiveText,
-            style: TextStyle(color: activeInactiveTextColor),
+        if (onActiveInactiveClicked != null)
+          PopupMenuItem(
+            child: Text(
+              activeInactiveText,
+              style: TextStyle(color: activeInactiveTextColor),
+            ),
+            value: 3,
           ),
-          value: 3,
-        ),
         PopupMenuItem(
           child: Text("Edit"),
           value: 1,
@@ -146,7 +149,8 @@ class ProjectInfoCard extends StatelessWidget {
     } else if (selected == 3) {
       final bodyText = "Do you want to $activeInactiveText this data?";
       _showConfirmationDialog(
-          activeInactiveText, bodyText, onActiveInactiveClicked);
+          activeInactiveText, bodyText, onActiveInactiveClicked,
+          status: projectStatus);
     }
   }
 
@@ -156,7 +160,8 @@ class ProjectInfoCard extends StatelessWidget {
   }
 
   void _showConfirmationDialog(
-      String title, String message, Function? onConfirmClicked) {
+      String title, String message, Function? onConfirmClicked,
+      {bool? status}) {
     Get.defaultDialog(
         title: title,
         middleText: message,
@@ -176,7 +181,10 @@ class ProjectInfoCard extends StatelessWidget {
         ),
         confirm: TextButton(
           onPressed: () {
-            onConfirmClicked?.call(project.id!);
+            if (status != null)
+              onConfirmClicked?.call(project.id!, status);
+            else
+              onConfirmClicked?.call(project.id!);
             Get.back();
           },
           child: Text(
