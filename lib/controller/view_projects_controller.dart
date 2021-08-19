@@ -41,14 +41,14 @@ class ViewProjectController extends GetxController {
 
   void removeSubItem(int subProjectId) async {
      isLoading.value = true;
-    await _projectRepository.removeParentProject(subProjectId);
+    await _projectRepository.removeParentProject(currentProject.value.id!,subProjectId);
     isLoading.value = false;
     updateCurrentProject();
   }
 
   void removeParentItem() async {
     isLoading.value = true;
-    await _projectRepository.removeParentProject(currentProject.value.id!);
+    // await _projectRepository.removeParentProject(currentProject.value.id!);
     currentProject.value.parentId = null;
     parentProject.value = null;
     isLoading.value = false;
