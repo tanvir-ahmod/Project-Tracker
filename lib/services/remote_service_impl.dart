@@ -79,7 +79,7 @@ class RemoteServiceImpl implements ApiService {
   @override
   Future<BaseResponse> updateParentProject(
       int parentId, int subProjectId) async {
-    final response = await _apiClient.get("updateParentId", queryParameters: {
+    final response = await _apiClient.get("addToSubProject", queryParameters: {
       'parent_id': parentId,
       'sub_project_id': subProjectId
     });
