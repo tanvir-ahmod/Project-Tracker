@@ -244,7 +244,7 @@ class _ViewProjectState extends State<ViewProject> {
                           ],
                         ),
                       ),
-                      _viewProjectController.isParentProjectsLoading.value
+                     /* _viewProjectController.isParentProjectsLoading.value
                           ? Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(
@@ -308,6 +308,114 @@ class _ViewProjectState extends State<ViewProject> {
                                                   "Do you want to remove it from parent project?",
                                               deleteText: "Remove",
                                             )),
+                                      ),
+                              ],
+                            ),*/
+                      _viewProjectController.isParentProjectsLoading.value
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Divider(
+                                  height: 10,
+                                  thickness: 2,
+                                  indent: 20,
+                                  endIndent: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("Parent projects",
+                                          style: GoogleFonts.nunito(
+                                              textStyle:
+                                                  TextStyle(fontSize: 18)),
+                                          textAlign: TextAlign.center),
+                                      TextButton(
+                                          onPressed: () {
+                                            _showSubProjectAddDialog();
+                                          },
+                                          child: Text("+Add new"))
+                                    ],
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: _viewProjectController
+                                      .isParentProjectsLoading.value,
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                ),
+                                _viewProjectController.parentProjects.length == 0
+                                    ? Container(
+                                        alignment: Alignment.center,
+                                        child: Image.asset(
+                                          'assets/images/no_sub_item.png',
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          height: 200,
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: _viewProjectController
+                                                  .parentProjects.length,
+                                              itemBuilder: (context, index) {
+                                                return InkWell(
+                                                  onTap: () {
+                                                    Get.delete<
+                                                        ViewProjectController>();
+
+                                                    // Get.to() not working for multiple click
+                                                    navigator!.push(
+                                                      MaterialPageRoute(
+                                                        builder: (_) {
+                                                          return ViewProject(
+                                                            onUpdateClicked:
+                                                                _viewProjectController
+                                                                    .updateCurrentProject,
+                                                            project:
+                                                                _viewProjectController
+                                                                        .subProjects[
+                                                                    index],
+                                                          );
+                                                        },
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            3,
+                                                    child: ProjectInfoCard(
+                                                        project:
+                                                            _viewProjectController
+                                                                    .parentProjects[
+                                                                index],
+                                                        onDeleteClicked:
+                                                            _removeSubItem,
+                                                        onEditClicked:
+                                                            _onEditClicked,
+                                                        deleteMessage:
+                                                            "Do you want to remove it from sub project?",
+                                                        deleteText: "Remove",
+                                                        onActiveInactiveClicked:
+                                                            _updateProjectStatus),
+                                                  ),
+                                                );
+                                              }),
+                                        ),
                                       ),
                               ],
                             ),
@@ -393,7 +501,11 @@ class _ViewProjectState extends State<ViewProject> {
                                                     );
                                                   },
                                                   child: Container(
-                                                    width: MediaQuery.of(context).size.width / 3,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            3,
                                                     child: ProjectInfoCard(
                                                         project:
                                                             _viewProjectController

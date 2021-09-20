@@ -7,6 +7,7 @@ import 'package:project_tracker/ui/projects/add_project.dart';
 class ViewProjectController extends GetxController {
   final ProjectRepository _projectRepository = Get.find();
   var subProjects = <Project>[].obs;
+  var parentProjects = <Project>[].obs;
   var subProjectsToAdd = <Project>[].obs;
   var parentProjectsToAdd = <Project>[].obs;
   var isLoading = false.obs;
@@ -35,13 +36,14 @@ class ViewProjectController extends GetxController {
     else
       checkListProgress.value = completedTasks / totalTasks;
 
-    _getParentProject();
+    _getParentProjects(currentProject.value.id!);
     getSubProjectsById(currentProject.value.id!);
   }
 
   void removeSubItem(int subProjectId) async {
-     isLoading.value = true;
-    await _projectRepository.removeParentProject(currentProject.value.id!,subProjectId);
+    isLoading.value = true;
+    await _projectRepository.removeParentProject(
+        currentProject.value.id!, subProjectId);
     isLoading.value = false;
     updateCurrentProject();
   }
@@ -57,8 +59,8 @@ class ViewProjectController extends GetxController {
 
   Future<void> showSubProjectsToAdd() async {
     isSubProjectsToAddLoading.value = true;
-    final items =
-        await _projectRepository.fetchSubProjectsToAdd(currentProject.value.id!);
+    final items = await _projectRepository
+        .fetchSubProjectsToAdd(currentProject.value.id!);
     subProjectsToAdd.assignAll(items);
     isSubProjectsToAddLoading.value = false;
   }
@@ -78,7 +80,7 @@ class ViewProjectController extends GetxController {
         parentProject.id!, currentProject.value.id!);
     this.parentProject.value = parentProject;
     isParentProjectsLoading.value = false;
-    _getParentProject();
+    _getParentProjects(currentProject.value.id!);
   }
 
   Future<void> setAsSubProject(Project subProject) async {
@@ -88,13 +90,12 @@ class ViewProjectController extends GetxController {
     updateCurrentProject();
   }
 
-  void _getParentProject() async {
-    Project? parentProject;
-    if (currentProject.value.parentId != null &&
-        currentProject.value.parentId != 0)
-      parentProject = await _projectRepository
-          .fetchProjectById(currentProject.value.parentId!);
-    this.parentProject.value = parentProject;
+  void _getParentProjects(int? id) async {
+    if (id != null) {
+      final items = await _projectRepository
+          .fetchParentProjectsById(id);
+      parentProjects.assignAll(items);
+    }
   }
 
   void gotoAddToDoPage(Function? onUpdateWidget) {
@@ -113,7 +114,7 @@ class ViewProjectController extends GetxController {
     _onUpdateClicked?.call();
   }
 
-  void setOnUpdateClick(Function? onUpdateClicked){
+  void setOnUpdateClick(Function? onUpdateClicked) {
     _onUpdateClicked = onUpdateClicked;
   }
 }

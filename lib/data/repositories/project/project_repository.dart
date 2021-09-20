@@ -12,6 +12,8 @@ abstract class ProjectRepository {
 
   Future<List<Project>> fetchSubProjectsById(int id);
 
+  Future<List<Project>> fetchParentProjectsById(int id);
+
   Future<Project?> fetchProjectById(int id);
 
   Future<List<Project>> fetchSubProjectsToAdd(int id);

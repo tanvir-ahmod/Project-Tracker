@@ -117,4 +117,13 @@ class RemoteServiceImpl implements ApiService {
     }
     return baseResponseFromJson("");
   }
+
+  @override
+  Future<List<Project>> fetchParentProjectsById(int id) async{
+    final response = await _apiClient.get("getParentProjectById/$id");
+    if (response.statusCode == RESPONSE_OK) {
+      return List<Project>.from(response.data.map((x) => Project.fromJson(x)));
+    }
+    return [];
+  }
 }
