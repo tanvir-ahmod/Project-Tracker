@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _handleMenuClick(String value) {
     switch (value) {
       case LOGOUT:
-        _authController.logout();
+        _showConfirmationDialog();
         break;
       case CHANGE_PASSWORD:
         Get.to(() => ChangePasswordScreen());
@@ -124,5 +124,34 @@ class _HomeScreenState extends State<HomeScreen> {
   void _updateProjectStatus(int projectId, bool status) {
     _projectController.updateProjectStatus(projectId, status,
         onUpdate: _updateWidget);
+  }
+
+  void _showConfirmationDialog() {
+    Get.defaultDialog(
+        title: "Logout",
+        middleText: "Do you want to logout?",
+        textConfirm: "Yes",
+        cancelTextColor: Colors.black,
+        confirmTextColor: Colors.red,
+        barrierDismissible: false,
+        radius: 20,
+        cancel: TextButton(
+          onPressed: () {
+            Get.back();
+          },
+          child: Text(
+            "No",
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+        confirm: TextButton(
+          onPressed: () {
+            _authController.logout();
+          },
+          child: Text(
+            "Yes",
+            style: TextStyle(color: Colors.red),
+          ),
+        ));
   }
 }
