@@ -78,7 +78,6 @@ class _ViewProjectState extends State<ViewProject> {
                 ),
                 body: SingleChildScrollView(
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -246,73 +245,6 @@ class _ViewProjectState extends State<ViewProject> {
                           ],
                         ),
                       ),
-                      /* _viewProjectController.isParentProjectsLoading.value
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Divider(
-                                  height: 10,
-                                  thickness: 2,
-                                  indent: 20,
-                                  endIndent: 20,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Parent project",
-                                          style: GoogleFonts.nunito(
-                                              textStyle:
-                                                  TextStyle(fontSize: 18)),
-                                          textAlign: TextAlign.center),
-                                      TextButton(
-                                          onPressed: () {
-                                            _showParentProjectAddDialog();
-                                          },
-                                          child: Text("+Add new"))
-                                    ],
-                                  ),
-                                ),
-                                Visibility(
-                                  visible: _viewProjectController
-                                      .isParentProjectsLoading.value,
-                                  child: Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                ),
-                                _viewProjectController.parentProject.value ==
-                                        null
-                                    ? Container(
-                                        alignment: Alignment.center,
-                                        child: Image.asset(
-                                          'assets/images/no_sub_item.png',
-                                        ),
-                                      )
-                                    : Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                            height: 180,
-                                            child: ProjectInfoCard(
-                                              project: _viewProjectController
-                                                  .parentProject.value!,
-                                              onDeleteClicked:
-                                                  _removeParentItem,
-                                              onEditClicked: _onEditClicked,
-                                              deleteMessage:
-                                                  "Do you want to remove it from parent project?",
-                                              deleteText: "Remove",
-                                            )),
-                                      ),
-                              ],
-                            ),*/
                       _viewProjectController.isParentProjectsLoading.value
                           ? Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -366,7 +298,7 @@ class _ViewProjectState extends State<ViewProject> {
                                     : Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
-                                          height: 200,
+                                          height: 220,
                                           child: ListView.builder(
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,
@@ -474,7 +406,7 @@ class _ViewProjectState extends State<ViewProject> {
                                     : Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
-                                          height: 200,
+                                          height: 220,
                                           child: ListView.builder(
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,
@@ -510,10 +442,9 @@ class _ViewProjectState extends State<ViewProject> {
                                                                 .width /
                                                             2.5,
                                                     child: ProjectInfoCard(
-                                                        project:
-                                                            _viewProjectController
-                                                                    .subProjects[
-                                                                index],
+                                                        project: _viewProjectController
+                                                                .subProjects[
+                                                            index],
                                                         onDeleteClicked:
                                                             _removeSubItem,
                                                         onEditClicked:
@@ -522,7 +453,7 @@ class _ViewProjectState extends State<ViewProject> {
                                                             "Do you want to remove it from sub project?",
                                                         deleteText: "Remove",
                                                         onActiveInactiveClicked:
-                                                            _updateProjectStatus),
+                                                        _updateProjectStatus),
                                                   ),
                                                 );
                                               }),
@@ -556,17 +487,6 @@ class _ViewProjectState extends State<ViewProject> {
         ),
         confirm: TextButton(
           onPressed: () {
-            _projectController
-                .deleteProjectById(
-                    _viewProjectController.currentProject.value.id!)
-                .then((isDelete) {
-              if (isDelete) {
-                Future.delayed(Duration(microseconds: 500), () {
-                  Get.back(closeOverlays: true);
-                });
-              }
-            });
-            Get.back(closeOverlays: true);
             _projectController.deleteProjectById(
                 _viewProjectController.currentProject.value.id!,
                 isPopup: true);
@@ -615,6 +535,7 @@ class _ViewProjectState extends State<ViewProject> {
             itemCount: _viewProjectController.parentProjectsToAdd.length,
             itemBuilder: (BuildContext context, int index) {
               return SizedBox(
+                height: 150.0,
                 width: 100.0,
                 child: InkWell(
                   onTap: () async {
@@ -665,6 +586,7 @@ class _ViewProjectState extends State<ViewProject> {
                       Get.back();
                     },
                     child: SizedBox(
+                      height: 150,
                       width: 300,
                       child: ProjectInfoCard(
                           project:

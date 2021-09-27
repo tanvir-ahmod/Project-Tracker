@@ -74,7 +74,7 @@ class ProjectController extends GetxController {
     Get.back();
   }
 
-  Future<bool> deleteProjectById(int id) async {
+  void deleteProjectById(int id, {bool isPopup = false}) async {
     isLoading.value = true;
     final response = await _projectRepository.deleteProjectById(id);
     isLoading.value = false;
