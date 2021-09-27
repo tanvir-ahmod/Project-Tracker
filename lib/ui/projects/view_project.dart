@@ -386,7 +386,7 @@ class _ViewProjectState extends State<ViewProject> {
                                                                     .updateCurrentProject,
                                                             project:
                                                                 _viewProjectController
-                                                                        .subProjects[
+                                                                        .parentProjects[
                                                                     index],
                                                           );
                                                         },
