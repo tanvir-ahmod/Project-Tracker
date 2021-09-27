@@ -246,8 +246,9 @@ class AddProject extends StatelessWidget {
             ),
             Expanded(
               child: TextField(
+                autofocus: true,
                 keyboardType: TextInputType.multiline,
-                maxLines: 3,
+                maxLines: 2,
                 controller: _projectController.inputCheckListController,
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
