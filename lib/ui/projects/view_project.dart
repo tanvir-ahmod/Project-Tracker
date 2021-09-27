@@ -244,7 +244,7 @@ class _ViewProjectState extends State<ViewProject> {
                           ],
                         ),
                       ),
-                     /* _viewProjectController.isParentProjectsLoading.value
+                      /* _viewProjectController.isParentProjectsLoading.value
                           ? Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(
@@ -340,7 +340,7 @@ class _ViewProjectState extends State<ViewProject> {
                                           textAlign: TextAlign.center),
                                       TextButton(
                                           onPressed: () {
-                                            _showSubProjectAddDialog();
+                                            _showParentProjectAddDialog();
                                           },
                                           child: Text("+Add new"))
                                     ],
@@ -353,7 +353,8 @@ class _ViewProjectState extends State<ViewProject> {
                                     child: CircularProgressIndicator(),
                                   ),
                                 ),
-                                _viewProjectController.parentProjects.length == 0
+                                _viewProjectController.parentProjects.length ==
+                                        0
                                     ? Container(
                                         alignment: Alignment.center,
                                         child: Image.asset(
@@ -397,18 +398,18 @@ class _ViewProjectState extends State<ViewProject> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width /
-                                                            3,
+                                                            2.5,
                                                     child: ProjectInfoCard(
                                                         project:
                                                             _viewProjectController
                                                                     .parentProjects[
                                                                 index],
                                                         onDeleteClicked:
-                                                            _removeSubItem,
+                                                            _removeParentItem,
                                                         onEditClicked:
                                                             _onEditClicked,
                                                         deleteMessage:
-                                                            "Do you want to remove it from sub project?",
+                                                            "Do you want to remove it from parent project?",
                                                         deleteText: "Remove",
                                                         onActiveInactiveClicked:
                                                             _updateProjectStatus),
@@ -505,7 +506,7 @@ class _ViewProjectState extends State<ViewProject> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width /
-                                                            3,
+                                                            2.5,
                                                     child: ProjectInfoCard(
                                                         project:
                                                             _viewProjectController
@@ -583,8 +584,8 @@ class _ViewProjectState extends State<ViewProject> {
     _viewProjectController.removeSubItem(subProjectId);
   }
 
-  void _removeParentItem(int subProjectId) {
-    _viewProjectController.removeParentItem();
+  void _removeParentItem(int parentId) {
+    _viewProjectController.removeParentItem(parentId);
   }
 
   void _updateProjectStatus(int projectId, bool status) {
@@ -609,7 +610,6 @@ class _ViewProjectState extends State<ViewProject> {
             itemCount: _viewProjectController.parentProjectsToAdd.length,
             itemBuilder: (BuildContext context, int index) {
               return SizedBox(
-                height: 150.0,
                 width: 100.0,
                 child: InkWell(
                   onTap: () async {
@@ -660,7 +660,6 @@ class _ViewProjectState extends State<ViewProject> {
                       Get.back();
                     },
                     child: SizedBox(
-                      height: 150,
                       width: 300,
                       child: ProjectInfoCard(
                           project:
