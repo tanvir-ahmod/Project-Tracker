@@ -535,7 +535,7 @@ class _ViewProjectState extends State<ViewProject> {
             itemCount: _viewProjectController.parentProjectsToAdd.length,
             itemBuilder: (BuildContext context, int index) {
               return SizedBox(
-                height: 150.0,
+                height: (MediaQuery.of(context).size.height / 3.5),
                 width: 100.0,
                 child: InkWell(
                   onTap: () async {
@@ -586,7 +586,7 @@ class _ViewProjectState extends State<ViewProject> {
                       Get.back();
                     },
                     child: SizedBox(
-                      height: 150,
+                      height: (MediaQuery.of(context).size.height / 3.5),
                       width: 300,
                       child: ProjectInfoCard(
                           project:

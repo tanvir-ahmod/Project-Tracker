@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisSpacing: 2.0,
                       mainAxisSpacing: 2.0,
                       childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 1.85),
+                          (MediaQuery.of(context).size.height / 1.5),
                     ),
                     itemBuilder: (context, index) {
                       return InkWell(
