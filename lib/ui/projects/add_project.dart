@@ -9,7 +9,7 @@ import 'package:project_tracker/data/model/project.dart';
 import 'package:project_tracker/helpers/Constants.dart';
 import 'package:project_tracker/ui/loading.dart';
 
-class AddTodoScreen extends StatelessWidget {
+class AddProject extends StatelessWidget {
   final ProjectController _projectController = Get.put(ProjectController());
 
   final Project? project =
@@ -21,16 +21,9 @@ class AddTodoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.delete<ProjectController>();
     _projectController.clearCache();
     _projectController.setProjectToEdit(project, parentId);
-
-    _projectController.isUpdateWidget.listen((isUpdate) async {
-      if (isUpdate && updateWidget != null) {
-        await updateWidget!();
-        Get.back(closeOverlays: true);
-      }
-    });
+    _projectController.setOnUpdateClick(updateWidget);
     return Obx(() => _projectController.isLoading.value
         ? Loading()
         : Scaffold(
@@ -43,7 +36,8 @@ class AddTodoScreen extends StatelessWidget {
                     padding: EdgeInsets.only(right: 20.0),
                     child: GestureDetector(
                       onTap: () {
-                        if (_projectController.titleController.text.isNotEmpty) {
+                        if (_projectController
+                            .titleController.text.isNotEmpty) {
                           _projectController.isTitleValidated.value = true;
                           _projectController.addOrModifyProject();
                         } else
@@ -118,7 +112,8 @@ class AddTodoScreen extends StatelessWidget {
                           ),
                         ),
                         Visibility(
-                          visible: _projectController.showDateTimeRemoveIcon.value,
+                          visible:
+                              _projectController.showDateTimeRemoveIcon.value,
                           child: InkWell(
                             onTap: () {
                               _projectController.clearSelectedDate();
@@ -170,7 +165,7 @@ class AddTodoScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  _addTodoWidget(),
+                  _addChecklistWidget(),
                   Expanded(
                     child: ListView.builder(
                         itemCount: _projectController.checkLists.length,
@@ -187,8 +182,9 @@ class AddTodoScreen extends StatelessWidget {
                                           .checkLists[index].done,
                                       onChanged: (bool? value) {
                                         if (value != null)
-                                          _projectController.updateCheckListStatus(
-                                              index, value);
+                                          _projectController
+                                              .updateCheckListStatus(
+                                                  index, value);
                                       },
                                       activeColor: Colors.green,
                                       controlAffinity:
@@ -232,33 +228,37 @@ class AddTodoScreen extends StatelessWidget {
           ));
   }
 
-  Widget _addTodoWidget() {
+  Widget _addChecklistWidget() {
     return Visibility(
       visible: _projectController.isShowAddCheckListWidget.value,
       child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Container(
-          child: Row(
-            children: [
-              Checkbox(
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Checkbox(
                   value: _projectController.isAddItemChecked.value,
                   onChanged: (bool? value) {
                     if (value != null)
                       _projectController.isAddItemChecked.value = value;
                   }),
-              Expanded(
-                child: TextField(
-                  controller: _projectController.inputCheckListController,
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    labelText: 'Enter description',
-                    errorText: _projectController.isAddItemValidate.value
-                        ? null
-                        : 'Value Can\'t Be Empty',
-                  ),
+            ),
+            Expanded(
+              child: TextField(
+                controller: _projectController.inputCheckListController,
+                textInputAction: TextInputAction.done,
+                decoration: InputDecoration(
+                  labelText: 'Enter description',
+                  errorText: _projectController.isAddItemValidate.value
+                      ? null
+                      : 'Value Can\'t Be Empty',
                 ),
               ),
-              InkWell(
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: InkWell(
                 child: Icon(
                   Icons.done,
                   color: Colors.green,
@@ -274,19 +274,22 @@ class AddTodoScreen extends StatelessWidget {
                   }
                 },
               ),
-              InkWell(
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: InkWell(
                 child: Icon(
                   Icons.clear,
                   color: Colors.red,
                   size: 24.0,
                 ),
                 onTap: () {
-                  _projectController.showAddCheckListWidget(false);
+                  _projectController.cancelEditing();
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

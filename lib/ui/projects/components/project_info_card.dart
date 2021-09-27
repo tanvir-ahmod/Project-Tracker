@@ -55,7 +55,7 @@ class ProjectInfoCard extends StatelessWidget {
                   child: CircularPercentIndicator(
                     lineWidth: 4.0,
                     center: Text(
-                      "${project.progress != null ? project.progress!.toInt() : 0}%",
+                      "${project.progress != null ? project.progress : 0}%",
                       textAlign: TextAlign.center,
                     ),
                     percent: project.progress != null
@@ -63,7 +63,7 @@ class ProjectInfoCard extends StatelessWidget {
                         : 0.0,
                     backgroundColor: Colors.grey,
                     progressColor: Colors.green,
-                    radius: 40,
+                    radius: 60,
                   ),
                 ),
               ),

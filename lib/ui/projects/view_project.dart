@@ -38,6 +38,7 @@ class _ViewProjectState extends State<ViewProject> {
     if (project != null) {
       _viewProjectController.setProject(project!);
       _viewProjectController.setOnUpdateClick(onUpdateClicked);
+      _projectController.setOnUpdateClick(onUpdateClicked);
     }
     super.initState();
   }
@@ -159,7 +160,7 @@ class _ViewProjectState extends State<ViewProject> {
                                             100
                                         : 0.0,
                                     center: Text(
-                                      "${_viewProjectController.currentProject.value.progress != null ? _viewProjectController.currentProject.value.progress!.toInt() : 0}%",
+                                      "${_viewProjectController.currentProject.value.progress != null ? _viewProjectController.currentProject.value.progress : 0}%",
                                       textAlign: TextAlign.center,
                                     ),
                                     progressColor: Colors.green,
@@ -217,6 +218,7 @@ class _ViewProjectState extends State<ViewProject> {
                             Container(
                               child: ListView.builder(
                                   shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
                                   itemCount: _viewProjectController
                                       .currentProject.value.checkLists.length,
                                   itemBuilder: (context, index) {
@@ -545,7 +547,7 @@ class _ViewProjectState extends State<ViewProject> {
         radius: 20,
         cancel: TextButton(
           onPressed: () {
-            Get.back(closeOverlays: true);
+            Get.back();
           },
           child: Text(
             "Cancel",
@@ -565,6 +567,9 @@ class _ViewProjectState extends State<ViewProject> {
               }
             });
             Get.back(closeOverlays: true);
+            _projectController.deleteProjectById(
+                _viewProjectController.currentProject.value.id!,
+                isPopup: true);
           },
           child: Text(
             "Confirm",
@@ -574,7 +579,7 @@ class _ViewProjectState extends State<ViewProject> {
   }
 
   void _onEditClicked(Project project) {
-    Get.to(() => AddTodoScreen(), arguments: {
+    Get.to(() => AddProject(), arguments: {
       PROJECT: project,
       UPDATE_LISTENER: _viewProjectController.updateCurrentProject
     });

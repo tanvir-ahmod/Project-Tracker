@@ -92,6 +92,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 MaterialButton(
                   onPressed: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
                     if (_form.currentState!.validate()) {
                       authController.login(_email.text, _pass.text);
                     }

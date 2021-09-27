@@ -99,7 +99,7 @@ class ViewProjectController extends GetxController {
   }
 
   void gotoAddToDoPage(Function? onUpdateWidget) {
-    Get.off(() => AddTodoScreen(), arguments: {
+    Get.off(() => AddProject(), arguments: {
       PARENT_ID: this.currentProject.value.id!,
       UPDATE_LISTENER: onUpdateWidget
     });

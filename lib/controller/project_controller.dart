@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:project_tracker/data/model/project.dart';
 import 'package:project_tracker/data/repositories/project/project_repository.dart';
+import 'package:project_tracker/helpers/Constants.dart';
 
 class ProjectController extends GetxController {
   var isLoading = false.obs;
@@ -32,7 +33,7 @@ class ProjectController extends GetxController {
   var project = Project(checkLists: [], deadline: null, description: "").obs;
 
   int? parentId;
-  var isUpdateWidget = false.obs;
+  Function? _onUpdateClicked;
 
   void getAllProjects() async {
     isLoading.value = true;
@@ -64,32 +65,32 @@ class ProjectController extends GetxController {
           ? await _projectRepository.updateProject(tempProject)
           : await _projectRepository.addProject(tempProject);
       isLoading.value = false;
-      isUpdateWidget.value = true;
       Fluttertoast.showToast(
           msg: response.responseMessage, toastLength: Toast.LENGTH_LONG);
     } on DioError {
       isLoading.value = false;
     }
-    getAllProjects();
+    _onUpdateClicked?.call();
+    Get.back();
   }
 
   Future<bool> deleteProjectById(int id) async {
     isLoading.value = true;
-    final response = await _projectRepository.deleteRowByID(id);
+    final response = await _projectRepository.deleteProjectById(id);
     isLoading.value = false;
     Fluttertoast.showToast(
         msg: response.responseMessage, toastLength: Toast.LENGTH_LONG);
-    Project project = projects.where((p) => p.id == id).first;
-    projects.removeAt(projects.indexOf(project));
-    projects.refresh();
-    return true;
+    if (response.responseCode == RESPONSE_OK) {
+      _onUpdateClicked?.call();
+      if (isPopup) Get.back(closeOverlays: true);
+    }
   }
 
   saveCheckList() {
     if (editedCheckList != null) {
+      editedCheckList?.description = inputCheckListController.text;
+      editedCheckList?.done = isAddItemChecked.value;
       checkLists.insert(editingIndex, editedCheckList!);
-      checkLists[editingIndex].description = inputCheckListController.text;
-      checkLists[editingIndex].done = isAddItemChecked.value;
       checkLists.refresh();
     } else {
       checkLists.add(CheckList(
@@ -123,6 +124,14 @@ class ProjectController extends GetxController {
     }
   }
 
+  void cancelEditing() {
+    if (editedCheckList != null) {
+      checkLists.insert(editingIndex, editedCheckList!);
+      checkLists.refresh();
+    }
+    showAddCheckListWidget(false);
+  }
+
   clearCheckListInputController() {
     inputCheckListController.text = "";
   }
@@ -132,7 +141,7 @@ class ProjectController extends GetxController {
     inputCheckListController.text = checkLists[index].description;
     isAddItemChecked.value = checkLists[index].done;
     editedCheckList = checkLists[index];
-    removeCheckList(index);
+    checkLists.removeAt(index);
     showAddCheckListWidget(true);
   }
 
@@ -160,15 +169,6 @@ class ProjectController extends GetxController {
     showDateTimeRemoveIcon.value = false;
   }
 
-  clearCache() {
-    titleController.text = "";
-    checkLists.clear();
-    clearSelectedDate();
-    progress.value = 0.0;
-    isEditable.value = false;
-    isUpdateWidget.value = false;
-  }
-
   setProjectToEdit(Project? project, int? parentId) {
     this.parentId = parentId;
     if (project != null) {
@@ -190,5 +190,17 @@ class ProjectController extends GetxController {
     Fluttertoast.showToast(
         msg: response.responseMessage, toastLength: Toast.LENGTH_LONG);
     onUpdate?.call();
+  }
+
+  void setOnUpdateClick(Function? onUpdateClicked) {
+    _onUpdateClicked = onUpdateClicked;
+  }
+
+  clearCache() {
+    titleController.text = "";
+    checkLists.clear();
+    clearSelectedDate();
+    progress.value = 0.0;
+    isEditable.value = false;
   }
 }
